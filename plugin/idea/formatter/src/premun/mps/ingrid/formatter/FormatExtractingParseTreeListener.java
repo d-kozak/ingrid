@@ -26,4 +26,8 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
     public void enterEveryRule(ParserRuleContext parserRuleContext) {
 
     }
+
+    public Map<FormatInfoMapKey, FormatInfo> getFormatInfo() {
+        return formatInfo;
+    }
 }
