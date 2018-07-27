@@ -37,6 +37,16 @@ public class FormatExtractorUtils {
                                     break;
                                 }
                             }
+                        } else if (reference.rule instanceof RegexRule) {
+                            String regex = ((RegexRule) reference.rule).regexp;
+                            if (text.matches(regex)) {
+                                alternative.elements.remove(k);
+                                continue alternativeLoop;
+                            } else {
+                                if (reference.quantity == Quantity.EXACTLY_ONE || reference.quantity == Quantity.AT_LEAST_ONE) {
+                                    break;
+                                }
+                            }
                         } else {
                             if (reference.quantity == Quantity.EXACTLY_ONE || reference.quantity == Quantity.AT_LEAST_ONE) {
                                 break;

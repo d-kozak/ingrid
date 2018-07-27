@@ -20,4 +20,14 @@ public class FormatExtractorTest {
         Map<FormatInfoMapKey, FormatInfo> formatInfoMap = FormatExtractor.extract(grammarInfo, TestGrammars.setGrammar, testInput);
         System.out.println(formatInfoMap);
     }
+
+    @Test
+    public void expressionGrammarNoFormatting() throws RecognitionException {
+        GrammarParser grammarParser = new GrammarParser();
+        grammarParser.parseString(TestGrammars.expressionGrammar);
+        GrammarInfo grammarInfo = grammarParser.resolveGrammar();
+        String testInput = "(1 + 1) * 2";
+        Map<FormatInfoMapKey, FormatInfo> formatInfoMap = FormatExtractor.extract(grammarInfo, TestGrammars.expressionGrammar, testInput);
+        System.out.println(formatInfoMap);
+    }
 }
