@@ -1,6 +1,5 @@
 package premun.mps.ingrid.formatter;
 
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -16,21 +15,20 @@ public class FormatExtractorUtils {
         alternatives = alternatives.stream()
                                    .map(AlternativeDTO::new)
                                    .collect(toList());
-        for (int i = 0; i < parserRuleContext.size(); i++) {
+        for (ParseTree parseTree : parserRuleContext) {
             if (alternatives.size() < 2) break;
-            ParseTree parseTree = parserRuleContext.get(i);
             if (parseTree instanceof TerminalNode) {
-                Token symbol = ((TerminalNode) parseTree).getSymbol();
-                String text = symbol.getText();
+                String tokenContent = ((TerminalNode) parseTree).getSymbol()
+                                                                .getText();
 
                 alternativeLoop:
-                for (int j = alternatives.size() - 1; j >= 0; j--) {
-                    Alternative alternative = alternatives.get(j);
-                    for (int k = 0; k < alternative.elements.size(); k++) {
-                        RuleReference reference = alternative.elements.get(k);
+                for (int i = alternatives.size() - 1; i >= 0; i--) {
+                    Alternative alternative = alternatives.get(i);
+                    for (int j = 0; j < alternative.elements.size(); j++) {
+                        RuleReference reference = alternative.elements.get(j);
                         if (reference.rule instanceof LiteralRule) {
-                            if (((LiteralRule) reference.rule).value.equals(text)) {
-                                alternative.elements.remove(k);
+                            if (((LiteralRule) reference.rule).value.equals(tokenContent)) {
+                                alternative.elements.remove(j);
                                 continue alternativeLoop;
                             } else {
                                 if (reference.quantity == Quantity.EXACTLY_ONE || reference.quantity == Quantity.AT_LEAST_ONE) {
@@ -39,8 +37,8 @@ public class FormatExtractorUtils {
                             }
                         } else if (reference.rule instanceof RegexRule) {
                             String regex = ((RegexRule) reference.rule).regexp;
-                            if (text.matches(regex)) {
-                                alternative.elements.remove(k);
+                            if (tokenContent.matches(regex)) {
+                                alternative.elements.remove(j);
                                 continue alternativeLoop;
                             } else {
                                 if (reference.quantity == Quantity.EXACTLY_ONE || reference.quantity == Quantity.AT_LEAST_ONE) {
@@ -57,18 +55,17 @@ public class FormatExtractorUtils {
                     alternatives.remove(alternative);
                 }
             } else if (parseTree instanceof RuleNode) {
-                int ruleIndex = ((RuleNode) parseTree).getRuleContext()
-                                                      .getRuleIndex();
-                String ruleName = ruleNames.get(ruleIndex);
+                String ruleName = ruleNames.get(((RuleNode) parseTree).getRuleContext()
+                                                                      .getRuleIndex());
 
                 alternativeLoop:
-                for (int j = alternatives.size() - 1; j >= 0; j--) {
-                    Alternative alternative = alternatives.get(j);
-                    for (int k = 0; k < alternative.elements.size(); k++) {
-                        RuleReference reference = alternative.elements.get(k);
+                for (int i = alternatives.size() - 1; i >= 0; i--) {
+                    Alternative alternative = alternatives.get(i);
+                    for (int j = 0; j < alternative.elements.size(); j++) {
+                        RuleReference reference = alternative.elements.get(j);
                         if (reference.rule instanceof ParserRule) {
                             if (reference.rule.name.equals(ruleName)) {
-                                alternative.elements.remove(k);
+                                alternative.elements.remove(j);
                                 continue alternativeLoop;
                             } else if (reference.quantity == Quantity.EXACTLY_ONE || reference.quantity == Quantity.AT_LEAST_ONE) {
                                 break;
