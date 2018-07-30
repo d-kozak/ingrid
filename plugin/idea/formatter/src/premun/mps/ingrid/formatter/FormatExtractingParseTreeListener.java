@@ -50,21 +50,21 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
         System.out.println("appropriate alternative => " + serializeAlternative(appropriateAlternative));
         System.out.println("");
         List<ParseTree> copy = new ArrayList<>(parserRuleContext.children);
-        List<MatchInfo> matchInfo = extractFormatInfo(copy, appropriateAlternative.elements);
+        List<MatchInfo> matchInfo = match(copy, appropriateAlternative.elements);
 
         System.out.println("matchInfo: " + matchInfo);
     }
 
-    private List<MatchInfo> extractFormatInfo(List<ParseTree> ast, List<RuleReference> elements) {
+    private List<MatchInfo> match(List<ParseTree> input, List<RuleReference> ruleReferences) {
         List<MatchInfo> matchInfos = new ArrayList<>();
-        for (RuleReference ruleReference : elements) {
-            matchInfos.add(match(ruleReference, ast));
+        for (RuleReference ruleReference : ruleReferences) {
+            matchInfos.add(match(input, ruleReference));
         }
         return matchInfos;
     }
 
-    private MatchInfo match(RuleReference ruleReference, List<ParseTree> parseTrees) {
-        if (parseTrees.size() == 0) {
+    private MatchInfo match(List<ParseTree> input, RuleReference ruleReference) {
+        if (input.size() == 0) {
             if (ruleReference.quantity == Quantity.AT_LEAST_ONE || ruleReference.quantity == Quantity.EXACTLY_ONE) {
                 throw new IllegalArgumentException("Matching was not successful");
             } else {
@@ -77,31 +77,31 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
         if (rule instanceof ParserRule && rule.name.contains("_block_")) {
             int count = 0;
             List<Alternative> alternatives = ((ParserRule) rule).alternatives;
-            Alternative appropriateAlternative = FormatExtractorUtils.findAppropriateAlternative(alternatives, parseTrees, Arrays.asList(grammar.getRuleNames()));
-            ArrayList<ParseTree> copy = new ArrayList<>(parseTrees);
+            Alternative appropriateAlternative = FormatExtractorUtils.findAppropriateAlternative(alternatives, input, Arrays.asList(grammar.getRuleNames()));
+            ArrayList<ParseTree> copy = new ArrayList<>(input);
             if (quantity == Quantity.MAX_ONE || quantity == Quantity.EXACTLY_ONE || quantity == Quantity.AT_LEAST_ONE) {
                 try {
-                    extractFormatInfo(copy, appropriateAlternative.elements);
+                    match(copy, appropriateAlternative.elements);
                 } catch (IllegalArgumentException ex) {
                     if (quantity == Quantity.EXACTLY_ONE || quantity == Quantity.AT_LEAST_ONE) {
                         throw new IllegalArgumentException("Matching was not successful");
                     }
                 }
                 if (quantity == Quantity.EXACTLY_ONE) {
-                    extractFormatInfo(parseTrees, appropriateAlternative.elements);
+                    match(input, appropriateAlternative.elements);
                     return new MatchInfo(rule, 1);
                 }
                 if (quantity == Quantity.AT_LEAST_ONE) {
-                    extractFormatInfo(parseTrees, appropriateAlternative.elements);
+                    match(input, appropriateAlternative.elements);
                     count++;
                 }
             }
             while (true) {
-                copy = new ArrayList<>(parseTrees);
+                copy = new ArrayList<>(input);
                 try {
                     // first try on copy, if it works, try on original as well
-                    extractFormatInfo(copy, appropriateAlternative.elements);
-                    extractFormatInfo(parseTrees, appropriateAlternative.elements);
+                    match(copy, appropriateAlternative.elements);
+                    match(input, appropriateAlternative.elements);
                     count++;
                 } catch (IllegalArgumentException ex) {
                     // FIXME using exception for control flow, bleh...needs refactoring
@@ -113,36 +113,36 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
         switch (quantity) {
             case MAX_ONE: {
                 int count = 0;
-                if (matches(rule, parseTrees.get(0))) {
-                    parseTrees.remove(0);
+                if (matches(rule, input.get(0))) {
+                    input.remove(0);
                     count = 1;
                 }
                 return new MatchInfo(rule, count);
             }
             case EXACTLY_ONE: {
-                if (matches(rule, parseTrees.get(0))) {
-                    parseTrees.remove(0);
+                if (matches(rule, input.get(0))) {
+                    input.remove(0);
                     return new MatchInfo(rule, 1);
                 } else {
                     throw new IllegalArgumentException("Matching was not successful");
                 }
             }
             case AT_LEAST_ONE: {
-                if (!matches(rule, parseTrees.get(0))) {
+                if (!matches(rule, input.get(0))) {
                     throw new IllegalArgumentException("Matching was not successful");
                 }
                 int count = 1;
-                parseTrees.remove(0);
-                while (matches(rule, parseTrees.get(0))) {
-                    parseTrees.remove(0);
+                input.remove(0);
+                while (matches(rule, input.get(0))) {
+                    input.remove(0);
                     count++;
                 }
                 return new MatchInfo(rule, count);
             }
             case ANY: {
                 int count = 0;
-                while (matches(rule, parseTrees.get(0))) {
-                    parseTrees.remove(0);
+                while (matches(rule, input.get(0))) {
+                    input.remove(0);
                     count++;
                 }
                 return new MatchInfo(rule, count);
