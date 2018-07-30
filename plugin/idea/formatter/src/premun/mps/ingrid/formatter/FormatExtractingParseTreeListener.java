@@ -50,27 +50,32 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
         System.out.println("appropriate alternative => " + serializeAlternative(appropriateAlternative));
         System.out.println("");
         List<ParseTree> copy = new ArrayList<>(parserRuleContext.children);
-        extractFormatInfo(copy, appropriateAlternative.elements);
+        List<MatchInfo> matchInfo = extractFormatInfo(copy, appropriateAlternative.elements);
+
+        System.out.println("matchInfo: " + matchInfo);
     }
 
-    private void extractFormatInfo(List<ParseTree> ast, List<RuleReference> elements) {
+    private List<MatchInfo> extractFormatInfo(List<ParseTree> ast, List<RuleReference> elements) {
+        List<MatchInfo> matchInfos = new ArrayList<>();
         for (RuleReference ruleReference : elements) {
-            match(ruleReference, ast);
+            matchInfos.add(match(ruleReference, ast));
         }
+        return matchInfos;
     }
 
-    private void match(RuleReference ruleReference, List<ParseTree> parseTrees) {
+    private MatchInfo match(RuleReference ruleReference, List<ParseTree> parseTrees) {
         if (parseTrees.size() == 0) {
             if (ruleReference.quantity == Quantity.AT_LEAST_ONE || ruleReference.quantity == Quantity.EXACTLY_ONE) {
                 throw new IllegalArgumentException("Matching was not successful");
             } else {
                 // match was successful by matching nothing
-                return;
+                return new MatchInfo(ruleReference.rule, 0);
             }
         }
         Quantity quantity = ruleReference.quantity;
         premun.mps.ingrid.model.Rule rule = ruleReference.rule;
         if (rule instanceof ParserRule && rule.name.contains("_block_")) {
+            int count = 0;
             List<Alternative> alternatives = ((ParserRule) rule).alternatives;
             Alternative appropriateAlternative = FormatExtractorUtils.findAppropriateAlternative(alternatives, parseTrees, Arrays.asList(grammar.getRuleNames()));
             ArrayList<ParseTree> copy = new ArrayList<>(parseTrees);
@@ -84,10 +89,11 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
                 }
                 if (quantity == Quantity.EXACTLY_ONE) {
                     extractFormatInfo(parseTrees, appropriateAlternative.elements);
-                    return;
+                    return new MatchInfo(rule, 1);
                 }
                 if (quantity == Quantity.AT_LEAST_ONE) {
                     extractFormatInfo(parseTrees, appropriateAlternative.elements);
+                    count++;
                 }
             }
             while (true) {
@@ -96,43 +102,55 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
                     // first try on copy, if it works, try on original as well
                     extractFormatInfo(copy, appropriateAlternative.elements);
                     extractFormatInfo(parseTrees, appropriateAlternative.elements);
+                    count++;
                 } catch (IllegalArgumentException ex) {
                     // FIXME using exception for control flow, bleh...needs refactoring
                     break;
                 }
             }
-            return;
-
+            return new MatchInfo(rule, count);
         }
         switch (quantity) {
-            case MAX_ONE:
+            case MAX_ONE: {
+                int count = 0;
                 if (matches(rule, parseTrees.get(0))) {
                     parseTrees.remove(0);
+                    count = 1;
                 }
-                break;
-            case EXACTLY_ONE:
+                return new MatchInfo(rule, count);
+            }
+            case EXACTLY_ONE: {
                 if (matches(rule, parseTrees.get(0))) {
                     parseTrees.remove(0);
+                    return new MatchInfo(rule, 1);
                 } else {
                     throw new IllegalArgumentException("Matching was not successful");
                 }
-                break;
-            case AT_LEAST_ONE:
+            }
+            case AT_LEAST_ONE: {
                 if (!matches(rule, parseTrees.get(0))) {
                     throw new IllegalArgumentException("Matching was not successful");
                 }
+                int count = 1;
                 parseTrees.remove(0);
                 while (matches(rule, parseTrees.get(0))) {
                     parseTrees.remove(0);
+                    count++;
                 }
-                break;
-            case ANY:
+                return new MatchInfo(rule, count);
+            }
+            case ANY: {
+                int count = 0;
                 while (matches(rule, parseTrees.get(0))) {
                     parseTrees.remove(0);
+                    count++;
                 }
-                break;
+                return new MatchInfo(rule, count);
+            }
         }
 
+
+        throw new RuntimeException("Should never get here");
     }
 
     private boolean matches(premun.mps.ingrid.model.Rule rule, ParseTree parseTree) {
