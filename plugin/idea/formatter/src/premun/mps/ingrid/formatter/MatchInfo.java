@@ -1,30 +1,19 @@
 package premun.mps.ingrid.formatter;
 
+import org.antlr.v4.runtime.tree.ParseTree;
 import premun.mps.ingrid.model.Rule;
 
-import java.util.Objects;
+import java.util.List;
 
 public final class MatchInfo {
     public final premun.mps.ingrid.model.Rule rule;
     public final int times;
+    public final List<ParseTree> matched;
 
-    public MatchInfo(Rule rule, int times) {
+    public MatchInfo(Rule rule, int times, List<ParseTree> matched) {
         this.rule = rule;
         this.times = times;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MatchInfo matchInfo = (MatchInfo) o;
-        return times == matchInfo.times &&
-                Objects.equals(rule, matchInfo.rule);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(rule, times);
+        this.matched = matched;
     }
 
     @Override
@@ -32,6 +21,7 @@ public final class MatchInfo {
         return "MatchInfo{" +
                 "ruleName=" + rule.name +
                 ", times=" + times +
+                ", matched=" + matched +
                 '}';
     }
 }

@@ -9,6 +9,7 @@ import org.antlr.v4.tool.Grammar;
 import org.antlr.v4.tool.Rule;
 import premun.mps.ingrid.formatter.model.FormatInfo;
 import premun.mps.ingrid.formatter.model.FormatInfoMapKey;
+import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.model.*;
 
 import java.util.*;
@@ -16,10 +17,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
 
-    private final Map<FormatInfoMapKey, FormatInfo> formatInfo = new HashMap<>();
+    private final Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfo = new HashMap<>();
 
     private final Grammar grammar;
 
@@ -48,14 +50,51 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
 
         Alternative appropriateAlternative = FormatExtractorUtils.findAppropriateAlternative(parserRule.alternatives, parserRuleContext.children, Arrays.asList(grammar.getRuleNames()));
         System.out.println("appropriate alternative => " + serializeAlternative(appropriateAlternative));
+        int alternativeIndex = parserRule.alternatives.indexOf(appropriateAlternative);
+        System.out.println("at index: ");
         System.out.println("");
         List<ParseTree> copy = new ArrayList<>(parserRuleContext.children);
-        List<MatchInfo> matchInfo = match(copy, appropriateAlternative.elements);
+        List<MatchInfo> matchInfo = matchRules(copy, appropriateAlternative.elements);
 
         System.out.println("matchInfo: " + matchInfo);
+
+        List<FormatInfo> formatInfos = extractFormatInfo(parserRuleContext.children, appropriateAlternative.elements, matchInfo);
+
+        System.out.println("formatInfo: " + formatInfos);
+
+        List<RuleFormatInfo> ruleFormatInfos = this.formatInfo.computeIfAbsent(new FormatInfoMapKey(context, alternativeIndex), key -> new ArrayList<>());
+        ruleFormatInfos.add(new RuleFormatInfo(formatInfos));
     }
 
-    private List<MatchInfo> match(List<ParseTree> input, List<RuleReference> ruleReferences) {
+    private List<FormatInfo> extractFormatInfo(List<ParseTree> input, List<RuleReference> ruleReferences, List<MatchInfo> matchInfos) {
+        if (ruleReferences.size() != matchInfos.size()) {
+            throw new IllegalArgumentException("RuleReferences and their matchInfos have different length, rule references: " + ruleReferences.size() + " , matchRules infos: " + matchInfos.size());
+        }
+
+        List<FormatInfo> formatInfos = new ArrayList<>();
+
+        for (int i = 0; i < matchInfos.size() - 1; i++) {
+            MatchInfo left = matchInfos.get(i);
+            MatchInfo right = matchInfos.get(i + 1);
+            if (left.matched.size() > 0 && right.matched.size() > 0) {
+                ParseTree rightmostNode = left.matched.get(left.matched.size() - 1);
+                ParseTree leftmostNode = right.matched.get(0);
+                Token current = extractToken(rightmostNode, node -> node.getChild(node.getChildCount() - 1));
+                Token next = extractToken(leftmostNode, node -> node.getChild(0));
+
+                int appendedNewLines = next.getLine() - current.getLine();
+                int indentation = next.getCharPositionInLine() - (current.getCharPositionInLine() + current.getText()
+                                                                                                           .length());
+
+                formatInfos.add(new FormatInfo(appendedNewLines, indentation));
+            } else {
+                formatInfos.add(FormatInfo.NULL_INFO);
+            }
+        }
+        return formatInfos;
+    }
+
+    private List<MatchInfo> matchRules(List<ParseTree> input, List<RuleReference> ruleReferences) {
         List<MatchInfo> matchInfos = new ArrayList<>();
         for (RuleReference ruleReference : ruleReferences) {
             matchInfos.add(match(input, ruleReference));
@@ -68,31 +107,38 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
             if (ruleReference.quantity == Quantity.AT_LEAST_ONE || ruleReference.quantity == Quantity.EXACTLY_ONE) {
                 throw new IllegalArgumentException("Matching was not successful");
             } else {
-                // match was successful by matching nothing
-                return new MatchInfo(ruleReference.rule, 0);
+                // matchRules was successful by matching nothing
+                return new MatchInfo(ruleReference.rule, 0, Collections.emptyList());
             }
         }
         Quantity quantity = ruleReference.quantity;
         premun.mps.ingrid.model.Rule rule = ruleReference.rule;
         if (rule instanceof ParserRule && rule.name.contains("_block_")) {
             int count = 0;
+            List<ParseTree> nodes = new ArrayList<>();
             List<Alternative> alternatives = ((ParserRule) rule).alternatives;
             Alternative appropriateAlternative = FormatExtractorUtils.findAppropriateAlternative(alternatives, input, Arrays.asList(grammar.getRuleNames()));
             ArrayList<ParseTree> copy = new ArrayList<>(input);
             if (quantity == Quantity.MAX_ONE || quantity == Quantity.EXACTLY_ONE || quantity == Quantity.AT_LEAST_ONE) {
                 try {
-                    match(copy, appropriateAlternative.elements);
+                    List<MatchInfo> matchInfos = matchRules(copy, appropriateAlternative.elements);
+                    nodes.addAll(matchInfos.stream()
+                                           .flatMap(info -> info.matched.stream())
+                                           .collect(toList()));
                 } catch (IllegalArgumentException ex) {
                     if (quantity == Quantity.EXACTLY_ONE || quantity == Quantity.AT_LEAST_ONE) {
                         throw new IllegalArgumentException("Matching was not successful");
                     }
                 }
                 if (quantity == Quantity.EXACTLY_ONE) {
-                    match(input, appropriateAlternative.elements);
-                    return new MatchInfo(rule, 1);
+                    List<MatchInfo> matchInfos = matchRules(input, appropriateAlternative.elements);
+                    nodes.addAll(matchInfos.stream()
+                                           .flatMap(info -> info.matched.stream())
+                                           .collect(toList()));
+                    return new MatchInfo(rule, 1, nodes);
                 }
                 if (quantity == Quantity.AT_LEAST_ONE) {
-                    match(input, appropriateAlternative.elements);
+                    matchRules(input, appropriateAlternative.elements);
                     count++;
                 }
             }
@@ -100,52 +146,65 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
                 copy = new ArrayList<>(input);
                 try {
                     // first try on copy, if it works, try on original as well
-                    match(copy, appropriateAlternative.elements);
-                    match(input, appropriateAlternative.elements);
+                    matchRules(copy, appropriateAlternative.elements);
+                    List<MatchInfo> matchInfos = matchRules(input, appropriateAlternative.elements);
+                    nodes.addAll(matchInfos.stream()
+                                           .flatMap(info -> info.matched.stream())
+                                           .collect(toList()));
                     count++;
                 } catch (IllegalArgumentException ex) {
                     // FIXME using exception for control flow, bleh...needs refactoring
                     break;
                 }
             }
-            return new MatchInfo(rule, count);
+            return new MatchInfo(rule, count, nodes);
         }
+        ParseTree currentNode = input.get(0);
+        List<ParseTree> nodes = new ArrayList<>();
         switch (quantity) {
             case MAX_ONE: {
                 int count = 0;
-                if (matches(rule, input.get(0))) {
+                if (matches(rule, currentNode)) {
                     input.remove(0);
                     count = 1;
+                    nodes.add(currentNode);
                 }
-                return new MatchInfo(rule, count);
+                return new MatchInfo(rule, count, nodes);
             }
             case EXACTLY_ONE: {
-                if (matches(rule, input.get(0))) {
+                if (matches(rule, currentNode)) {
                     input.remove(0);
-                    return new MatchInfo(rule, 1);
+                    nodes.add(currentNode);
+                    return new MatchInfo(rule, 1, nodes);
                 } else {
                     throw new IllegalArgumentException("Matching was not successful");
                 }
             }
             case AT_LEAST_ONE: {
-                if (!matches(rule, input.get(0))) {
+                if (!matches(rule, currentNode)) {
                     throw new IllegalArgumentException("Matching was not successful");
                 }
                 int count = 1;
                 input.remove(0);
-                while (matches(rule, input.get(0))) {
+                nodes.add(currentNode);
+                currentNode = input.get(0);
+                while (matches(rule, currentNode)) {
                     input.remove(0);
                     count++;
+                    nodes.add(currentNode);
+                    currentNode = input.get(0);
                 }
-                return new MatchInfo(rule, count);
+                return new MatchInfo(rule, count, nodes);
             }
             case ANY: {
                 int count = 0;
-                while (matches(rule, input.get(0))) {
+                while (matches(rule, currentNode)) {
                     input.remove(0);
+                    nodes.add(currentNode);
                     count++;
+                    currentNode = input.get(0);
                 }
-                return new MatchInfo(rule, count);
+                return new MatchInfo(rule, count, nodes);
             }
         }
 
@@ -205,7 +264,7 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
     private Token extractToken(ParseTree parseTree, Function<ParseTree, ParseTree> nextNodeExtractor) {
         while (!(parseTree instanceof TerminalNode)) {
             if (parseTree.getChildCount() == 0) {
-                throw new IllegalArgumentException("Cannot find leftmost token in this tree");
+                throw new IllegalArgumentException("Cannot find wanted token in this tree");
             }
             parseTree = nextNodeExtractor.apply(parseTree);
         }
@@ -238,7 +297,7 @@ public class FormatExtractingParseTreeListener extends BaseParseTreeListener {
         return contextList;
     }
 
-    public Map<FormatInfoMapKey, FormatInfo> getFormatInfo() {
+    public Map<FormatInfoMapKey, List<RuleFormatInfo>> getFormatInfo() {
         return formatInfo;
     }
 
