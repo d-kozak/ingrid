@@ -30,7 +30,7 @@ public class AlternativeResolverTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("rule");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames);
+        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -44,7 +44,7 @@ public class AlternativeResolverTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("rule");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames);
+        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);
@@ -61,7 +61,7 @@ public class AlternativeResolverTest {
         ParserRuleContext set = (ParserRuleContext) grammarDTO.ast.getChild(0);
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("set");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, set.children, ruleNames);
+        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, set.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -78,7 +78,7 @@ public class AlternativeResolverTest {
         ParserRuleContext set = (ParserRuleContext) grammarDTO.ast.getChild(0);
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("set");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, set.children, ruleNames);
+        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, set.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);
@@ -92,7 +92,7 @@ public class AlternativeResolverTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("book");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames);
+        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -107,7 +107,7 @@ public class AlternativeResolverTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("book");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames);
+        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);

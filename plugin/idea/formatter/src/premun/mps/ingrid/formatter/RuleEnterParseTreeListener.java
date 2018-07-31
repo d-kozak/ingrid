@@ -50,7 +50,7 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
             System.out.println(alternative);
         }
 
-        Alternative appropriateAlternative = AlternativeResolver.selectAlternative(parserRule.alternatives, parserRuleContext.children, Arrays.asList(grammar.getRuleNames()));
+        Alternative appropriateAlternative = AlternativeResolver.selectAlternative(parserRule.alternatives, parserRuleContext.children, Arrays.asList(grammar.getRuleNames())).first;
         System.out.println("appropriate alternative => " + serializer.serializeAlternative(appropriateAlternative));
         int alternativeIndex = parserRule.alternatives.indexOf(appropriateAlternative);
         System.out.println("at index: ");

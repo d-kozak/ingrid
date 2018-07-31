@@ -3,84 +3,108 @@ package premun.mps.ingrid.formatter;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import premun.mps.ingrid.formatter.model.MatchInfo;
 import premun.mps.ingrid.formatter.model.SerializedParserRule;
+import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
 public class AlternativeResolver {
-    public static Alternative selectAlternative(List<Alternative> alternatives, List<ParseTree> ast, List<String> ruleNames) {
+    public static Pair<Alternative, List<MatchInfo>> selectAlternative(List<Alternative> alternatives, List<ParseTree> ast, List<String> ruleNames) {
         alternatives = expandList(alternatives);
         for (Alternative alternative : alternatives) {
-            if (match(alternative.elements, new ArrayList<>(ast), ruleNames, true)) {
-                return ((AlternativeDTO) alternative).original;
+            List<MatchInfo> matchInfoList = match(alternative.elements, new ArrayList<>(ast), ruleNames, true);
+            if (matchInfoList != null) {
+                return Pair.of(((AlternativeDTO) alternative).original, matchInfoList);
             }
         }
         throw new IllegalArgumentException("Did not match");
     }
 
-    private static boolean match(List<RuleReference> elements, List<ParseTree> ast, List<String> ruleNames, boolean isTopLevelCall) {
+    private static List<MatchInfo> match(List<RuleReference> elements, List<ParseTree> ast, List<String> ruleNames, boolean isTopLevelCall) {
+        List<MatchInfo> result = new ArrayList<>();
         for (RuleReference ruleReference : elements) {
+            List<ParseTree> tmp = new ArrayList<>();
+            int times = 0;
             switch (ruleReference.quantity) {
-                case MAX_ONE:
-                    if (!match(ruleReference.rule, ast, ruleNames)) {
-                        // it is ok not to match optional element
-                    }
+                case MAX_ONE: {
+                    // it is ok not to match optional element
+                    List<ParseTree> match = match(ruleReference.rule, ast, ruleNames);
+                    result.add(new MatchInfo(ruleReference.rule, match.size(), match));
                     break;
-                case EXACTLY_ONE:
-                    if (!match(ruleReference.rule, ast, ruleNames)) {
-                        return false;
+                }
+                case EXACTLY_ONE: {
+                    List<ParseTree> match = match(ruleReference.rule, ast, ruleNames);
+                    if (match.isEmpty()) {
+                        return null;
                     }
+                    result.add(new MatchInfo(ruleReference.rule, 1, match));
                     break;
+                }
                 case AT_LEAST_ONE:
-                    if (!match(ruleReference.rule, ast, ruleNames)) {
-                        return false;
+                    List<ParseTree> match = match(ruleReference.rule, ast, ruleNames);
+                    if (match.isEmpty()) {
+                        return null;
                     }
+                    tmp.addAll(match);
+                    times++;
                     // note that there is no break here, we continue to ANY to match any remaining iterations
                 case ANY:
-                    while (match(ruleReference.rule, ast, ruleNames)) {
-                        // just match
+                    List<ParseTree> m = match(ruleReference.rule, ast, ruleNames);
+                    while (!m.isEmpty()) {
+                        tmp.addAll(m);
+                        times++;
+                        m = match(ruleReference.rule, ast, ruleNames);
                     }
+                    result.add(new MatchInfo(ruleReference.rule, times, tmp));
                     break;
             }
         }
         boolean matchedWholeInput = ast.size() == 0;
         boolean justEofTokenLeft = ast.size() == 1 && ast.get(0) instanceof TerminalNode && (((TerminalNode) ast.get(0)).getSymbol()
                                                                                                                         .getText()).contains("<EOF>");
-        return matchedWholeInput || !isTopLevelCall || justEofTokenLeft;
+        if (matchedWholeInput || !isTopLevelCall || justEofTokenLeft) {
+            return result;
+        } else return null;
     }
 
-    private static boolean match(Rule rule, List<ParseTree> parseTree, List<String> ruleNames) {
+    private static List<ParseTree> match(Rule rule, List<ParseTree> parseTree, List<String> ruleNames) {
         ParseTree current = parseTree.get(0);
         if (rule instanceof LiteralRule && current instanceof TerminalNode) {
             boolean matches = ((LiteralRule) rule).value.equals(((TerminalNode) current).getSymbol()
                                                                                         .getText());
             if (matches) {
-                parseTree.remove(0);
-            }
-            return matches;
+                return Collections.singletonList(parseTree.remove(0));
+            } else
+                return Collections.emptyList();
         } else if (rule instanceof RegexRule && current instanceof TerminalNode) {
             boolean matches = ((TerminalNode) current).getSymbol()
                                                       .getText()
                                                       .matches(((RegexRule) rule).regexp);
             if (matches) {
-                parseTree.remove(0);
+                return Collections.singletonList(parseTree.remove(0));
             }
-            return matches;
+            return Collections.emptyList();
         } else if (rule instanceof ParserRule && current instanceof ParserRuleContext) {
             boolean matches = rule.name.equals(ruleNames.get(((ParserRuleContext) current).getRuleIndex()));
             if (matches) {
-                parseTree.remove(0);
+                return Collections.singletonList(parseTree.remove(0));
             }
-            return matches;
+            return Collections.emptyList();
         } else if (rule instanceof SerializedParserRule) {
-            return match(((SerializedParserRule) rule).elements, parseTree, ruleNames, false);
-        }
-        return false;
+            List<MatchInfo> result = match(((SerializedParserRule) rule).elements, parseTree, ruleNames, false);
+            if (result != null)
+                return result.stream()
+                             .flatMap(matchInfo -> matchInfo.matched.stream())
+                             .collect(Collectors.toList());
+            else return Collections.emptyList();
+        } else return Collections.emptyList();
     }
 
     static List<Alternative> expandList(List<Alternative> input) {

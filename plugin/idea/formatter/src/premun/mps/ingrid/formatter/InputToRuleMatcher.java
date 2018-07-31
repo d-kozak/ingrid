@@ -45,7 +45,7 @@ public class InputToRuleMatcher {
             int count = 0;
             List<ParseTree> nodes = new ArrayList<>();
             List<Alternative> alternatives = ((ParserRule) rule).alternatives;
-            Alternative appropriateAlternative = AlternativeResolver.selectAlternative(alternatives, input, Arrays.asList(grammar.getRuleNames()));
+            Alternative appropriateAlternative = AlternativeResolver.selectAlternative(alternatives, input, Arrays.asList(grammar.getRuleNames())).first;
             ArrayList<ParseTree> copy = new ArrayList<>(input);
             if (quantity == Quantity.MAX_ONE || quantity == Quantity.EXACTLY_ONE || quantity == Quantity.AT_LEAST_ONE) {
                 try {

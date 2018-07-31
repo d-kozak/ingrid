@@ -1,0 +1,7 @@
+SELECT=1
+FROM=2
+ASTERISK=3
+TableName=4
+'select'=1
+'from'=2
+'*'=3
