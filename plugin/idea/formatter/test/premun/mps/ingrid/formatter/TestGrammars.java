@@ -101,6 +101,11 @@ public final class TestGrammars {
             "\n" +
             "WS : [ \\t\\n] -> skip;";
 
+    public static final String nestedBlockGrammar = "grammar nested;\n" +
+            "\n" +
+            "r : ('a' | ('b' | ( c | 'd'))) ; \n" +
+            "c : 'c';";
+
     /**
      * Parses the grammar specified by the grammarName. GrammarName has to correspond to a static String field in this class, "Grammar" substring excluded
      */
