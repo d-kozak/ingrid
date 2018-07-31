@@ -11,6 +11,13 @@ import premun.mps.ingrid.parser.GrammarParser;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A set of simple tests that should pass where all we care about is that no exception is thrown,
+ * the ouput of the formatting algorithm is not checked yet, because it is not yet known, what it will look like.
+ * TODO add asserts once we know the format of the output
+ *
+ * @author dkozak
+ */
 public class FormatExtractorBasicTest {
 
     @Test
