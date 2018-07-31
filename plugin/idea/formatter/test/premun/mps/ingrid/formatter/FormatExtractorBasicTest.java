@@ -16,6 +16,7 @@ import java.util.Map;
  * the ouput of the formatting algorithm is not checked yet, because it is not yet known, what it will look like.
  * TODO add asserts once we know the format of the output
  *
+ * @see FormatExtractor
  * @author dkozak
  */
 public class FormatExtractorBasicTest {

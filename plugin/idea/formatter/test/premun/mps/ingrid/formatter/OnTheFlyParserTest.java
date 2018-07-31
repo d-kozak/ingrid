@@ -11,6 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * @see OnTheFlyParser
  * @author dkozak
  */
 public class OnTheFlyParserTest {
