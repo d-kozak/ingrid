@@ -80,6 +80,27 @@ public final class TestGrammars {
             "g : 'g';";
 
 
+    public static final String bookGrammar = "grammar Book;\n" +
+            "\n" +
+            "book\n" +
+            "    : (shortcut | nickname) ',' bookName ',' author EOF\n" +
+            "    | (shortcut | nickname) ',' bookName ',' author ',' YEAR EOF\n" +
+            "    ;\n" +
+            "\n" +
+            "shortcut : 'shortcut' STR;\n" +
+            "nickname : 'nickname' STR;\n" +
+            "\n" +
+            "bookName : STR+;\n" +
+            "\n" +
+            "author : STR STR;\n" +
+            "\n" +
+            "STR : [a-zA-Z]+ ;\n" +
+            "\n" +
+            "YEAR: [1-9]+;\n" +
+            "\n" +
+            "\n" +
+            "WS : [ \\t\\n] -> skip;";
+
     /**
      * Parses the grammar specified by the grammarName. GrammarName has to correspond to a static String field in this class, "Grammar" substring excluded
      */
@@ -102,7 +123,7 @@ public final class TestGrammars {
 
     }
 
-    private static GrammarInfo parseGrammar(String input) {
+    public static GrammarInfo parseGrammar(String input) {
         GrammarParser grammarParser = new GrammarParser();
         grammarParser.parseString(input);
         return grammarParser.resolveGrammar();
