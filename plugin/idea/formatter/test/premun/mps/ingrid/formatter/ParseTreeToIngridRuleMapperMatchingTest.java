@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static premun.mps.ingrid.formatter.GrammarDTO.prepareGrammar;
 
-public class AlternativeResolverMatchingTest {
+public class ParseTreeToIngridRuleMapperMatchingTest {
 
     @Test
     public void setGrammar__ruleCompilationUnit() throws RecognitionException {
@@ -26,7 +26,7 @@ public class AlternativeResolverMatchingTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("compilationUnit");
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames);
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         // one element
@@ -57,7 +57,7 @@ public class AlternativeResolverMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, setSubtree.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames);
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         // four elements - lbracket elem blk rbracket
@@ -94,7 +94,7 @@ public class AlternativeResolverMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, setSubtree.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames);
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         // two elements - lbracket rbracket
@@ -125,7 +125,7 @@ public class AlternativeResolverMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, setSubtree.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames);
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         assertEquals(4, matchInfoList.size());
@@ -156,7 +156,7 @@ public class AlternativeResolverMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, setSubtree.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames);
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         assertEquals(4, matchInfoList.size());

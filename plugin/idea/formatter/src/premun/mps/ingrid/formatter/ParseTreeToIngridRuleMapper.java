@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
-public class AlternativeResolver {
-    public static Pair<Alternative, List<MatchInfo>> selectAlternative(List<Alternative> alternatives, List<ParseTree> ast, List<String> ruleNames) {
+public class ParseTreeToIngridRuleMapper {
+    public static Pair<Alternative, List<MatchInfo>> resolve(List<Alternative> alternatives, List<ParseTree> ast, List<String> ruleNames) {
         alternatives = expandList(alternatives);
         for (Alternative alternative : alternatives) {
             List<MatchInfo> matchInfoList = match(alternative.elements, new ArrayList<>(ast), ruleNames, true);
@@ -161,7 +161,7 @@ public class AlternativeResolver {
                      .map(it -> ((AlternativeDTO) it))
                      .map(alternative -> {
                          List<RuleReference> handle = alternative.elements.stream()
-                                                                          .map(AlternativeResolver::flattenReference)
+                                                                          .map(ParseTreeToIngridRuleMapper::flattenReference)
                                                                           .collect(toList());
                          return new AlternativeDTO(alternative.original, handle);
                      })

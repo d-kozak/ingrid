@@ -8,6 +8,7 @@ import premun.mps.ingrid.formatter.model.FormatInfo;
 import premun.mps.ingrid.formatter.model.FormatInfoMapKey;
 import premun.mps.ingrid.formatter.model.MatchInfo;
 import premun.mps.ingrid.formatter.model.RuleFormatInfo;
+import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.ParserRule;
@@ -19,8 +20,6 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
 
     private final Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfo = new HashMap<>();
 
-    private final InputToRuleMatcher inputToRuleMatcher;
-
     private final Serializer serializer;
 
     private final Grammar grammar;
@@ -30,7 +29,6 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
     public RuleEnterParseTreeListener(Grammar grammar, GrammarInfo grammarInfo) {
         this.grammar = grammar;
         this.grammarInfo = grammarInfo;
-        this.inputToRuleMatcher = new InputToRuleMatcher(grammar);
         this.serializer = new Serializer(grammar);
     }
 
@@ -50,13 +48,14 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
             System.out.println(alternative);
         }
 
-        Alternative appropriateAlternative = AlternativeResolver.selectAlternative(parserRule.alternatives, parserRuleContext.children, Arrays.asList(grammar.getRuleNames())).first;
+        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(parserRule.alternatives, parserRuleContext.children, Arrays.asList(grammar.getRuleNames()));
+        Alternative appropriateAlternative = pair.first;
         System.out.println("appropriate alternative => " + serializer.serializeAlternative(appropriateAlternative));
         int alternativeIndex = parserRule.alternatives.indexOf(appropriateAlternative);
         System.out.println("at index: ");
         System.out.println();
         List<ParseTree> copy = new ArrayList<>(parserRuleContext.children);
-        List<MatchInfo> matchInfo = inputToRuleMatcher.matchRule(copy, appropriateAlternative.elements);
+        List<MatchInfo> matchInfo = pair.second;
 
         System.out.println("matchInfo: " + matchInfo);
 

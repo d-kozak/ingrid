@@ -17,9 +17,9 @@ import static premun.mps.ingrid.formatter.GrammarDTO.prepareGrammar;
  * To simplify the test setup, we specify the grammar as string and let Ingrid Parser Module provide us with model to use
  *
  * @author dkozak
- * @see AlternativeResolver
+ * @see ParseTreeToIngridRuleMapper
  */
-public class AlternativeResolverTest {
+public class ParseTreeToIngridRuleMapperTest {
 
     @Test
     public void simpleGrammar__alternativeZero() throws RecognitionException {
@@ -29,7 +29,7 @@ public class AlternativeResolverTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("rule");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -43,7 +43,7 @@ public class AlternativeResolverTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("rule");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);
@@ -60,7 +60,7 @@ public class AlternativeResolverTest {
         ParserRuleContext set = (ParserRuleContext) grammarDTO.ast.getChild(0);
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("set");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, set.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, set.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -77,7 +77,7 @@ public class AlternativeResolverTest {
         ParserRuleContext set = (ParserRuleContext) grammarDTO.ast.getChild(0);
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("set");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, set.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, set.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);
@@ -91,7 +91,7 @@ public class AlternativeResolverTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("book");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -106,7 +106,7 @@ public class AlternativeResolverTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("book");
-        Alternative selectedAlternative = AlternativeResolver.selectAlternative(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);
@@ -119,7 +119,7 @@ public class AlternativeResolverTest {
         GrammarDTO grammarDTO = prepareGrammar(TestGrammars.setGrammar, startRuleName, input);
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
         ParserRule parserRule = (ParserRule) grammarDTO.grammarInfo.rules.get("compilationUnit");
-        List<Alternative> result = AlternativeResolver.expandList(parserRule.alternatives);
+        List<Alternative> result = ParseTreeToIngridRuleMapper.expandList(parserRule.alternatives);
         assertEquals(1, result.size());
         assertEquals(1, result.get(0).elements
                 .size());
@@ -132,7 +132,7 @@ public class AlternativeResolverTest {
         GrammarDTO grammarDTO = prepareGrammar(TestGrammars.setGrammar, startRuleName, input);
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
         ParserRule parserRule = (ParserRule) grammarDTO.grammarInfo.rules.get("set");
-        List<Alternative> result = AlternativeResolver.expandList(parserRule.alternatives);
+        List<Alternative> result = ParseTreeToIngridRuleMapper.expandList(parserRule.alternatives);
         assertEquals(2, result.size());
     }
 
@@ -145,7 +145,7 @@ public class AlternativeResolverTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("book");
-        List<Alternative> result = AlternativeResolver.expandList(examinedRule.alternatives);
+        List<Alternative> result = ParseTreeToIngridRuleMapper.expandList(examinedRule.alternatives);
         assertEquals(4, result.size());
     }
 
@@ -157,7 +157,7 @@ public class AlternativeResolverTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("r");
-        List<Alternative> result = AlternativeResolver.expandList(examinedRule.alternatives);
+        List<Alternative> result = ParseTreeToIngridRuleMapper.expandList(examinedRule.alternatives);
         assertEquals(4, result.size());
     }
 
