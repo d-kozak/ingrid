@@ -74,20 +74,18 @@ public final class TestGrammars {
             "rule\n" +
             "\t: e f g '}'\n" +
             "\t| '{'\n" +
-            "\t;\ngrammar test;\n" +
-            "\n" +
-            "rule\n" +
-            "\t: e f g '}'\n" +
-            "\t| '{'\n" +
-            "\t;\n";
+            "\t;\n" +
+            "e : 'e';\n" +
+            "f : 'f';\n" +
+            "g : 'g';";
 
 
     /**
      * Parses the grammar specified by the grammarName. GrammarName has to correspond to a static String field in this class, "Grammar" substring excluded
      */
-    public GrammarInfo prepareGrammar(String grammarName) {
+    public static GrammarInfo prepareGrammar(String grammarName) {
         try {
-            String grammar = (String) Arrays.stream(getClass().getFields())
+            String grammar = (String) Arrays.stream(TestGrammars.class.getFields())
                                             .filter(field -> Modifier.isStatic(field.getModifiers()))
                                             .filter(field -> String.class
                                                     .equals(field.getType()))
@@ -104,7 +102,7 @@ public final class TestGrammars {
 
     }
 
-    private GrammarInfo parseGrammar(String input) {
+    private static GrammarInfo parseGrammar(String input) {
         GrammarParser grammarParser = new GrammarParser();
         grammarParser.parseString(input);
         return grammarParser.resolveGrammar();
