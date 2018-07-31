@@ -1,7 +1,15 @@
 package premun.mps.ingrid.formatter;
 
+/**
+ * Grammars used for testing, saved as strings
+ *
+ * @author dkozak
+ */
 public final class TestGrammars {
 
+    /**
+     * Simple grammar for set language
+     */
     public static final String setGrammar = "grammar Set;\n" +
             "\n" +
             "compilationUnit : set EOF ;\n" +
@@ -25,6 +33,9 @@ public final class TestGrammars {
             "WS : [ \\t\\r\\n]+ -> skip ;";
 
 
+    /**
+     * Simple grammar for arithmetic expressions
+     */
     public static final String expressionGrammar = "grammar expr;\n" +
             "\n" +
             "expr\n" +
