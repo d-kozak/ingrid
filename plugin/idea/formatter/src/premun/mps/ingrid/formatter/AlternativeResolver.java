@@ -1,7 +1,7 @@
 package premun.mps.ingrid.formatter;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import premun.mps.ingrid.formatter.model.SerializedParserRule;
 import premun.mps.ingrid.model.*;
@@ -13,87 +13,74 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
 public class AlternativeResolver {
-    public static Alternative selectAlternative(List<Alternative> alternatives, List<ParseTree> parserRuleContext, List<String> ruleNames) {
-        alternatives = alternatives.stream()
-                                   .map(AlternativeDTO::new)
-                                   .collect(toList());
-        for (ParseTree parseTree : parserRuleContext) {
-            if (alternatives.size() < 2) break;
-            if (parseTree instanceof TerminalNode) {
-                String tokenContent = ((TerminalNode) parseTree).getSymbol()
-                                                                .getText();
-
-                alternativeLoop:
-                for (int i = alternatives.size() - 1; i >= 0; i--) {
-                    Alternative alternative = alternatives.get(i);
-                    for (int j = 0; j < alternative.elements.size(); j++) {
-                        RuleReference reference = alternative.elements.get(j);
-                        if (reference.rule instanceof LiteralRule) {
-                            if (((LiteralRule) reference.rule).value.equals(tokenContent)) {
-                                alternative.elements.remove(j);
-                                continue alternativeLoop;
-                            } else {
-                                if (reference.quantity == Quantity.EXACTLY_ONE || reference.quantity == Quantity.AT_LEAST_ONE) {
-                                    break;
-                                }
-                            }
-                        } else if (reference.rule instanceof RegexRule) {
-                            String regex = ((RegexRule) reference.rule).regexp;
-                            if (tokenContent.matches(regex)) {
-                                alternative.elements.remove(j);
-                                continue alternativeLoop;
-                            } else {
-                                if (reference.quantity == Quantity.EXACTLY_ONE || reference.quantity == Quantity.AT_LEAST_ONE) {
-                                    break;
-                                }
-                            }
-                        } else {
-                            if (reference.quantity == Quantity.EXACTLY_ONE || reference.quantity == Quantity.AT_LEAST_ONE) {
-                                break;
-                            }
-                        }
-                    }
-                    // didn't match
-                    alternatives.remove(alternative);
-                }
-            } else if (parseTree instanceof RuleNode) {
-                String ruleName = ruleNames.get(((RuleNode) parseTree).getRuleContext()
-                                                                      .getRuleIndex());
-
-                alternativeLoop:
-                for (int i = alternatives.size() - 1; i >= 0; i--) {
-                    Alternative alternative = alternatives.get(i);
-                    for (int j = 0; j < alternative.elements.size(); j++) {
-                        RuleReference reference = alternative.elements.get(j);
-                        if (reference.rule instanceof ParserRule) {
-                            if (reference.rule.name.equals(ruleName)) {
-                                alternative.elements.remove(j);
-                                continue alternativeLoop;
-                            } else if (reference.quantity == Quantity.EXACTLY_ONE || reference.quantity == Quantity.AT_LEAST_ONE) {
-                                break;
-                            }
-                        } else {
-                            if (reference.quantity == Quantity.EXACTLY_ONE || reference.quantity == Quantity.AT_LEAST_ONE) {
-                                break;
-                            }
-                        }
-                    }
-                    // didn't match
-                    alternatives.remove(alternative);
-                }
-
-            } else {
-                throw new UnsupportedOperationException("Cannot process parse tree of type " + parseTree.getClass()
-                                                                                                        .getName());
+    public static Alternative selectAlternative(List<Alternative> alternatives, List<ParseTree> ast, List<String> ruleNames) {
+        alternatives = expandList(alternatives);
+        for (Alternative alternative : alternatives) {
+            if (match(alternative.elements, new ArrayList<>(ast), ruleNames, true)) {
+                return ((AlternativeDTO) alternative).original;
             }
         }
-        if (alternatives.size() == 0)
-            throw new IllegalArgumentException("No appropriate alternative found");
-        else if (alternatives.size() > 1)
-            throw new IllegalArgumentException("More than one alternative found");
-        else {
-            return ((AlternativeDTO) alternatives.get(0)).original;
+        throw new IllegalArgumentException("Did not match");
+    }
+
+    private static boolean match(List<RuleReference> elements, List<ParseTree> ast, List<String> ruleNames, boolean isTopLevelCall) {
+        for (RuleReference ruleReference : elements) {
+            switch (ruleReference.quantity) {
+                case MAX_ONE:
+                    if (!match(ruleReference.rule, ast, ruleNames)) {
+                        // it is ok not to match optional element
+                    }
+                    break;
+                case EXACTLY_ONE:
+                    if (!match(ruleReference.rule, ast, ruleNames)) {
+                        return false;
+                    }
+                    break;
+                case AT_LEAST_ONE:
+                    if (!match(ruleReference.rule, ast, ruleNames)) {
+                        return false;
+                    }
+                    // note that there is no break here, we continue to ANY to match any remaining iterations
+                case ANY:
+                    while (match(ruleReference.rule, ast, ruleNames)) {
+                        // just match
+                    }
+                    break;
+            }
         }
+        boolean matchedWholeInput = ast.size() == 0;
+        boolean justEofTokenLeft = ast.size() == 1 && ast.get(0) instanceof TerminalNode && (((TerminalNode) ast.get(0)).getSymbol()
+                                                                                                                        .getText()).contains("<EOF>");
+        return matchedWholeInput || !isTopLevelCall || justEofTokenLeft;
+    }
+
+    private static boolean match(Rule rule, List<ParseTree> parseTree, List<String> ruleNames) {
+        ParseTree current = parseTree.get(0);
+        if (rule instanceof LiteralRule && current instanceof TerminalNode) {
+            boolean matches = ((LiteralRule) rule).value.equals(((TerminalNode) current).getSymbol()
+                                                                                        .getText());
+            if (matches) {
+                parseTree.remove(0);
+            }
+            return matches;
+        } else if (rule instanceof RegexRule && current instanceof TerminalNode) {
+            boolean matches = ((TerminalNode) current).getSymbol()
+                                                      .getText()
+                                                      .matches(((RegexRule) rule).regexp);
+            if (matches) {
+                parseTree.remove(0);
+            }
+            return matches;
+        } else if (rule instanceof ParserRule && current instanceof ParserRuleContext) {
+            boolean matches = rule.name.equals(ruleNames.get(((ParserRuleContext) current).getRuleIndex()));
+            if (matches) {
+                parseTree.remove(0);
+            }
+            return matches;
+        } else if (rule instanceof SerializedParserRule) {
+            return match(((SerializedParserRule) rule).elements, parseTree, ruleNames, false);
+        }
+        return false;
     }
 
     static List<Alternative> expandList(List<Alternative> input) {
