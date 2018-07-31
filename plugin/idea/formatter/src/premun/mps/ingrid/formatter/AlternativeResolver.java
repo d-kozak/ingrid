@@ -10,8 +10,8 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class FormatExtractorUtils {
-    public static Alternative findAppropriateAlternative(List<Alternative> alternatives, List<ParseTree> parserRuleContext, List<String> ruleNames) {
+public class AlternativeResolver {
+    public static Alternative selectAlternative(List<Alternative> alternatives, List<ParseTree> parserRuleContext, List<String> ruleNames) {
         alternatives = alternatives.stream()
                                    .map(AlternativeDTO::new)
                                    .collect(toList());

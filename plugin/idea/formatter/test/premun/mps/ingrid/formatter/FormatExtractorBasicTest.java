@@ -2,6 +2,7 @@ package premun.mps.ingrid.formatter;
 
 import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
+import premun.mps.ingrid.formatter.boundary.FormatExtractor;
 import premun.mps.ingrid.formatter.model.FormatInfoMapKey;
 import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.model.GrammarInfo;

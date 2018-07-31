@@ -1,4 +1,4 @@
-package premun.mps.ingrid.formatter;
+package premun.mps.ingrid.formatter.model;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import premun.mps.ingrid.model.Rule;
