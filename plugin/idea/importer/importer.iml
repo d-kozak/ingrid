@@ -12,5 +12,6 @@
     <orderEntry type="module" module-name="parser" />
     <orderEntry type="module" module-name="model" />
     <orderEntry type="library" name="library" level="project" />
+    <orderEntry type="module" module-name="formatter" />
   </component>
 </module>

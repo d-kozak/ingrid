@@ -1,12 +1,16 @@
 package premun.mps.ingrid.importer;
 
-import jetbrains.mps.lang.smodel.generator.smodelAdapter.*;
-import org.jetbrains.mps.openapi.model.*;
+import jetbrains.mps.lang.smodel.generator.smodelAdapter.SModelOperations;
+import jetbrains.mps.lang.smodel.generator.smodelAdapter.SNodeOperations;
+import org.jetbrains.mps.openapi.model.SModel;
+import premun.mps.ingrid.formatter.boundary.FormatExtractor;
+import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.importer.steps.*;
-import premun.mps.ingrid.model.*;
-import premun.mps.ingrid.parser.*;
+import premun.mps.ingrid.model.GrammarInfo;
+import premun.mps.ingrid.parser.GrammarParser;
 
-import java.io.*;
+import java.io.File;
+import java.util.Map;
 
 public class GrammarImporter {
     private SModel editorModel;
@@ -28,19 +32,19 @@ public class GrammarImporter {
     private void initializeLanguage() {
         // Delete all nodes
         SModelOperations
-            .nodes(this.structureModel, null)
-            .stream()
-            .forEach(SNodeOperations::deleteNode);
+                .nodes(this.structureModel, null)
+                .stream()
+                .forEach(SNodeOperations::deleteNode);
 
         SModelOperations
-            .nodes(this.editorModel, null)
-            .stream()
-            .forEach(SNodeOperations::deleteNode);
+                .nodes(this.editorModel, null)
+                .stream()
+                .forEach(SNodeOperations::deleteNode);
 
         SModelOperations
-            .nodes(this.textGenModel, null)
-            .stream()
-            .forEach(SNodeOperations::deleteNode);
+                .nodes(this.textGenModel, null)
+                .stream()
+                .forEach(SNodeOperations::deleteNode);
     }
 
     /**
@@ -60,13 +64,18 @@ public class GrammarImporter {
         this.grammar = parser.resolveGrammar();
         this.importInfo = new ImportInfo(this.grammar.rootRule.name);
 
-        ImportStep[] steps = new ImportStep[] {
-            new RegexTransformer(),
-            new ConceptImporter(),
-            new ConceptLinker(),
-            new AliasFinder(),
-            new EditorBuilder(),
-            new TextGenBuilder()
+        String input = "";
+        String inputGrammar = "";
+
+        Map<String, Map<Integer, RuleFormatInfo>> formatInfoMap = FormatExtractor.simplify(FormatExtractor.extract(this.grammar, inputGrammar, input));
+
+        ImportStep[] steps = new ImportStep[]{
+                new RegexTransformer(),
+                new ConceptImporter(),
+                new ConceptLinker(),
+                new AliasFinder(),
+                new EditorBuilder(formatInfoMap),
+                new TextGenBuilder()
         };
 
         this.executeSteps(steps);
