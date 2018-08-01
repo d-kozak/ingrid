@@ -38,7 +38,7 @@ class FormatInfoExtractor {
                 int indentation = next.getCharPositionInLine() - (current.getCharPositionInLine() + current.getText()
                                                                                                            .length());
 
-                formatInfos.add(new FormatInfo(appendedNewLines, indentation));
+                formatInfos.add(new FormatInfo(left.rule, appendedNewLines, indentation));
             } else {
                 formatInfos.add(FormatInfo.NULL_INFO);
             }

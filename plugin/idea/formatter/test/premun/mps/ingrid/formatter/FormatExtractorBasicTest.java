@@ -10,40 +10,56 @@ import premun.mps.ingrid.parser.GrammarParser;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * A set of simple tests that should pass where all we care about is that no exception is thrown,
  * the ouput of the formatting algorithm is not checked yet, because it is not yet known, what it will look like.
- * TODO add asserts once we know the format of the output
+ * TODO add more asserts
  *
- * @see FormatExtractor
  * @author dkozak
+ * @see FormatExtractor
  */
 public class FormatExtractorBasicTest {
+
+    private static void printFormatInfo(Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap) {
+        System.out.println(
+                formatInfoMap.entrySet()
+                             .stream()
+                             .map(entry -> entry.getKey() + " = " + entry.getValue())
+                             .collect(Collectors.joining(",\n"))
+        );
+    }
 
     @Test
     public void setGrammarEmptySet() throws RecognitionException {
         Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("{}", TestGrammars.setGrammar);
-        System.out.println(formatInfoMap);
+        printFormatInfo(formatInfoMap);
+
+        assertEquals(2, formatInfoMap.size());
     }
 
     @Test
     public void setGrammarSimpleInput() throws RecognitionException {
         Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,2,3}", TestGrammars.setGrammar);
-        System.out.println(formatInfoMap);
+        printFormatInfo(formatInfoMap);
+        assertEquals(4, formatInfoMap.size());
     }
 
     @Test
     public void setGrammarNestedInput() throws RecognitionException {
         Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,{a,b,c},3}", TestGrammars.setGrammar);
-        System.out.println(formatInfoMap);
+        printFormatInfo(formatInfoMap);
+        assertEquals(8, formatInfoMap.size());
     }
-
 
     @Test
     public void setGrammarNestedInputMoreComplex() throws RecognitionException {
         Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,{a,b,c},{{},{a,b,c}}}", TestGrammars.setGrammar);
-        System.out.println(formatInfoMap);
+        printFormatInfo(formatInfoMap);
+        assertEquals(13, formatInfoMap.size());
     }
 
     @Test
@@ -54,19 +70,13 @@ public class FormatExtractorBasicTest {
                 "\tc\n" +
                 "}\n";
         Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
-        System.out.println(formatInfoMap);
+        printFormatInfo(formatInfoMap);
     }
 
     @Test
     public void expressionGrammarVerySimple() throws RecognitionException {
         Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("(1 + 1) * 2", TestGrammars.expressionGrammar);
-        System.out.println(formatInfoMap);
-    }
-
-    @Test
-    public void expressionGrammarMoreComplex() throws RecognitionException {
-        Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("((2*1) + 1) * 2", TestGrammars.expressionGrammar);
-        System.out.println(formatInfoMap);
+        printFormatInfo(formatInfoMap);
     }
 
     private Map<FormatInfoMapKey, List<RuleFormatInfo>> extractFormat(String input, String grammar) throws RecognitionException {
@@ -74,5 +84,11 @@ public class FormatExtractorBasicTest {
         grammarParser.parseString(grammar);
         GrammarInfo grammarInfo = grammarParser.resolveGrammar();
         return FormatExtractor.extract(grammarInfo, grammar, input);
+    }
+
+    @Test
+    public void expressionGrammarMoreComplex() throws RecognitionException {
+        Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("((2*1) + 1) * 2", TestGrammars.expressionGrammar);
+        printFormatInfo(formatInfoMap);
     }
 }
