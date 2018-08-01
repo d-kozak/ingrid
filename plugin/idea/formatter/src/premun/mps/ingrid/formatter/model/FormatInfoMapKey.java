@@ -3,8 +3,21 @@ package premun.mps.ingrid.formatter.model;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A key in the format info map, consists of the context ( list of rules)
+ * that lead to a given rule and an index of alternative that was used
+ *
+ * @author dkozak
+ */
 public final class FormatInfoMapKey {
+    /**
+     * Sequence of rules that lead to this point
+     */
     public final List<String> context;
+
+    /**
+     * Index of alternative that was used(into the list of alternatives of the last rule in context)
+     */
     public final int alternative;
 
     public FormatInfoMapKey(List<String> context, int alternative) {

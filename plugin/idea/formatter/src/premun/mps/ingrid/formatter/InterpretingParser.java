@@ -8,7 +8,11 @@ import org.antlr.v4.runtime.ParserInterpreter;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.tool.Grammar;
 
-public class OnTheFlyParser {
+/**
+ * Parses input based on specified grammar without using any generated code,
+ * it uses new antlr4 feature of interpreted lexing and parsing.
+ */
+public class InterpretingParser {
 
     public static ParseTree parse(Grammar grammar, String input, String startRule) {
         LexerInterpreter lexerInterpreter = grammar.createLexerInterpreter(new ANTLRInputStream(input));

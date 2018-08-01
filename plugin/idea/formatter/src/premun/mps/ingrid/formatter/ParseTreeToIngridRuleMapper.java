@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import premun.mps.ingrid.formatter.model.MatchInfo;
-import premun.mps.ingrid.formatter.model.SerializedParserRule;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.*;
 
@@ -15,9 +14,44 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Computes how the parse tree passed in corresponds to the Ingrid rule that matched it.
+ * <p>
+ * The algorithm works as follows.
+ * <p>
+ * It first have to expand the alternatives into separate rules.
+ * If it encounters a block rule, it also separates each of it's alternatives into rules and
+ * it adds a special SerializedParserRule  as the wrapper of the content of the block rule
+ * to clearly separate it from other kind of rules. If there are any inner blocks such as
+ * (a | (b | c)), this algorithm generates two SerializedParserRules on the route from root to b or c.
+ * As this is not necessary, a flattening happens afterwards that removes these unnecessary layers.
+ * <p>
+ * When the rule in expanded, it uses the following algorithm to figure out which of the
+ * alternatives matches the ast.
+ * Foreach ruleReference in rule.handle:
+ * consume as much of the input ast as possible
+ * if you did not manage to consume token/rule that was obligatory:
+ * return error
+ * save information about what you matched
+ * <p>
+ * if whole ast was matched:
+ * return information about matching
+ * else:
+ * return error
+ *
+ * @author dkozak
+ */
 public class ParseTreeToIngridRuleMapper {
+
+    /**
+     * Figures out which alternative can parse the ast and returns how the ast can be parsed
+     * @param alternatives list of alternatives, one of them has to match
+     * @param ast input which should be parsed by one of the alternative
+     * @param ruleNames names of rules from grammar, in the same ordering as in the grammar file
+     * @return Which Alternative matched the ast and how
+     */
     public static Pair<Alternative, List<MatchInfo>> resolve(List<Alternative> alternatives, List<ParseTree> ast, List<String> ruleNames) {
-        alternatives = expandList(alternatives);
+        alternatives = expandRules(alternatives);
         for (Alternative alternative : alternatives) {
             List<MatchInfo> matchInfoList = match(alternative.elements, new ArrayList<>(ast), ruleNames, true);
             if (matchInfoList != null) {
@@ -27,6 +61,14 @@ public class ParseTreeToIngridRuleMapper {
         throw new IllegalArgumentException("Did not match");
     }
 
+    /**
+     * Tries to match given ast to the rule handle specified by elements.
+     * @param elements rule handle which could match the ast
+     * @param ast ast to match
+     * @param ruleNames names of rules from grammar, in the same ordering as in the grammar file
+     * @param isTopLevelCall topLevel calls have to match the whole input, while calls for inner block rules don't have to do that
+     * @return list of matchInfo objects, one for each ruleReference in the elements list, or null if input was not matched
+     */
     private static List<MatchInfo> match(List<RuleReference> elements, List<ParseTree> ast, List<String> ruleNames, boolean isTopLevelCall) {
         List<MatchInfo> result = new ArrayList<>();
         for (RuleReference ruleReference : elements) {
@@ -74,6 +116,13 @@ public class ParseTreeToIngridRuleMapper {
         } else return null;
     }
 
+    /**
+     * Tries to match first element(s) of ParseTree to the given rule.
+     * @param rule rule which should match the parse tree
+     * @param parseTree parse tree to match
+     * @param ruleNames names of rules from grammar, in the same ordering as in the grammar file
+     * @return List of elements that matched the rule
+     */
     private static List<ParseTree> match(Rule rule, List<ParseTree> parseTree, List<String> ruleNames) {
         ParseTree current = parseTree.get(0);
         if (rule instanceof LiteralRule && current instanceof TerminalNode) {
@@ -107,14 +156,21 @@ public class ParseTreeToIngridRuleMapper {
         } else return Collections.emptyList();
     }
 
-    static List<Alternative> expandList(List<Alternative> input) {
+    /**
+     * Expands each alternative from the input into multiple alternatives to get rid of inner blocks with alternatives.
+     * This step enables a linear algorithm for ast to input matching.
+     *
+     * @param input
+     * @return expanded list of alternatives that do not contain any inner blocks with alternatives
+     */
+    static List<Alternative> expandRules(List<Alternative> input) {
         List<Alternative> result = new ArrayList<>();
 
         for (Alternative alternative : input) {
             List<List<RuleReference>> expandedAlternative = new ArrayList<>();
             for (RuleReference element : alternative.elements) {
                 if (element.rule instanceof ParserRule && element.rule.name.contains("_block_")) {
-                    List<Alternative> inner = expandList(((ParserRule) element.rule).alternatives);
+                    List<Alternative> inner = expandRules(((ParserRule) element.rule).alternatives);
                     if (expandedAlternative.isEmpty()) {
                         for (int i = 0; i < inner.size(); i++) {
                             String name = element.rule.name + "_alt_" + i;
@@ -181,6 +237,24 @@ public class ParseTreeToIngridRuleMapper {
         }
     }
 
+    /**
+     * A temporal rule inserted into the Ingrid model during alternative expanding
+     */
+    static class SerializedParserRule extends Rule {
+        public final List<RuleReference> elements;
+
+        public SerializedParserRule(String name, List<RuleReference> elements) {
+            super(name);
+            this.elements = elements;
+        }
+    }
+
+
+    /**
+     * Internally used DTO that represents expanded alternative created in expandRules method.
+     * It keeps a reference to the original alternative so that at the end of the algorithm we
+     * can return the original alternative.
+     */
     private static class AlternativeDTO extends Alternative {
         private final Alternative original;
 

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static premun.mps.ingrid.formatter.GrammarDTO.prepareGrammar;
 
 /**
- * Tests the alternative resolving process.
+ * Tests the alternative resolving process in ParseTreeToIngridRuleMapper.
  * To simplify the test setup, we specify the grammar as string and let Ingrid Parser Module provide us with model to use
  *
  * @author dkozak
@@ -119,7 +119,7 @@ public class ParseTreeToIngridRuleMapperTest {
         GrammarDTO grammarDTO = prepareGrammar(TestGrammars.setGrammar, startRuleName, input);
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
         ParserRule parserRule = (ParserRule) grammarDTO.grammarInfo.rules.get("compilationUnit");
-        List<Alternative> result = ParseTreeToIngridRuleMapper.expandList(parserRule.alternatives);
+        List<Alternative> result = ParseTreeToIngridRuleMapper.expandRules(parserRule.alternatives);
         assertEquals(1, result.size());
         assertEquals(1, result.get(0).elements
                 .size());
@@ -132,7 +132,7 @@ public class ParseTreeToIngridRuleMapperTest {
         GrammarDTO grammarDTO = prepareGrammar(TestGrammars.setGrammar, startRuleName, input);
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
         ParserRule parserRule = (ParserRule) grammarDTO.grammarInfo.rules.get("set");
-        List<Alternative> result = ParseTreeToIngridRuleMapper.expandList(parserRule.alternatives);
+        List<Alternative> result = ParseTreeToIngridRuleMapper.expandRules(parserRule.alternatives);
         assertEquals(2, result.size());
     }
 
@@ -145,7 +145,7 @@ public class ParseTreeToIngridRuleMapperTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("book");
-        List<Alternative> result = ParseTreeToIngridRuleMapper.expandList(examinedRule.alternatives);
+        List<Alternative> result = ParseTreeToIngridRuleMapper.expandRules(examinedRule.alternatives);
         assertEquals(4, result.size());
     }
 
@@ -157,7 +157,7 @@ public class ParseTreeToIngridRuleMapperTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("r");
-        List<Alternative> result = ParseTreeToIngridRuleMapper.expandList(examinedRule.alternatives);
+        List<Alternative> result = ParseTreeToIngridRuleMapper.expandRules(examinedRule.alternatives);
         assertEquals(4, result.size());
     }
 

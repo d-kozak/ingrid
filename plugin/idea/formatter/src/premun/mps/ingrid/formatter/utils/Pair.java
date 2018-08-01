@@ -2,6 +2,12 @@ package premun.mps.ingrid.formatter.utils;
 
 import java.util.Objects;
 
+
+/**
+ * A simple pair DTO class
+ *
+ * @author dkozak
+ */
 public final class Pair<T, U> {
     public final T first;
     public final U second;

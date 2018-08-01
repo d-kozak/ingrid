@@ -10,8 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Extracts format information from list of MatchInfo objects
+ *
+ * @author dkozak
+ */
 class FormatInfoExtractor {
 
+    /**
+     * Extract format information from list of MatchInfo objects
+     * For each pair of MatchInfos it compares the rightmost
+     * from the left element to the leftmost of the right element.
+     */
     static List<FormatInfo> extractFormatInfo(List<MatchInfo> matchInfos) {
         List<FormatInfo> formatInfos = new ArrayList<>();
 
@@ -21,8 +31,8 @@ class FormatInfoExtractor {
             if (left.matched.size() > 0 && right.matched.size() > 0) {
                 ParseTree rightmostNode = left.matched.get(left.matched.size() - 1);
                 ParseTree leftmostNode = right.matched.get(0);
-                Token current = extractToken(rightmostNode, node -> node.getChild(node.getChildCount() - 1));
-                Token next = extractToken(leftmostNode, node -> node.getChild(0));
+                Token current = extractRightmostToken(rightmostNode);
+                Token next = extractLeftmostToken(leftmostNode);
 
                 int appendedNewLines = next.getLine() - current.getLine();
                 int indentation = next.getCharPositionInLine() - (current.getCharPositionInLine() + current.getText()
@@ -34,6 +44,14 @@ class FormatInfoExtractor {
             }
         }
         return formatInfos;
+    }
+
+    private static Token extractLeftmostToken(ParseTree leftmostNode) {
+        return extractToken(leftmostNode, node -> node.getChild(0));
+    }
+
+    private static Token extractRightmostToken(ParseTree rightmostNode) {
+        return extractToken(rightmostNode, node -> node.getChild(node.getChildCount() - 1));
     }
 
     static private Token extractToken(ParseTree parseTree, Function<ParseTree, ParseTree> nextNodeExtractor) {

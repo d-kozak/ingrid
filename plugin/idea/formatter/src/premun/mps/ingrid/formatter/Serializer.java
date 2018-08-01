@@ -13,6 +13,11 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
 
+/**
+ * Handles serialization of Ingrid model and sntrlr model objects, used for debuggin purposes
+ *
+ * @author dkozak
+ */
 class Serializer {
 
     private final Grammar grammar;
@@ -21,24 +26,37 @@ class Serializer {
         this.grammar = grammar;
     }
 
+    /**
+     * Transforms Alternative into a string representation.
+     */
     String serializeAlternative(Alternative alternative) {
         return alternative.elements.stream()
                                    .map(this::serializeElem)
                                    .collect(Collectors.joining(" "));
     }
 
+    /**
+     * Transforms RuleReference into a string representation.
+     * @return for Literal rule it's value in quotes, otherwise it's name
+     */
     String serializeElem(RuleReference elem) {
         if (elem.rule instanceof LiteralRule) {
             return "'" + ((LiteralRule) elem.rule).value + "'";
         } else return elem.rule.name;
     }
 
+    /**
+     * Transforms list of ParseTree objects into a string representation.
+     */
     String serializeChildren(List<ParseTree> children) {
         return children.stream()
                        .map(this::serializeParseTree)
                        .collect(joining(" "));
     }
 
+    /**
+     * Transforms ParseTree object into a string representation.
+     */
     String serializeParseTree(ParseTree tree) {
         if (tree instanceof TerminalNode) {
             return "'" + ((TerminalNode) tree).getSymbol()

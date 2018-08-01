@@ -2,6 +2,9 @@ package premun.mps.ingrid.formatter.model;
 
 import java.util.List;
 
+/**
+ * Value in the FormatInfo map, each object holds information about one encounter with given rule in given context (part of the key in the hashmap).
+ */
 public final class RuleFormatInfo {
     public final List<FormatInfo> formatInfoList;
 

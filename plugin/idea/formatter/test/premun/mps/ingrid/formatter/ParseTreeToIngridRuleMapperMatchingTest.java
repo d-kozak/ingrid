@@ -4,7 +4,6 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.junit.Test;
 import premun.mps.ingrid.formatter.model.MatchInfo;
-import premun.mps.ingrid.formatter.model.SerializedParserRule;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.ParserRule;
@@ -16,6 +15,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static premun.mps.ingrid.formatter.GrammarDTO.prepareGrammar;
 
+/**
+ * Verifies that resolving algotihm used in ParseTreeToIngridRuleMapper
+ *
+ * @author dkozak
+ * @see ParseTreeToIngridRuleMapper
+ */
 public class ParseTreeToIngridRuleMapperMatchingTest {
 
     @Test
@@ -131,7 +136,7 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         assertEquals(4, matchInfoList.size());
 
         MatchInfo innerSetMatchInfo = matchInfoList.get(2);
-        assertTrue(innerSetMatchInfo.rule instanceof SerializedParserRule); // our own abstraction for handling block rules
+        assertTrue(innerSetMatchInfo.rule instanceof ParseTreeToIngridRuleMapper.SerializedParserRule); // our own abstraction for handling block rules
 
         // blk should match: ',' elem ',' elem
         assertEquals(4, innerSetMatchInfo.matched.size());
@@ -162,7 +167,7 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         assertEquals(4, matchInfoList.size());
 
         MatchInfo innerSetMatchInfo = matchInfoList.get(2);
-        assertTrue(innerSetMatchInfo.rule instanceof SerializedParserRule); // our own abstraction for handling block rules
+        assertTrue(innerSetMatchInfo.rule instanceof ParseTreeToIngridRuleMapper.SerializedParserRule); // our own abstraction for handling block rules
 
         // blk should match: ',' elem ',' elem
         assertEquals(4, innerSetMatchInfo.matched.size());

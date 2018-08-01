@@ -69,6 +69,9 @@ public final class TestGrammars {
             "    : [ \\t\\r\\n]+ -> skip // skip spaces, tabs, newlines\n" +
             "    ;";
 
+    /**
+     * A very simple grammar, it's rule 'rule' has two alternatives, it can used for a very minimalistic check of the alternative resolving.
+     */
     public static final String simpleGrammar = "grammar test;\n" +
             "\n" +
             "rule\n" +
@@ -80,6 +83,9 @@ public final class TestGrammars {
             "g : 'g';";
 
 
+    /**
+     * Grammar which contains inner block rules that can cause pain in the alternative resolving.
+     */
     public static final String bookGrammar = "grammar Book;\n" +
             "\n" +
             "book\n" +
@@ -101,6 +107,14 @@ public final class TestGrammars {
             "\n" +
             "WS : [ \\t\\n] -> skip;";
 
+    /**
+     * Grammar with nested blocks that can be simplified during the flattening.
+     * Ideally it should be temporarily changed to:
+     * r1 : 'a' ;
+     * r2 : 'b' ;
+     * r3 : c ;
+     * r4 : 'd' ;
+     */
     public static final String nestedBlockGrammar = "grammar nested;\n" +
             "\n" +
             "r : ('a' | ('b' | ( c | 'd'))) ; \n" +
@@ -128,6 +142,12 @@ public final class TestGrammars {
 
     }
 
+    /**
+     * Parses a given grammar
+     *
+     * @param input grammar to parse
+     * @return parsed grammar representation
+     */
     public static GrammarInfo parseGrammar(String input) {
         GrammarParser grammarParser = new GrammarParser();
         grammarParser.parseString(input);

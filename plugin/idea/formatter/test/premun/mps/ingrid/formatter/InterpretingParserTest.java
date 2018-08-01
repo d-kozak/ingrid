@@ -11,10 +11,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * @see OnTheFlyParser
+ * @see InterpretingParser
  * @author dkozak
  */
-public class OnTheFlyParserTest {
+public class InterpretingParserTest {
 
     /**
      * Checks whether sentences in set language was parsed correctly
@@ -23,7 +23,7 @@ public class OnTheFlyParserTest {
     public void parsingSetLanguage() throws RecognitionException {
         Grammar grammar = new Grammar(TestGrammars.setGrammar);
         String input = "{a,b,{}}";
-        ParseTree parseTree = OnTheFlyParser.parse(grammar, input, "compilationUnit");
+        ParseTree parseTree = InterpretingParser.parse(grammar, input, "compilationUnit");
         assertEquals(2, parseTree.getChildCount()); // set EOF
         ParseTree set = parseTree.getChild(0);
 
