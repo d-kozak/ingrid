@@ -1,7 +1,6 @@
 package premun.mps.ingrid.formatter;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.tool.Grammar;
 import org.antlr.v4.tool.Rule;
 import premun.mps.ingrid.formatter.model.FormatInfo;
@@ -14,7 +13,6 @@ import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.ParserRule;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Handles extracting information about formatting. Uses BaseParseTreeListener method enterEveryRule,
@@ -61,32 +59,12 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
         Rule antlrRule = grammar.getRule(parserRuleContext.getRuleIndex());
         ParserRule parserRule = (ParserRule) grammarInfo.rules.get(antlrRule.name);
         List<String> context = getContext(parserRuleContext);
-        String serialized = serializer.serializeChildren(parserRuleContext.children);
-        System.out.print(context + " => ");
-        System.out.println(serialized);
-        System.out.println("Choosing from alternatives: ");
-        List<String> alternatives = parserRule.alternatives.stream()
-                                                           .map(serializer::serializeAlternative)
-                                                           .collect(Collectors.toList());
-        for (String alternative : alternatives) {
-            System.out.println(alternative);
-        }
 
         Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(parserRule.alternatives, parserRuleContext.children, Arrays.asList(grammar.getRuleNames()));
         Alternative appropriateAlternative = pair.first;
-        System.out.println("appropriate alternative => " + serializer.serializeAlternative(appropriateAlternative));
-        int alternativeIndex = parserRule.alternatives.indexOf(appropriateAlternative);
-        System.out.println("at index: ");
-        System.out.println();
-        List<ParseTree> copy = new ArrayList<>(parserRuleContext.children);
         List<MatchInfo> matchInfo = pair.second;
-
-        System.out.println("matchInfo: " + matchInfo);
-
+        int alternativeIndex = parserRule.alternatives.indexOf(appropriateAlternative);
         List<FormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(matchInfo);
-
-        System.out.println("formatInfo: " + formatInfos);
-
         List<RuleFormatInfo> ruleFormatInfos = this.formatInfo.computeIfAbsent(new FormatInfoMapKey(context, alternativeIndex), __ -> new ArrayList<>());
         ruleFormatInfos.add(new RuleFormatInfo(formatInfos));
     }
