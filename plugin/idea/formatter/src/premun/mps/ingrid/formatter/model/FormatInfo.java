@@ -18,9 +18,6 @@ public final class FormatInfo {
 
     @Override
     public String toString() {
-        return "FormatInfo{" +
-                "followingNewLinesCount=" + followingNewLinesCount +
-                ", followingSpacesCount=" + followingSpacesCount +
-                '}';
+        return "'newline:' " + followingNewLinesCount + ", 'space': " + followingSpacesCount;
     }
 }

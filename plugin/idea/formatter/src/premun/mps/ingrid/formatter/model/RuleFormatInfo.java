@@ -16,9 +16,7 @@ public final class RuleFormatInfo {
 
     @Override
     public String toString() {
-        return "RuleFormatInfo{" +
-                "formatInfoList=" + formatInfoList +
-                '}';
+        return formatInfoList.toString();
     }
 
 }

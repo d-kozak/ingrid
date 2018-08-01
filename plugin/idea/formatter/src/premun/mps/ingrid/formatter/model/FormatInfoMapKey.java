@@ -41,9 +41,6 @@ public final class FormatInfoMapKey {
 
     @Override
     public String toString() {
-        return "FormatInfoMapKey{" +
-                "context=" + context +
-                ", alternative=" + alternative +
-                '}';
+        return "< " + context + " : " + alternative + " >";
     }
 }
