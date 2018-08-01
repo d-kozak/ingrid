@@ -11,6 +11,8 @@ import org.antlr.v4.tool.Grammar;
 /**
  * Parses input based on specified grammar without using any generated code,
  * it uses new antlr4 feature of interpreted lexing and parsing.
+ *
+ * @author dkozak
  */
 public class InterpretingParser {
 
