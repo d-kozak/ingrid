@@ -206,4 +206,21 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
 
         assertEquals(0, compilationUnit.alternatives.indexOf(pair.first));
     }
+
+
+    @Test
+    public void cpp14Grammar__crazyTemplateExample() throws RecognitionException {
+        String cpp14grammar = TestGrammars.loadCpp14();
+        String startRuleName = "translationUnit";
+        String input = TestGrammars.loadResource("/brigand.hpp");
+
+        GrammarDTO grammarDTO = prepareGrammar(cpp14grammar, startRuleName, input);
+        List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
+        ParserRule translationUnit = (ParserRule) grammarDTO.grammarInfo.rules.get("translationUnit");
+
+
+        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(translationUnit.alternatives, grammarDTO.ast.children, ruleNames);
+
+        System.out.println("Made it!");
+    }
 }

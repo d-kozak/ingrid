@@ -175,8 +175,16 @@ public final class TestGrammars {
 
 
     public static String loadJava9() {
+        return loadResource("/Java9.cpp");
+    }
+
+    public static String loadCpp14() {
+        return loadResource("/CPP14.g4");
+    }
+
+    public static String loadResource(String resourcePath) {
         try {
-            String path = TestGrammars.class.getResource("/Java9.g4")
+            String path = TestGrammars.class.getResource(resourcePath)
                                             .getPath();
             return Files.lines(Paths.get(path))
                         .collect(Collectors.joining("\n"));
