@@ -4,8 +4,12 @@ import org.junit.Test;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.parser.GrammarParser;
 
+import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -167,5 +171,17 @@ public final class TestGrammars {
     @Test(expected = IllegalArgumentException.class)
     public void nonExistingGrammar() {
         prepareGrammar("abraka dabra");
+    }
+
+
+    public static String loadJava9() {
+        try {
+            String path = TestGrammars.class.getResource("/Java9.g4")
+                                            .getPath();
+            return Files.lines(Paths.get(path))
+                        .collect(Collectors.joining("\n"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

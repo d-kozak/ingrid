@@ -183,4 +183,27 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
 
 
     }
+
+    @Test
+    public void java9Grammar__simpleClass() throws RecognitionException {
+        String java9grammar = TestGrammars.loadJava9();
+        String startRuleName = "compilationUnit";
+        String input = "  public abstract class Animal<T> {\n" +
+                "            private String name;\n" +
+                "            private int age;\n" +
+                "            private T secret;\n" +
+                "\n" +
+                "            public abstract void makeSound();\n" +
+                "        }";
+
+
+        GrammarDTO grammarDTO = prepareGrammar(java9grammar, startRuleName, input);
+        List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
+        ParserRule compilationUnit = (ParserRule) grammarDTO.grammarInfo.rules.get("compilationUnit");
+
+
+        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(compilationUnit.alternatives, grammarDTO.ast.children, ruleNames);
+
+        assertEquals(0, compilationUnit.alternatives.indexOf(pair.first));
+    }
 }
