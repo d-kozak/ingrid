@@ -10,6 +10,7 @@ import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.parser.GrammarParser;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GrammarImporter {
@@ -67,7 +68,9 @@ public class GrammarImporter {
         String input = "";
         String inputGrammar = "";
 
-        Map<String, Map<Integer, RuleFormatInfo>> formatInfoMap = FormatExtractor.simplify(FormatExtractor.extract(this.grammar, inputGrammar, input));
+
+        Map<String, Map<Integer, RuleFormatInfo>> formatInfoMap = new HashMap<>();
+                //FormatExtractor.simplify(FormatExtractor.extract(this.grammar, inputGrammar, input));
 
         ImportStep[] steps = new ImportStep[]{
                 new RegexTransformer(),
