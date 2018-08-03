@@ -42,7 +42,10 @@ class FormatInfoExtractor {
                 boolean childrenOnNewLine = false;
                 boolean childrenIndented = false;
 
-
+                boolean nextElementIsThereMultipleTimes = right.times > 1;
+                if (nextElementIsThereMultipleTimes) {
+                    // TODO figure out how to extract formatting for children
+                }
                 formatInfos.add(new FormatInfo(left.rule, appendedNewLines, indentation, childrenOnNewLine, childrenIndented));
             } else {
                 formatInfos.add(FormatInfo.NULL_INFO);

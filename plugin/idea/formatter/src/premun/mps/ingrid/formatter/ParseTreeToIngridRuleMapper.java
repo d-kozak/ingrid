@@ -43,11 +43,14 @@ import static java.util.stream.Collectors.toList;
  */
 public class ParseTreeToIngridRuleMapper {
 
+    private static final List<Pair<SerializedParserRule, List<MatchInfo>>> blockRules = new ArrayList<>();
+
     /**
      * Figures out which alternative can parse the ast and returns how the ast can be parsed
+     *
      * @param alternatives list of alternatives, one of them has to match
-     * @param ast input which should be parsed by one of the alternative
-     * @param ruleNames names of rules from grammar, in the same ordering as in the grammar file
+     * @param ast          input which should be parsed by one of the alternative
+     * @param ruleNames    names of rules from grammar, in the same ordering as in the grammar file
      * @return Which Alternative matched the ast and how
      */
     public static Pair<Alternative, List<MatchInfo>> resolve(List<Alternative> alternatives, List<ParseTree> ast, List<String> ruleNames) {
@@ -63,9 +66,10 @@ public class ParseTreeToIngridRuleMapper {
 
     /**
      * Tries to match given ast to the rule handle specified by elements.
-     * @param elements rule handle which could match the ast
-     * @param ast ast to match
-     * @param ruleNames names of rules from grammar, in the same ordering as in the grammar file
+     *
+     * @param elements       rule handle which could match the ast
+     * @param ast            ast to match
+     * @param ruleNames      names of rules from grammar, in the same ordering as in the grammar file
      * @param isTopLevelCall topLevel calls have to match the whole input, while calls for inner block rules don't have to do that
      * @return list of matchInfo objects, one for each ruleReference in the elements list, or null if input was not matched
      */
@@ -118,7 +122,8 @@ public class ParseTreeToIngridRuleMapper {
 
     /**
      * Tries to match first element(s) of ParseTree to the given rule.
-     * @param rule rule which should match the parse tree
+     *
+     * @param rule      rule which should match the parse tree
      * @param parseTree parse tree to match
      * @param ruleNames names of rules from grammar, in the same ordering as in the grammar file
      * @return List of elements that matched the rule
@@ -147,7 +152,8 @@ public class ParseTreeToIngridRuleMapper {
             }
             return Collections.emptyList();
         } else if (rule instanceof SerializedParserRule) {
-            List<MatchInfo> result = match(((SerializedParserRule) rule).elements, parseTree, ruleNames, false);
+            List<MatchInfo> result = match(((SerializedParserRule) rule).alternative.elements, parseTree, ruleNames, false);
+            blockRules.add(Pair.of((SerializedParserRule) rule, result));
             if (result != null)
                 return result.stream()
                              .flatMap(matchInfo -> matchInfo.matched.stream())
@@ -174,7 +180,7 @@ public class ParseTreeToIngridRuleMapper {
                     if (expandedAlternative.isEmpty()) {
                         for (int i = 0; i < inner.size(); i++) {
                             String name = element.rule.name + "_alt_" + i;
-                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, inner.get(i).elements);
+                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, element.rule, inner.get(i));
                             List<RuleReference> tmp = new ArrayList<>();
                             tmp.add(new RuleReference(serializedParserRule, element.quantity));
                             expandedAlternative.add(tmp);
@@ -182,7 +188,7 @@ public class ParseTreeToIngridRuleMapper {
                     } else {
                         for (int i = 0; i < inner.size(); i++) {
                             String name = element.rule.name + "_alt_" + i;
-                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, inner.get(i).elements);
+                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, element.rule, inner.get(i));
                             for (List<RuleReference> ruleReferences : expandedAlternative) {
                                 ruleReferences.add(new RuleReference(serializedParserRule, element.quantity));
                             }
@@ -227,8 +233,8 @@ public class ParseTreeToIngridRuleMapper {
     private static RuleReference flattenReference(RuleReference input) {
         if (input.rule instanceof SerializedParserRule) {
             SerializedParserRule rule = (SerializedParserRule) input.rule;
-            while (rule.elements.size() == 1 && rule.elements.get(0).rule instanceof SerializedParserRule) {
-                rule = (SerializedParserRule) rule.elements.get(0).rule;
+            while (rule.alternative.elements.size() == 1 && rule.alternative.elements.get(0).rule instanceof SerializedParserRule) {
+                rule = (SerializedParserRule) rule.alternative.elements.get(0).rule;
             }
             input.rule = rule;
             return input;
@@ -241,12 +247,16 @@ public class ParseTreeToIngridRuleMapper {
      * A temporal rule inserted into the Ingrid model during alternative expanding
      */
     static class SerializedParserRule extends Rule {
-        public final List<RuleReference> elements;
+        public final Rule rule;
+        public final Alternative alternative;
 
-        public SerializedParserRule(String name, List<RuleReference> elements) {
+        public SerializedParserRule(String name, Rule rule, Alternative alternative) {
             super(name);
-            this.elements = elements;
+            this.rule = rule;
+            this.alternative = alternative;
         }
+
+
     }
 
 
