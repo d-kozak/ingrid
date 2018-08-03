@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class GrammarImporter {
     private SModel editorModel;
@@ -63,7 +62,7 @@ public class GrammarImporter {
      *
      * @param files List of ANTLR grammar files to be imported.
      */
-    public void importGrammars(File[] files, Consumer<String> log) {
+    public void importGrammars(File[] files) {
         try {
             initializeLanguage();
 
@@ -71,13 +70,9 @@ public class GrammarImporter {
             if (files.length != 2) {
                 throw new IllegalArgumentException("Expected two files: first the grammar, then example file to extract formatting information");
             }
-
             GrammarParser parser = new GrammarParser();
-            parser.parseFile(files[0].getPath());
 
-//        for (File f : files) {
-//            parser.parseFile(f.getPath());
-//        }
+            parser.parseFile(files[0].getPath());
 
             this.grammar = parser.resolveGrammar();
             this.importInfo = new ImportInfo(this.grammar.rootRule.name);
@@ -87,8 +82,6 @@ public class GrammarImporter {
 
 
             Map<String, Map<Integer, RuleFormatInfo>> formatInfoMap = FormatExtractor.simplify(FormatExtractor.extract(this.grammar, inputGrammar, input));
-
-            log.accept("Loaded:  " + formatInfoMap);
 
             ImportStep[] steps = new ImportStep[]{
                     new RegexTransformer(),
