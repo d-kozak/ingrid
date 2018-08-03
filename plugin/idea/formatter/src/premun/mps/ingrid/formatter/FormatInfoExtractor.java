@@ -35,10 +35,15 @@ class FormatInfoExtractor {
                 Token next = extractLeftmostToken(leftmostNode);
 
                 int appendedNewLines = next.getLine() - current.getLine();
-                int indentation = next.getCharPositionInLine() - (current.getCharPositionInLine() + current.getText()
-                                                                                                           .length());
+                int indentation = Integer.max(
+                        next.getCharPositionInLine() - (current.getCharPositionInLine() + current.getText()
+                                                                                                 .length()),
+                        0);
+                boolean childrenOnNewLine = false;
+                boolean childrenIndented = false;
 
-                formatInfos.add(new FormatInfo(left.rule, appendedNewLines, indentation));
+
+                formatInfos.add(new FormatInfo(left.rule, appendedNewLines, indentation, childrenOnNewLine, childrenIndented));
             } else {
                 formatInfos.add(FormatInfo.NULL_INFO);
             }

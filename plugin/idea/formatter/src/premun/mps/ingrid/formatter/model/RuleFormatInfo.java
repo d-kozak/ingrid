@@ -37,7 +37,10 @@ public final class RuleFormatInfo {
             FormatInfo mergedInfo = new FormatInfo(
                     thisFormatInfo.rule,
                     max(thisFormatInfo.followingNewLinesCount, otherFormatInfo.followingNewLinesCount),
-                    max(thisFormatInfo.followingSpacesCount, otherFormatInfo.followingSpacesCount));
+                    max(thisFormatInfo.followingSpacesCount, otherFormatInfo.followingSpacesCount),
+                    thisFormatInfo.childrenOnNewLine || otherFormatInfo.childrenOnNewLine,
+                    thisFormatInfo.childrenIndented || otherFormatInfo.childrenIndented
+            );
             formatInfos.add(mergedInfo);
         }
         return new RuleFormatInfo(formatInfos);

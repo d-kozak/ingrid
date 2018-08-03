@@ -9,16 +9,20 @@ import premun.mps.ingrid.model.Rule;
  * @author dkozak
  */
 public final class FormatInfo {
-    public static final FormatInfo NULL_INFO = new FormatInfo(new LiteralRule("NULL"), 0, 0);
+    public static final FormatInfo NULL_INFO = new FormatInfo(new LiteralRule("NULL"), 0, 0, false, false);
 
     public final Rule rule;
     public final int followingNewLinesCount;
     public final int followingSpacesCount;
+    public final boolean childrenOnNewLine;
+    public final boolean childrenIndented;
 
-    public FormatInfo(Rule rule, int followingNewLinesCount, int followingSpacesCount) {
+    public FormatInfo(Rule rule, int followingNewLinesCount, int followingSpacesCount, boolean childrenOnNewLine, boolean childrenIndented) {
         this.rule = rule;
         this.followingNewLinesCount = followingNewLinesCount;
         this.followingSpacesCount = followingSpacesCount;
+        this.childrenOnNewLine = childrenOnNewLine;
+        this.childrenIndented = childrenIndented;
     }
 
     @Override
@@ -29,6 +33,6 @@ public final class FormatInfo {
         } else {
             ruleName = rule.name;
         }
-        return "'" + ruleName + "' => { 'newline': " + followingNewLinesCount + ", 'space': " + followingSpacesCount + " }";
+        return "'" + ruleName + "' => { 'newline': " + followingNewLinesCount + ", 'space': " + followingSpacesCount + ", appendSpace:" + childrenOnNewLine + ", childrenIndented: " + childrenIndented + " }";
     }
 }
