@@ -165,7 +165,6 @@
       </concept>
       <concept id="1107535904670" name="jetbrains.mps.baseLanguage.structure.ClassifierType" flags="in" index="3uibUv">
         <reference id="1107535924139" name="classifier" index="3uigEE" />
-        <child id="1109201940907" name="parameter" index="11_B2D" />
       </concept>
       <concept id="1081773326031" name="jetbrains.mps.baseLanguage.structure.BinaryOperation" flags="nn" index="3uHJSO">
         <child id="1081773367579" name="rightExpression" index="3uHU7w" />
@@ -733,37 +732,6 @@
                     </node>
                   </node>
                   <node concept="3clFbH" id="1i5bDTN8vJA" role="3cqZAp" />
-                  <node concept="3clFbH" id="1i5bDTN8yI3" role="3cqZAp" />
-                  <node concept="3cpWs8" id="1i5bDTN8ByM" role="3cqZAp">
-                    <node concept="3cpWsn" id="1i5bDTN8ByN" role="3cpWs9">
-                      <property role="TrG5h" value="log" />
-                      <property role="3TUv4t" value="true" />
-                      <node concept="3uibUv" id="1i5bDTN8ByK" role="1tU5fm">
-                        <ref role="3uigEE" to="82uw:~Consumer" resolve="Consumer" />
-                        <node concept="17QB3L" id="1i5bDTN8QgU" role="11_B2D" />
-                      </node>
-                      <node concept="1bVj0M" id="1i5bDTN8EfE" role="33vP2m">
-                        <node concept="3clFbS" id="1i5bDTN8EfG" role="1bW5cS">
-                          <node concept="3clFbF" id="1i5bDTN8Iqs" role="3cqZAp">
-                            <node concept="2OqwBi" id="1i5bDTN8Jb2" role="3clFbG">
-                              <node concept="2WthIp" id="1i5bDTN8Iqr" role="2Oq$k0" />
-                              <node concept="2XshWL" id="1i5bDTN8KjZ" role="2OqNvi">
-                                <ref role="2WH_rO" node="75$k3hpG3Zl" resolve="showAlert" />
-                                <node concept="37vLTw" id="1i5bDTN8L05" role="2XxRq1">
-                                  <ref role="3cqZAo" node="1i5bDTN8F0B" resolve="message" />
-                                </node>
-                              </node>
-                            </node>
-                          </node>
-                        </node>
-                        <node concept="37vLTG" id="1i5bDTN8F0B" role="1bW2Oz">
-                          <property role="TrG5h" value="message" />
-                          <node concept="17QB3L" id="1i5bDTN8F0A" role="1tU5fm" />
-                        </node>
-                      </node>
-                    </node>
-                  </node>
-                  <node concept="3clFbH" id="1i5bDTN8dEL" role="3cqZAp" />
                   <node concept="SfApY" id="2tXpCR7i_$h" role="3cqZAp">
                     <node concept="3clFbS" id="2tXpCR7i_$j" role="SfCbr">
                       <node concept="3SKdUt" id="4nttCU167o4" role="3cqZAp">
@@ -799,7 +767,7 @@
                             <ref role="3cqZAo" node="5_E18HdnRYU" resolve="grammarImporter" />
                           </node>
                           <node concept="liA8E" id="5_E18HdnRZ4" role="2OqNvi">
-                            <ref role="37wK5l" to="zkjw:~GrammarImporter.importGrammars(File[],Consumer)" resolve="importGrammars" />
+                            <ref role="37wK5l" to="zkjw:~GrammarImporter.importGrammars(File[])" resolve="importGrammars" />
                             <node concept="2OqwBi" id="33RGotrJtgc" role="37wK5m">
                               <node concept="37vLTw" id="33RGotrJtbu" role="2Oq$k0">
                                 <ref role="3cqZAo" node="33RGotrJ8Bd" resolve="form" />
@@ -807,9 +775,6 @@
                               <node concept="liA8E" id="33RGotrJt$T" role="2OqNvi">
                                 <ref role="37wK5l" to="zkjw:~ImportForm.getFiles()" resolve="getFiles" />
                               </node>
-                            </node>
-                            <node concept="37vLTw" id="1i5bDTN8Oc4" role="37wK5m">
-                              <ref role="3cqZAo" node="1i5bDTN8ByN" resolve="log" />
                             </node>
                           </node>
                         </node>

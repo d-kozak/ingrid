@@ -175,7 +175,7 @@ public final class TestGrammars {
 
 
     public static String loadJava9() {
-        return loadResource("/Java9.cpp");
+        return loadResource("/Java9.g4");
     }
 
     public static String loadCpp14() {
