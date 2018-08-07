@@ -3,6 +3,8 @@ package premun.mps.ingrid.formatter.model;
 import premun.mps.ingrid.model.LiteralRule;
 import premun.mps.ingrid.model.Rule;
 
+import static java.lang.Integer.max;
+
 /**
  * Holds information about formatting of one rule with respect to the following rules in the handle.
  *
@@ -23,6 +25,16 @@ public final class FormatInfo {
         this.followingSpacesCount = followingSpacesCount;
         this.childrenOnNewLine = childrenOnNewLine;
         this.childrenIndented = childrenIndented;
+    }
+
+    public FormatInfo merge(FormatInfo other) {
+        return new FormatInfo(
+                this.rule,
+                max(this.followingNewLinesCount, other.followingNewLinesCount),
+                max(this.followingSpacesCount, other.followingSpacesCount),
+                this.childrenOnNewLine || other.childrenOnNewLine,
+                this.childrenIndented || other.childrenIndented
+        );
     }
 
     @Override

@@ -3,8 +3,6 @@ package premun.mps.ingrid.formatter.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Integer.max;
-
 /**
  * Value in the FormatInfo map, each object holds information about one encounter with given rule in given context (part of the key in the hashmap).
  *
@@ -34,14 +32,7 @@ public final class RuleFormatInfo {
             if (!thisFormatInfo.rule.equals(otherFormatInfo.rule)) {
                 throw new IllegalArgumentException("Comparing different formatInfo rules");
             }
-            FormatInfo mergedInfo = new FormatInfo(
-                    thisFormatInfo.rule,
-                    max(thisFormatInfo.followingNewLinesCount, otherFormatInfo.followingNewLinesCount),
-                    max(thisFormatInfo.followingSpacesCount, otherFormatInfo.followingSpacesCount),
-                    thisFormatInfo.childrenOnNewLine || otherFormatInfo.childrenOnNewLine,
-                    thisFormatInfo.childrenIndented || otherFormatInfo.childrenIndented
-            );
-            formatInfos.add(mergedInfo);
+            formatInfos.add(thisFormatInfo.merge(otherFormatInfo));
         }
         return new RuleFormatInfo(formatInfos);
     }

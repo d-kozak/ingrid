@@ -91,4 +91,16 @@ public class FormatExtractorBasicTest {
         Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("((2*1) + 1) * 2", TestGrammars.expressionGrammar);
         printFormatInfo(formatInfoMap);
     }
+
+    @Test
+    public void setGrammarSimpleFormat() throws RecognitionException {
+        String input = "{\n" +
+                "  a,\n" +
+                "  b,\n" +
+                "  c\n" +
+                "}\n" +
+                "\n";
+        Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
+        printFormatInfo(formatInfoMap);
+    }
 }

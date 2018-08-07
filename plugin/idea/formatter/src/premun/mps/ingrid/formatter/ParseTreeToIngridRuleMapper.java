@@ -54,6 +54,8 @@ public class ParseTreeToIngridRuleMapper {
      * @return Which Alternative matched the ast and how
      */
     public static Pair<Alternative, List<MatchInfo>> resolve(List<Alternative> alternatives, List<ParseTree> ast, List<String> ruleNames) {
+        blockRules.clear();
+
         alternatives = expandRules(alternatives);
         for (Alternative alternative : alternatives) {
             List<MatchInfo> matchInfoList = match(alternative.elements, new ArrayList<>(ast), ruleNames, true);
@@ -153,12 +155,12 @@ public class ParseTreeToIngridRuleMapper {
             return Collections.emptyList();
         } else if (rule instanceof SerializedParserRule) {
             List<MatchInfo> result = match(((SerializedParserRule) rule).alternative.elements, parseTree, ruleNames, false);
-            blockRules.add(Pair.of((SerializedParserRule) rule, result));
-            if (result != null)
+            if (result != null) {
+                blockRules.add(Pair.of((SerializedParserRule) rule, result));
                 return result.stream()
                              .flatMap(matchInfo -> matchInfo.matched.stream())
                              .collect(Collectors.toList());
-            else return Collections.emptyList();
+            } else return Collections.emptyList();
         } else return Collections.emptyList();
     }
 
@@ -241,6 +243,10 @@ public class ParseTreeToIngridRuleMapper {
         } else {
             return input;
         }
+    }
+
+    public static List<Pair<SerializedParserRule, List<MatchInfo>>> getBlockRules() {
+        return blockRules;
     }
 
     /**

@@ -1,5 +1,6 @@
 package premun.mps.ingrid.formatter;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -8,7 +9,9 @@ import premun.mps.ingrid.formatter.model.MatchInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Extracts format information from list of MatchInfo objects
@@ -23,7 +26,10 @@ class FormatInfoExtractor {
      * from the left element to the leftmost of the right element.
      */
     static List<FormatInfo> extractFormatInfo(List<MatchInfo> matchInfos) {
-        List<FormatInfo> formatInfos = new ArrayList<>();
+        if (matchInfos.size() < 2)
+            return new ArrayList<>();
+
+        List<FormatInfo> formatInfosA = new ArrayList<>();
 
         for (int i = 0; i < matchInfos.size() - 1; i++) {
             MatchInfo left = matchInfos.get(i);
@@ -39,19 +45,79 @@ class FormatInfoExtractor {
                         next.getCharPositionInLine() - (current.getCharPositionInLine() + current.getText()
                                                                                                  .length()),
                         0);
+                formatInfosA.add(new FormatInfo(left.rule, appendedNewLines, indentation, false, false));
+            } else {
+                formatInfosA.add(FormatInfo.NULL_INFO);
+            }
+        }
+
+        List<FormatInfo> formatInfosB = new ArrayList<>();
+        for (int i = 1; i < matchInfos.size(); i++) {
+            MatchInfo left = matchInfos.get(i - 1);
+            MatchInfo right = matchInfos.get(i);
+            if (left.matched.size() > 0 && right.matched.size() > 0) {
+                ParseTree rightmostNode = left.matched.get(left.matched.size() - 1);
+                ParseTree leftmostNode = right.matched.get(0);
+                Token previous = extractRightmostToken(rightmostNode);
+                Token current = extractLeftmostToken(leftmostNode);
+
+                int indentation = Integer.max(
+                        current.getCharPositionInLine() - (previous.getCharPositionInLine() + previous.getText()
+                                                                                                      .length()),
+                        0);
+
                 boolean childrenOnNewLine = false;
                 boolean childrenIndented = false;
 
-                boolean nextElementIsThereMultipleTimes = right.times > 1;
-                if (nextElementIsThereMultipleTimes) {
-                    // TODO figure out how to extract formatting for children
+                boolean isMultipleCardinality = right.times > 1;
+                if (isMultipleCardinality) {
+                    Set<Integer> lineNumbers = extractTokens(right.matched).stream()
+                                                                           .map(Token::getLine)
+                                                                           .collect(Collectors.toSet());
+                    childrenOnNewLine = lineNumbers.size() == right.times;
+                    childrenIndented = extractTokens(right.matched).stream()
+                                                                   .allMatch(it -> it.getCharPositionInLine() > previous.getCharPositionInLine());
                 }
-                formatInfos.add(new FormatInfo(left.rule, appendedNewLines, indentation, childrenOnNewLine, childrenIndented));
+
+                formatInfosB.add(new FormatInfo(right.rule, 0, indentation, childrenOnNewLine, childrenIndented));
             } else {
-                formatInfos.add(FormatInfo.NULL_INFO);
+                formatInfosB.add(FormatInfo.NULL_INFO);
             }
         }
-        return formatInfos;
+
+
+        if (formatInfosA.size() != formatInfosB.size()) {
+            throw new IllegalStateException("FormatInfoLists should have the same size");
+        }
+
+        List<FormatInfo> result = new ArrayList<>();
+        for (int i = 0; i < matchInfos.size(); i++) {
+            if (i == 0) {
+                result.add(formatInfosA.get(0));
+            } else if (i == matchInfos.size() - 1) {
+                result.add(formatInfosB.get(i - 1));
+            } else {
+                result.add(formatInfosA.get(i)
+                                       .merge(formatInfosB.get(i - 1)));
+            }
+        }
+        return result;
+    }
+
+
+    private static List<Token> extractTokens(List<ParseTree> nodes) {
+        List<Token> result = new ArrayList<>();
+        for (ParseTree node : nodes) {
+            if (node instanceof TerminalNode) {
+                result.add(((TerminalNode) node).getSymbol());
+            } else if (node instanceof ParserRuleContext) {
+                result.addAll(extractTokens(((ParserRuleContext) node).children));
+            } else {
+                throw new IllegalArgumentException("Unknown type of ParseTree node: " + node.getClass()
+                                                                                            .getName());
+            }
+        }
+        return result;
     }
 
     private static Token extractLeftmostToken(ParseTree leftmostNode) {
