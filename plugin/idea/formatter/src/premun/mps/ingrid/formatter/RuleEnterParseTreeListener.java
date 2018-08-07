@@ -57,27 +57,21 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
     public void enterEveryRule(ParserRuleContext parserRuleContext) {
         Rule antlrRule = grammar.getRule(parserRuleContext.getRuleIndex());
         ParserRule parserRule = (ParserRule) grammarInfo.rules.get(antlrRule.name);
-        List<String> context = getContext(parserRuleContext);
 
         Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(parserRule.alternatives, parserRuleContext.children, Arrays.asList(grammar.getRuleNames()));
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules = ParseTreeToIngridRuleMapper.getBlockRules();
+        addBlockRules(blockRules);
         Alternative appropriateAlternative = pair.first;
-        List<MatchInfo> matchInfo = pair.second;
-        int alternativeIndex = parserRule.alternatives.indexOf(appropriateAlternative);
-        List<FormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(matchInfo);
+        List<FormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(pair.second);
         List<RuleFormatInfo> ruleFormatInfos = this.formatInfo.computeIfAbsent(Pair.of(parserRule, appropriateAlternative), __ -> new ArrayList<>());
         ruleFormatInfos.add(new RuleFormatInfo(formatInfos));
     }
 
-    /**
-     * @param parserRuleContext ast that matched specified rule
-     * @return List of rule names that lead to the match, used a part of the key to the formatInfo hashmap
-     */
-    private List<String> getContext(ParserRuleContext parserRuleContext) {
-        String context = parserRuleContext.toString(Arrays.asList(grammar.getRuleNames()));
-        context = context.substring(1, context.length() - 1);
-        List<String> contextList = Arrays.asList(context.split(" "));
-        Collections.reverse(contextList);
-        return contextList;
+    private void addBlockRules(Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules) {
+        for (Map.Entry<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> entry : blockRules.entrySet()) {
+            List<RuleFormatInfo> ruleFormatInfos = formatInfo.computeIfAbsent(entry.getKey(), __ -> new ArrayList<>());
+            ruleFormatInfos.addAll(entry.getValue());
+        }
     }
 
     public Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> getFormatInfo() {

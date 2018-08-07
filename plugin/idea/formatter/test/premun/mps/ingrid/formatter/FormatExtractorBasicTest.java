@@ -47,21 +47,21 @@ public class FormatExtractorBasicTest {
     public void setGrammarSimpleInput() throws RecognitionException {
         Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,2,3}", TestGrammars.setGrammar);
         printFormatInfo(formatInfoMap);
-        assertEquals(4, formatInfoMap.size());
+        assertEquals(5, formatInfoMap.size());
     }
 
     @Test
     public void setGrammarNestedInput() throws RecognitionException {
         Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,{a,b,c},3}", TestGrammars.setGrammar);
         printFormatInfo(formatInfoMap);
-        assertEquals(5, formatInfoMap.size());
+        assertEquals(6, formatInfoMap.size());
     }
 
     @Test
     public void setGrammarNestedInputMoreComplex() throws RecognitionException {
         Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,{a,b,c},{{},{a,b,c}}}", TestGrammars.setGrammar);
         printFormatInfo(formatInfoMap);
-        assertEquals(6, formatInfoMap.size());
+        assertEquals(7, formatInfoMap.size());
     }
 
     @Test

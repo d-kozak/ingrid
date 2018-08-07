@@ -4,12 +4,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import premun.mps.ingrid.formatter.model.MatchInfo;
+import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -43,7 +42,7 @@ import static java.util.stream.Collectors.toList;
  */
 public class ParseTreeToIngridRuleMapper {
 
-    private static final List<Pair<SerializedParserRule, List<MatchInfo>>> blockRules = new ArrayList<>();
+    private static final Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules = new HashMap<>();
 
     /**
      * Figures out which alternative can parse the ast and returns how the ast can be parsed
@@ -62,6 +61,7 @@ public class ParseTreeToIngridRuleMapper {
             if (matchInfoList != null) {
                 return Pair.of(((AlternativeDTO) alternative).original, matchInfoList);
             }
+            blockRules.clear();
         }
         throw new IllegalArgumentException("Did not match");
     }
@@ -154,9 +154,11 @@ public class ParseTreeToIngridRuleMapper {
             }
             return Collections.emptyList();
         } else if (rule instanceof SerializedParserRule) {
-            List<MatchInfo> result = match(((SerializedParserRule) rule).alternative.elements, parseTree, ruleNames, false);
+            SerializedParserRule parserRule = (SerializedParserRule) rule;
+            List<MatchInfo> result = match((parserRule).alternative.elements, parseTree, ruleNames, false);
             if (result != null) {
-                blockRules.add(Pair.of((SerializedParserRule) rule, result));
+                List<RuleFormatInfo> formatInfoList = blockRules.computeIfAbsent(Pair.of(parserRule.rule, ((AlternativeDTO) parserRule.alternative).original), __ -> new ArrayList<>());
+                formatInfoList.add(new RuleFormatInfo(FormatInfoExtractor.extractFormatInfo(result)));
                 return result.stream()
                              .flatMap(matchInfo -> matchInfo.matched.stream())
                              .collect(Collectors.toList());
@@ -182,7 +184,7 @@ public class ParseTreeToIngridRuleMapper {
                     if (expandedAlternative.isEmpty()) {
                         for (int i = 0; i < inner.size(); i++) {
                             String name = element.rule.name + "_alt_" + i;
-                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, element.rule, inner.get(i));
+                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, ((ParserRule) element.rule), inner.get(i));
                             List<RuleReference> tmp = new ArrayList<>();
                             tmp.add(new RuleReference(serializedParserRule, element.quantity));
                             expandedAlternative.add(tmp);
@@ -190,7 +192,7 @@ public class ParseTreeToIngridRuleMapper {
                     } else {
                         for (int i = 0; i < inner.size(); i++) {
                             String name = element.rule.name + "_alt_" + i;
-                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, element.rule, inner.get(i));
+                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, ((ParserRule) element.rule), inner.get(i));
                             for (List<RuleReference> ruleReferences : expandedAlternative) {
                                 ruleReferences.add(new RuleReference(serializedParserRule, element.quantity));
                             }
@@ -245,7 +247,7 @@ public class ParseTreeToIngridRuleMapper {
         }
     }
 
-    public static List<Pair<SerializedParserRule, List<MatchInfo>>> getBlockRules() {
+    public static Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> getBlockRules() {
         return blockRules;
     }
 
@@ -253,10 +255,10 @@ public class ParseTreeToIngridRuleMapper {
      * A temporal rule inserted into the Ingrid model during alternative expanding
      */
     static class SerializedParserRule extends Rule {
-        public final Rule rule;
+        public final ParserRule rule;
         public final Alternative alternative;
 
-        public SerializedParserRule(String name, Rule rule, Alternative alternative) {
+        public SerializedParserRule(String name, ParserRule rule, Alternative alternative) {
             super(name);
             this.rule = rule;
             this.alternative = alternative;
