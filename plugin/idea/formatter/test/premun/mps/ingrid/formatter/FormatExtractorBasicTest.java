@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
+import static premun.mps.ingrid.formatter.utils.FormatInfoMapDump.dump;
 
 /**
  * A set of simple tests that should pass where all we care about is that no exception is thrown,
@@ -104,5 +105,29 @@ public class FormatExtractorBasicTest {
                 "\n";
         Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
         printFormatInfo(formatInfoMap);
+    }
+
+
+    @Test
+    public void cimpleFibonacci() throws RecognitionException {
+        String input = "fn fib(i){\n" +
+                "    if(i < 2){\n" +
+                "        return 1;\n" +
+                "    } else {\n" +
+                "        return fib(i - 1)  + fib(i - 2);\n" +
+                "    }\n" +
+                "}\n" +
+                "\n" +
+                "i = 10;\n" +
+                "\n" +
+                "for(j = 0; j < i ; j = j+1){\n" +
+                "    res = fib(j);\n" +
+                "    print res;\n" +
+                "}\n";
+
+        String cimple = TestGrammars.loadCimple();
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat(input, cimple);
+
+        dump(formatInfoMap);
     }
 }

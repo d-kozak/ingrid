@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import premun.mps.ingrid.formatter.model.FormatInfo;
 import premun.mps.ingrid.formatter.model.MatchInfo;
+import premun.mps.ingrid.model.Quantity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,14 +70,16 @@ class FormatInfoExtractor {
                 boolean childrenOnNewLine = false;
                 boolean childrenIndented = false;
 
-                boolean isMultipleCardinality = right.times > 1;
+                boolean isMultipleCardinality = (right.quantity == Quantity.AT_LEAST_ONE || right.quantity == Quantity.ANY) && right.times > 0;
                 if (isMultipleCardinality) {
                     Set<Integer> lineNumbers = extractTokens(right.matched).stream()
                                                                            .map(Token::getLine)
                                                                            .collect(Collectors.toSet());
-                    childrenOnNewLine = lineNumbers.size() == right.times;
-                    childrenIndented = extractTokens(right.matched).stream()
-                                                                   .allMatch(it -> it.getCharPositionInLine() > previous.getCharPositionInLine());
+                    childrenOnNewLine = lineNumbers.size() > right.times;
+
+                    // TODO verify that this works in every situation
+                    childrenIndented = childrenOnNewLine && extractTokens(right.matched).stream()
+                                                                                        .allMatch(it -> it.getCharPositionInLine() > 0);
                 }
 
                 formatInfosB.add(new FormatInfo(right.rule, 0, indentation, childrenOnNewLine, childrenIndented));

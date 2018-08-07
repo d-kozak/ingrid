@@ -1,6 +1,7 @@
 package premun.mps.ingrid.formatter.model;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import premun.mps.ingrid.model.Quantity;
 import premun.mps.ingrid.model.Rule;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public final class MatchInfo {
      */
     public final premun.mps.ingrid.model.Rule rule;
 
+    public final Quantity quantity;
+
     /**
      * How many times it was matched
      */
@@ -26,8 +29,9 @@ public final class MatchInfo {
      */
     public final List<ParseTree> matched;
 
-    public MatchInfo(Rule rule, int times, List<ParseTree> matched) {
+    public MatchInfo(Rule rule, Quantity quantity, int times, List<ParseTree> matched) {
         this.rule = rule;
+        this.quantity = quantity;
         this.times = times;
         this.matched = matched;
     }
@@ -35,7 +39,8 @@ public final class MatchInfo {
     @Override
     public String toString() {
         return "MatchInfo{" +
-                "ruleName=" + rule.name +
+                "rule=" + rule +
+                ", quantity=" + quantity +
                 ", times=" + times +
                 ", matched=" + matched +
                 '}';

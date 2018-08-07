@@ -84,7 +84,7 @@ public class ParseTreeToIngridRuleMapper {
                 case MAX_ONE: {
                     // it is ok not to match optional element
                     List<ParseTree> match = match(ruleReference.rule, ast, ruleNames);
-                    result.add(new MatchInfo(ruleReference.rule, match.size(), match));
+                    result.add(new MatchInfo(ruleReference.rule, Quantity.MAX_ONE, match.size(), match));
                     break;
                 }
                 case EXACTLY_ONE: {
@@ -92,7 +92,7 @@ public class ParseTreeToIngridRuleMapper {
                     if (match.isEmpty()) {
                         return null;
                     }
-                    result.add(new MatchInfo(ruleReference.rule, 1, match));
+                    result.add(new MatchInfo(ruleReference.rule, Quantity.EXACTLY_ONE, 1, match));
                     break;
                 }
                 case AT_LEAST_ONE:
@@ -110,7 +110,7 @@ public class ParseTreeToIngridRuleMapper {
                         times++;
                         m = match(ruleReference.rule, ast, ruleNames);
                     }
-                    result.add(new MatchInfo(ruleReference.rule, times, tmp));
+                    result.add(new MatchInfo(ruleReference.rule, ruleReference.quantity, times, tmp));
                     break;
             }
         }
@@ -131,6 +131,10 @@ public class ParseTreeToIngridRuleMapper {
      * @return List of elements that matched the rule
      */
     private static List<ParseTree> match(Rule rule, List<ParseTree> parseTree, List<String> ruleNames) {
+        if (parseTree.size() == 0) {
+            return Collections.emptyList();
+        }
+
         ParseTree current = parseTree.get(0);
         if (rule instanceof LiteralRule && current instanceof TerminalNode) {
             boolean matches = ((LiteralRule) rule).value.equals(((TerminalNode) current).getSymbol()

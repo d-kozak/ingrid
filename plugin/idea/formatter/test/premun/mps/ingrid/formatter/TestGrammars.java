@@ -111,6 +111,7 @@ public final class TestGrammars {
             "\n" +
             "WS : [ \\t\\n] -> skip;";
 
+
     /**
      * Grammar with nested blocks that can be simplified during the flattening.
      * Ideally it should be temporarily changed to:
@@ -173,6 +174,10 @@ public final class TestGrammars {
         prepareGrammar("abraka dabra");
     }
 
+
+    public static String loadCimple() {
+        return loadResource("/Cimple.g4");
+    }
 
     public static String loadJava9() {
         return loadResource("/Java9.g4");
