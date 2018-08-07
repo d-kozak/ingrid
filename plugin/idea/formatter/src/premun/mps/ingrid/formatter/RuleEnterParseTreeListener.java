@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.tool.Grammar;
 import org.antlr.v4.tool.Rule;
 import premun.mps.ingrid.formatter.model.FormatInfo;
-import premun.mps.ingrid.formatter.model.FormatInfoMapKey;
 import premun.mps.ingrid.formatter.model.MatchInfo;
 import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
@@ -25,7 +24,7 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
     /**
      * Contains the extracted formatting information
      */
-    private final Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfo = new HashMap<>();
+    private final Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfo = new HashMap<>();
 
     /**
      * Used to serialize various objects into Strigns, for debugging
@@ -65,7 +64,7 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
         List<MatchInfo> matchInfo = pair.second;
         int alternativeIndex = parserRule.alternatives.indexOf(appropriateAlternative);
         List<FormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(matchInfo);
-        List<RuleFormatInfo> ruleFormatInfos = this.formatInfo.computeIfAbsent(new FormatInfoMapKey(context, alternativeIndex), __ -> new ArrayList<>());
+        List<RuleFormatInfo> ruleFormatInfos = this.formatInfo.computeIfAbsent(Pair.of(parserRule, appropriateAlternative), __ -> new ArrayList<>());
         ruleFormatInfos.add(new RuleFormatInfo(formatInfos));
     }
 
@@ -81,7 +80,7 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
         return contextList;
     }
 
-    public Map<FormatInfoMapKey, List<RuleFormatInfo>> getFormatInfo() {
+    public Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> getFormatInfo() {
         return formatInfo;
     }
 }

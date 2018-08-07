@@ -3,9 +3,11 @@ package premun.mps.ingrid.formatter;
 import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
 import premun.mps.ingrid.formatter.boundary.FormatExtractor;
-import premun.mps.ingrid.formatter.model.FormatInfoMapKey;
 import premun.mps.ingrid.formatter.model.RuleFormatInfo;
+import premun.mps.ingrid.formatter.utils.Pair;
+import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
+import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.parser.GrammarParser;
 
 import java.util.List;
@@ -24,7 +26,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class FormatExtractorBasicTest {
 
-    private static void printFormatInfo(Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap) {
+    private static void printFormatInfo(Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap) {
         System.out.println(
                 formatInfoMap.entrySet()
                              .stream()
@@ -35,7 +37,7 @@ public class FormatExtractorBasicTest {
 
     @Test
     public void setGrammarEmptySet() throws RecognitionException {
-        Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("{}", TestGrammars.setGrammar);
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat("{}", TestGrammars.setGrammar);
         printFormatInfo(formatInfoMap);
 
         assertEquals(2, formatInfoMap.size());
@@ -43,23 +45,23 @@ public class FormatExtractorBasicTest {
 
     @Test
     public void setGrammarSimpleInput() throws RecognitionException {
-        Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,2,3}", TestGrammars.setGrammar);
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,2,3}", TestGrammars.setGrammar);
         printFormatInfo(formatInfoMap);
         assertEquals(4, formatInfoMap.size());
     }
 
     @Test
     public void setGrammarNestedInput() throws RecognitionException {
-        Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,{a,b,c},3}", TestGrammars.setGrammar);
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,{a,b,c},3}", TestGrammars.setGrammar);
         printFormatInfo(formatInfoMap);
-        assertEquals(8, formatInfoMap.size());
+        assertEquals(5, formatInfoMap.size());
     }
 
     @Test
     public void setGrammarNestedInputMoreComplex() throws RecognitionException {
-        Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,{a,b,c},{{},{a,b,c}}}", TestGrammars.setGrammar);
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat("{1,{a,b,c},{{},{a,b,c}}}", TestGrammars.setGrammar);
         printFormatInfo(formatInfoMap);
-        assertEquals(13, formatInfoMap.size());
+        assertEquals(6, formatInfoMap.size());
     }
 
     @Test
@@ -69,17 +71,17 @@ public class FormatExtractorBasicTest {
                 "\t{a,b,c},\n" +
                 "\tc\n" +
                 "}\n";
-        Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
         printFormatInfo(formatInfoMap);
     }
 
     @Test
     public void expressionGrammarVerySimple() throws RecognitionException {
-        Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("(1 + 1) * 2", TestGrammars.expressionGrammar);
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat("(1 + 1) * 2", TestGrammars.expressionGrammar);
         printFormatInfo(formatInfoMap);
     }
 
-    private Map<FormatInfoMapKey, List<RuleFormatInfo>> extractFormat(String input, String grammar) throws RecognitionException {
+    private Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> extractFormat(String input, String grammar) throws RecognitionException {
         GrammarParser grammarParser = new GrammarParser();
         grammarParser.parseString(grammar);
         GrammarInfo grammarInfo = grammarParser.resolveGrammar();
@@ -88,7 +90,7 @@ public class FormatExtractorBasicTest {
 
     @Test
     public void expressionGrammarMoreComplex() throws RecognitionException {
-        Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat("((2*1) + 1) * 2", TestGrammars.expressionGrammar);
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat("((2*1) + 1) * 2", TestGrammars.expressionGrammar);
         printFormatInfo(formatInfoMap);
     }
 
@@ -100,7 +102,7 @@ public class FormatExtractorBasicTest {
                 "  c\n" +
                 "}\n" +
                 "\n";
-        Map<FormatInfoMapKey, List<RuleFormatInfo>> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
         printFormatInfo(formatInfoMap);
     }
 }

@@ -5,8 +5,11 @@ import jetbrains.mps.lang.smodel.generator.smodelAdapter.SNodeOperations;
 import org.jetbrains.mps.openapi.model.SModel;
 import premun.mps.ingrid.formatter.boundary.FormatExtractor;
 import premun.mps.ingrid.formatter.model.RuleFormatInfo;
+import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.importer.steps.*;
+import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
+import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.parser.GrammarParser;
 
 import java.io.File;
@@ -81,7 +84,7 @@ public class GrammarImporter {
             String input = readFile(files[1].getPath());
 
 
-            Map<String, Map<Integer, RuleFormatInfo>> formatInfoMap = FormatExtractor.simplify(FormatExtractor.extract(this.grammar, inputGrammar, input));
+            Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap = FormatExtractor.merge(FormatExtractor.extract(this.grammar, inputGrammar, input));
 
             ImportStep[] steps = new ImportStep[]{
                     new RegexTransformer(),
