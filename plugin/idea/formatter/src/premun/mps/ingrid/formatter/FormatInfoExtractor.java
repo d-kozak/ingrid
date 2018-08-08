@@ -28,7 +28,7 @@ class FormatInfoExtractor {
      * from the left element to the leftmost of the right element.
      */
     static List<FormatInfo> extractFormatInfo(List<MatchInfo> matchInfos, CommonTokenStream tokens) {
-        if (matchInfos.size() < 2)
+        if (matchInfos.isEmpty())
             return new ArrayList<>();
 
         List<FormatInfo> formatInfosA = new ArrayList<>();
@@ -124,7 +124,7 @@ class FormatInfoExtractor {
                                                                                     .allMatch(it -> it.getCharPositionInLine() > 0);
             }
 
-            formatInfosB.add(new FormatInfo(right.rule, 0, 0, childrenOnNewLine, childrenIndented));
+            formatInfosB.add(0,new FormatInfo(right.rule, 0, 0, childrenOnNewLine, childrenIndented));
 
         } else {
             formatInfosB.add(FormatInfo.NULL_INFO);
