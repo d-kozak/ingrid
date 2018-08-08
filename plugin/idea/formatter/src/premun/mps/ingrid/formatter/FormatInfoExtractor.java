@@ -25,22 +25,8 @@ import java.util.stream.Collectors;
 class FormatInfoExtractor {
 
 
-    private static MatchInfo createDummyNextTokenMatchInfo(List<MatchInfo> matchInfos, CommonTokenStream tokens) {
-        MatchInfo lastMatchInfo = matchInfos.get(matchInfos.size() - 1);
-        if (lastMatchInfo.matched.size() > 0) {
-            Token rightmostToken = extractRightmostToken(lastMatchInfo.matched.get(lastMatchInfo.matched.size() - 1));
-            int rightmostTokenIndex = rightmostToken.getTokenIndex();
-            if (rightmostTokenIndex < tokens.size() - 1) {
-                return new MatchInfo(null, null, -1, Collections.singletonList(new TerminalNodeImpl(tokens.get(rightmostTokenIndex + 1))));
-            } else
-                return new MatchInfo(null, null, -1, Collections.emptyList());
-        } else return new MatchInfo(null, null, -1, Collections.emptyList());
-    }
-
     /**
-     * Extract format information from list of MatchInfo objects
-     * For each pair of MatchInfos it compares the rightmost
-     * from the left element to the leftmost of the right element.
+     * Extracts format information from the list of MatchInfo objects
      */
     static List<FormatInfo> extractFormatInfo(List<MatchInfo> matchInfos, CommonTokenStream tokens) {
         if (matchInfos.isEmpty())
@@ -56,34 +42,7 @@ class FormatInfoExtractor {
             MatchInfo currentMatchInfo = matchInfos.get(i);
             MatchInfo nextMatchInfo = matchInfos.get(i + 1);
             if (currentMatchInfo.matched.size() > 0 && nextMatchInfo.matched.size() > 0) {
-                ParseTree rightmostNode = currentMatchInfo.matched.get(currentMatchInfo.matched.size() - 1);
-                ParseTree leftmostNode = nextMatchInfo.matched.get(0);
-                Token currentToken = extractRightmostToken(rightmostNode);
-                Token nextToken = extractLeftmostToken(leftmostNode);
-
-                int appendedNewLines = nextToken.getLine() - currentToken.getLine();
-                int indentation = Integer.max(
-                        nextToken.getCharPositionInLine() - (currentToken.getCharPositionInLine() + currentToken.getText()
-                                                                                                                .length()),
-                        0);
-
-                boolean childrenOnNewLine = false;
-                boolean childrenIndented = false;
-
-                boolean isMultipleCardinality = (currentMatchInfo.quantity == Quantity.AT_LEAST_ONE || currentMatchInfo.quantity == Quantity.ANY) && currentMatchInfo.times > 0;
-                if (isMultipleCardinality) {
-                    Set<Integer> lineNumbers = extractTokens(currentMatchInfo.matched).stream()
-                                                                                      .map(Token::getLine)
-                                                                                      .collect(Collectors.toSet());
-                    childrenOnNewLine = lineNumbers.size() > currentMatchInfo.times;
-
-                    // TODO verify that this works in every situation
-                    childrenIndented = childrenOnNewLine && extractTokens(currentMatchInfo.matched).stream()
-                                                                                                   .allMatch(it -> it.getCharPositionInLine() > 0);
-                }
-
-
-                result.add(new FormatInfo(currentMatchInfo.rule, appendedNewLines, indentation, childrenOnNewLine, childrenIndented));
+                result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo));
             } else {
                 result.add(FormatInfo.NULL_INFO);
             }
@@ -92,6 +51,61 @@ class FormatInfoExtractor {
         return result;
     }
 
+    /**
+     * @param currentMatchInfo currently analysed matched info
+     * @param nextMatchInfo    next match info
+     * @return formatInfo extracted from the input
+     */
+    private static FormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo) {
+        ParseTree rightmostNode = currentMatchInfo.matched.get(currentMatchInfo.matched.size() - 1);
+        ParseTree leftmostNode = nextMatchInfo.matched.get(0);
+        Token currentToken = extractRightmostToken(rightmostNode);
+        Token nextToken = extractLeftmostToken(leftmostNode);
+
+        int appendedNewLines = nextToken.getLine() - currentToken.getLine();
+        int indentation = Integer.max(
+                nextToken.getCharPositionInLine() - (currentToken.getCharPositionInLine() + currentToken.getText()
+                                                                                                        .length()),
+                0);
+
+        boolean childrenOnNewLine = false;
+        boolean childrenIndented = false;
+
+        boolean isMultipleCardinality = (currentMatchInfo.quantity == Quantity.AT_LEAST_ONE || currentMatchInfo.quantity == Quantity.ANY) && currentMatchInfo.times > 0;
+        if (isMultipleCardinality) {
+            Set<Integer> lineNumbers = extractTokens(currentMatchInfo.matched).stream()
+                                                                              .map(Token::getLine)
+                                                                              .collect(Collectors.toSet());
+            childrenOnNewLine = lineNumbers.size() >= currentMatchInfo.times;
+
+            // TODO find a better way to extract children indentation
+            childrenIndented = childrenOnNewLine && extractTokens(currentMatchInfo.matched).stream()
+                                                                                           .allMatch(it -> it.getCharPositionInLine() > 0);
+        }
+        return new FormatInfo(currentMatchInfo.rule, appendedNewLines, indentation, childrenOnNewLine, childrenIndented);
+
+    }
+
+    /**
+     * Creates a mathInfo containing the token that follows immediately after the last token in the matched region.
+     * It is used extract the formatting of the last element in the matched region with respect to the first element after it
+     */
+    private static MatchInfo createDummyNextTokenMatchInfo(List<MatchInfo> matchInfos, CommonTokenStream tokens) {
+        MatchInfo lastMatchInfo = matchInfos.get(matchInfos.size() - 1);
+        if (lastMatchInfo.matched.size() > 0) {
+            Token rightmostToken = extractRightmostToken(lastMatchInfo.matched.get(lastMatchInfo.matched.size() - 1));
+            int rightmostTokenIndex = rightmostToken.getTokenIndex();
+            if (rightmostTokenIndex < tokens.size() - 1) {
+                return new MatchInfo(null, null, -1, Collections.singletonList(new TerminalNodeImpl(tokens.get(rightmostTokenIndex + 1))));
+            } else
+                return new MatchInfo(null, null, -1, Collections.emptyList());
+        } else return new MatchInfo(null, null, -1, Collections.emptyList());
+    }
+
+    /**
+     * @param nodes list of AST nodes to traverse
+     * @return list of all Tokens in the order in which they occur in the input
+     */
     private static List<Token> extractTokens(List<ParseTree> nodes) {
         List<Token> result = new ArrayList<>();
         for (ParseTree node : nodes) {
@@ -107,21 +121,34 @@ class FormatInfoExtractor {
         return result;
     }
 
-    private static Token extractLeftmostToken(ParseTree leftmostNode) {
-        return extractToken(leftmostNode, node -> node.getChild(0));
+    /**
+     * Extracts the leftmost token in given tree
+     */
+    private static Token extractLeftmostToken(ParseTree tree) {
+        return extractToken(tree, node -> node.getChild(0));
     }
 
-    private static Token extractRightmostToken(ParseTree rightmostNode) {
-        return extractToken(rightmostNode, node -> node.getChild(node.getChildCount() - 1));
+    /**
+     * Extracts the rightmost token in given tree
+     */
+    private static Token extractRightmostToken(ParseTree tree) {
+        return extractToken(tree, node -> node.getChild(node.getChildCount() - 1));
     }
 
-    static private Token extractToken(ParseTree parseTree, Function<ParseTree, ParseTree> nextNodeExtractor) {
-        while (!(parseTree instanceof TerminalNode)) {
-            if (parseTree.getChildCount() == 0) {
+    /**
+     * Extracts the first token it finds in the given parseTree, the next node to traverse is chosen by the nextNodeExtractor function
+     *
+     * @param tree              tree to traverse
+     * @param nextNodeExtractor function to choose what is the next token to traverse
+     * @return first token that is found in given parse tree when traversing using the nextNodeExtractor
+     */
+    private static Token extractToken(ParseTree tree, Function<ParseTree, ParseTree> nextNodeExtractor) {
+        while (!(tree instanceof TerminalNode)) {
+            if (tree.getChildCount() == 0) {
                 throw new IllegalArgumentException("Cannot find wanted token in this tree");
             }
-            parseTree = nextNodeExtractor.apply(parseTree);
+            tree = nextNodeExtractor.apply(tree);
         }
-        return ((TerminalNode) parseTree).getSymbol();
+        return ((TerminalNode) tree).getSymbol();
     }
 }

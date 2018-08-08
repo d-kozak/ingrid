@@ -7,8 +7,18 @@ import premun.mps.ingrid.model.ParserRule;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Contains debug method for printing formatInfoMap
+ *
+ * @author dkozak
+ */
 public class FormatInfoMapDump {
 
+    /**
+     * Debug method to print the content of formatInfoMap
+     *
+     * @param formatInfoMap to be printed
+     */
     public static void dump(Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap) {
         formatInfoMap.entrySet()
                      .stream()

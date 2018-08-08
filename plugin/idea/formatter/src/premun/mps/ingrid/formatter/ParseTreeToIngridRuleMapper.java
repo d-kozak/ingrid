@@ -13,6 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
+import static premun.mps.ingrid.formatter.utils.Pair.pair;
 
 /**
  * Computes how the parse tree passed in corresponds to the Ingrid rule that matched it.
@@ -63,7 +64,7 @@ public class ParseTreeToIngridRuleMapper {
         for (Alternative alternative : alternatives) {
             List<MatchInfo> matchInfoList = match(alternative.elements, new ArrayList<>(ast), ruleNames, true);
             if (matchInfoList != null) {
-                return Pair.of(((AlternativeDTO) alternative).original, matchInfoList);
+                return pair(((AlternativeDTO) alternative).original, matchInfoList);
             }
             blockRules.clear();
         }
@@ -165,7 +166,7 @@ public class ParseTreeToIngridRuleMapper {
             SerializedParserRule parserRule = (SerializedParserRule) rule;
             List<MatchInfo> result = match((parserRule).alternative.elements, parseTree, ruleNames, false);
             if (result != null) {
-                List<RuleFormatInfo> formatInfoList = blockRules.computeIfAbsent(Pair.of(parserRule.rule, ((AlternativeDTO) parserRule.alternative).original), __ -> new ArrayList<>());
+                List<RuleFormatInfo> formatInfoList = blockRules.computeIfAbsent(pair(parserRule.rule, ((AlternativeDTO) parserRule.alternative).original), __ -> new ArrayList<>());
                 formatInfoList.add(new RuleFormatInfo(FormatInfoExtractor.extractFormatInfo(result, ParseTreeToIngridRuleMapper.tokens)));
                 return result.stream()
                              .flatMap(matchInfo -> matchInfo.matched.stream())

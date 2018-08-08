@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
- * An adapter to antlr4 ParseTreeListener that provides an empty implementation of all it's methods.
+ * An adapter to Antlr4 ParseTreeListener that provides an empty implementation of all it's methods.
  * Subclasses can simply override the method they want.
  *
  * @author dkozak

@@ -6,17 +6,40 @@ import premun.mps.ingrid.model.Rule;
 import static java.lang.Integer.max;
 
 /**
- * Holds information about formatting of one rule with respect to the following rules in the handle.
+ * Holds information about formatting of one element in the rule with respect to the next element.
  *
  * @author dkozak
  */
 public final class FormatInfo {
+
+    /**
+     * Null object to be inserted when no information about formatting is known.
+     */
     public static final FormatInfo NULL_INFO = new FormatInfo(new LiteralRule("NULL"), 0, 0, false, false);
 
+    /**
+     * Rule which is covered by this object.
+     */
     public final Rule rule;
+
+    /**
+     * Is there a newline after this element?
+     */
     public final int followingNewLinesCount;
+
+    /**
+     * Is there a space after this element?
+     */
     public final int followingSpacesCount;
+
+    /**
+     * Are children pair this element on new lines?
+     */
     public final boolean childrenOnNewLine;
+
+    /**
+     * Are children pair this element indented?
+     */
     public final boolean childrenIndented;
 
     public FormatInfo(Rule rule, int followingNewLinesCount, int followingSpacesCount, boolean childrenOnNewLine, boolean childrenIndented) {
@@ -27,6 +50,13 @@ public final class FormatInfo {
         this.childrenIndented = childrenIndented;
     }
 
+
+    /**
+     * Creates a new merged instance pair FormatInfo, which contains the bigger values for each field
+     *
+     * @param other another format info, which should be merged with this one
+     * @return new merged instance pair FormatInfo, which contains the bigger values for each field
+     */
     public FormatInfo merge(FormatInfo other) {
         return new FormatInfo(
                 this.rule,

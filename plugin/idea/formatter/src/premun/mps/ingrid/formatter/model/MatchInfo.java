@@ -7,16 +7,20 @@ import premun.mps.ingrid.model.Rule;
 import java.util.List;
 
 /**
- * Contains information about the match of a single rule in list of ruleReferences on the handle of given alternative
+ * Contains information about the match of a single rule in list of ruleReferences in the handle of given alternative in a rule.
  *
  * @author dkozak
  */
 public final class MatchInfo {
+
     /**
      * Which rule was matched
      */
     public final premun.mps.ingrid.model.Rule rule;
 
+    /**
+     * What quantity the rule has
+     */
     public final Quantity quantity;
 
     /**

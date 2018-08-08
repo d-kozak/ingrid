@@ -9,6 +9,8 @@ import premun.mps.ingrid.model.ParserRule;
 
 import java.util.Map;
 
+import static premun.mps.ingrid.formatter.utils.Pair.pair;
+
 /**
  * Import step that creates projection editors for all concepts.
  */
@@ -41,7 +43,7 @@ public class EditorBuilder extends ImportStep {
 
         // Interface - we need to find implementors
         for (Alternative alternative : rule.alternatives) {
-            SNode editor = this.editorHelper.createEditor(rule, alternative, formatInfoMap.get(Pair.of(rule, alternative)));
+            SNode editor = this.editorHelper.createEditor(rule, alternative, formatInfoMap.get(pair(rule, alternative)));
             this.editorModel.addRootNode(editor);
         }
     }

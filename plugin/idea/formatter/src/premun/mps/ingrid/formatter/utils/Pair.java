@@ -4,7 +4,9 @@ import java.util.Objects;
 
 
 /**
- * A simple pair DTO class
+ * A simple pair DTO class, used when you need to return
+ * more than one thing from a function and you do not want
+ * to create a special class for that.
  *
  * @author dkozak
  */
@@ -17,7 +19,7 @@ public final class Pair<T, U> {
         this.second = second;
     }
 
-    public static <T, U> Pair<T, U> of(T first, U second) {
+    public static <T, U> Pair<T, U> pair(T first, U second) {
         return new Pair<>(first, second);
     }
 

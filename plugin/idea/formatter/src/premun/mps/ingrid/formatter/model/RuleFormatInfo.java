@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Value in the FormatInfo map, each object holds information about one encounter with given rule in given context (part of the key in the hashmap).
+ * Value in the FormatInfo map. It contains a list of FormatInfo objects,
+ * each of those corresponds to one ruleReference in the handle of rule's alternative,
+ * which are the key in the formatInfoMap
  *
  * @author dkozak
  */
 public final class RuleFormatInfo {
+
+    /**
+     * Each of these contains format information for one ruleReference in the handle of rule's alternatives (Keys in the map)
+     */
     public final List<FormatInfo> formatInfoList;
 
     public RuleFormatInfo(List<FormatInfo> formatInfoList) {
@@ -20,7 +26,10 @@ public final class RuleFormatInfo {
         return formatInfoList.toString();
     }
 
-
+    /***
+     * @param other another RuleFormatInfo to be merged with this one
+     * @return new RuleFormatInfo, which was crates by merging this and other FormatInfos
+     */
     public RuleFormatInfo merge(RuleFormatInfo other) {
         if (other.formatInfoList.size() != this.formatInfoList.size()) {
             throw new IllegalArgumentException("Different formatInfoList size, cannot merge, this:" + this.formatInfoList + ", other: " + other.formatInfoList);

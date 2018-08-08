@@ -14,6 +14,8 @@ import premun.mps.ingrid.model.ParserRule;
 
 import java.util.*;
 
+import static premun.mps.ingrid.formatter.utils.Pair.pair;
+
 /**
  * Handles extracting information about formatting. Uses BaseParseTreeListener method enterEveryRule,
  * so that it is agnostic to the underlying grammar and can be used to extract information from any antlr4 grammar.
@@ -26,11 +28,6 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
      * Contains the extracted formatting information
      */
     private final Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfo = new HashMap<>();
-
-    /**
-     * Used to serialize various objects into Strings, for debugging
-     */
-    private final Serializer serializer;
 
     /**
      * Stream of all tokens, used during formatting extraction
@@ -50,7 +47,6 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
     public RuleEnterParseTreeListener(Grammar grammar, GrammarInfo grammarInfo, CommonTokenStream tokens) {
         this.grammar = grammar;
         this.grammarInfo = grammarInfo;
-        this.serializer = new Serializer(grammar);
         this.tokens = tokens;
     }
 
@@ -70,10 +66,15 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
         addBlockRules(blockRules);
         Alternative appropriateAlternative = pair.first;
         List<FormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(pair.second, tokens);
-        List<RuleFormatInfo> ruleFormatInfos = this.formatInfo.computeIfAbsent(Pair.of(parserRule, appropriateAlternative), __ -> new ArrayList<>());
+        List<RuleFormatInfo> ruleFormatInfos = this.formatInfo.computeIfAbsent(pair(parserRule, appropriateAlternative), __ -> new ArrayList<>());
         ruleFormatInfos.add(new RuleFormatInfo(formatInfos));
     }
 
+    /**
+     * Adds block rules that were returned from ParseTreeToIngridRuleMapper to the formatInfo map
+     *
+     * @param blockRules to be saved in the formatInfoMap
+     */
     private void addBlockRules(Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules) {
         for (Map.Entry<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> entry : blockRules.entrySet()) {
             List<RuleFormatInfo> ruleFormatInfos = formatInfo.computeIfAbsent(entry.getKey(), __ -> new ArrayList<>());

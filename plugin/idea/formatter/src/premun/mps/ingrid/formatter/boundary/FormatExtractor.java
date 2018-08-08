@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
+import static premun.mps.ingrid.formatter.utils.Pair.pair;
 
 /**
  * Interface of the module
@@ -49,10 +50,16 @@ public class FormatExtractor {
         }
     }
 
-    public static Map<Pair<ParserRule, Alternative>, RuleFormatInfo> merge(Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> input) {
-        return input.entrySet()
-                    .stream()
-                    .map(it -> Pair.of(
+    /**
+     * Merges keys, which are List<RuleFormatInfo> in the formatInfoMap currently into a single RuleFormatInfo, which will be used when creating the editor.
+     *
+     * @param ruleFormatInfo
+     * @return simplified ruleFormatInfo, List<RuleFormatInfo> is merged into a single object
+     */
+    public static Map<Pair<ParserRule, Alternative>, RuleFormatInfo> merge(Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> ruleFormatInfo) {
+        return ruleFormatInfo.entrySet()
+                             .stream()
+                             .map(it -> pair(
                             it.getKey(),
                             it.getValue()
                               .stream()
@@ -60,7 +67,7 @@ public class FormatExtractor {
                               .orElseThrow(() -> new IllegalStateException("Should never happen"))
                             )
                     )
-                    .collect(toMap(
+                             .collect(toMap(
                             Pair::fst,
                             Pair::snd
                     ));
