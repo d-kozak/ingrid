@@ -62,10 +62,6 @@ class FormatInfoExtractor {
                 Token previous = extractRightmostToken(rightmostNode);
                 Token current = extractLeftmostToken(leftmostNode);
 
-                int indentation = Integer.max(
-                        current.getCharPositionInLine() - (previous.getCharPositionInLine() + previous.getText()
-                                                                                                      .length()),
-                        0);
 
                 boolean childrenOnNewLine = false;
                 boolean childrenIndented = false;
@@ -82,7 +78,7 @@ class FormatInfoExtractor {
                                                                                         .allMatch(it -> it.getCharPositionInLine() > 0);
                 }
 
-                formatInfosB.add(new FormatInfo(right.rule, 0, indentation, childrenOnNewLine, childrenIndented));
+                formatInfosB.add(new FormatInfo(right.rule, 0, 0, childrenOnNewLine, childrenIndented));
             } else {
                 formatInfosB.add(FormatInfo.NULL_INFO);
             }

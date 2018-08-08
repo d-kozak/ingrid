@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.joining;
 
 /**
- * Handles serialization of Ingrid model and sntrlr model objects, used for debuggin purposes
+ * Handles serialization of Ingrid model and antlr model objects, used for debugging purposes
  *
  * @author dkozak
  */
