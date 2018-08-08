@@ -1,5 +1,6 @@
 package premun.mps.ingrid.formatter;
 
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -44,6 +45,8 @@ public class ParseTreeToIngridRuleMapper {
 
     private static final Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules = new HashMap<>();
 
+    private static CommonTokenStream tokens;
+
     /**
      * Figures out which alternative can parse the ast and returns how the ast can be parsed
      *
@@ -52,8 +55,9 @@ public class ParseTreeToIngridRuleMapper {
      * @param ruleNames    names of rules from grammar, in the same ordering as in the grammar file
      * @return Which Alternative matched the ast and how
      */
-    public static Pair<Alternative, List<MatchInfo>> resolve(List<Alternative> alternatives, List<ParseTree> ast, List<String> ruleNames) {
+    public static Pair<Alternative, List<MatchInfo>> resolve(List<Alternative> alternatives, List<ParseTree> ast, List<String> ruleNames, CommonTokenStream tokens) {
         blockRules.clear();
+        ParseTreeToIngridRuleMapper.tokens = tokens;
 
         alternatives = expandRules(alternatives);
         for (Alternative alternative : alternatives) {
@@ -162,7 +166,7 @@ public class ParseTreeToIngridRuleMapper {
             List<MatchInfo> result = match((parserRule).alternative.elements, parseTree, ruleNames, false);
             if (result != null) {
                 List<RuleFormatInfo> formatInfoList = blockRules.computeIfAbsent(Pair.of(parserRule.rule, ((AlternativeDTO) parserRule.alternative).original), __ -> new ArrayList<>());
-                formatInfoList.add(new RuleFormatInfo(FormatInfoExtractor.extractFormatInfo(result)));
+                formatInfoList.add(new RuleFormatInfo(FormatInfoExtractor.extractFormatInfo(result, ParseTreeToIngridRuleMapper.tokens)));
                 return result.stream()
                              .flatMap(matchInfo -> matchInfo.matched.stream())
                              .collect(Collectors.toList());

@@ -32,7 +32,7 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("compilationUnit");
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens);
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         // one element
@@ -63,7 +63,7 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames, grammarDTO.tokens);
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         // four elements - lbracket elem blk rbracket
@@ -100,7 +100,7 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames, grammarDTO.tokens);
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         // two elements - lbracket rbracket
@@ -131,7 +131,7 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames, grammarDTO.tokens);
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         assertEquals(4, matchInfoList.size());
@@ -162,7 +162,7 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames, grammarDTO.tokens);
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         assertEquals(4, matchInfoList.size());
@@ -203,7 +203,7 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         ParserRule compilationUnit = (ParserRule) grammarDTO.grammarInfo.rules.get("compilationUnit");
 
 
-        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(compilationUnit.alternatives, grammarDTO.ast.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(compilationUnit.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens);
 
         assertEquals(0, compilationUnit.alternatives.indexOf(pair.first));
     }
@@ -221,7 +221,7 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         ParserRule translationUnit = (ParserRule) grammarDTO.grammarInfo.rules.get("translationUnit");
 
 
-        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(translationUnit.alternatives, grammarDTO.ast.children, ruleNames);
+        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(translationUnit.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens);
 
         System.out.println("Made it!");
     }

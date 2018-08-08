@@ -29,7 +29,7 @@ public class ParseTreeToIngridRuleMapperTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("rule");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -43,7 +43,7 @@ public class ParseTreeToIngridRuleMapperTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("rule");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);
@@ -60,7 +60,7 @@ public class ParseTreeToIngridRuleMapperTest {
         ParserRuleContext set = (ParserRuleContext) grammarDTO.ast.getChild(0);
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("set");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, set.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, set.children, ruleNames, grammarDTO.tokens).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -77,7 +77,7 @@ public class ParseTreeToIngridRuleMapperTest {
         ParserRuleContext set = (ParserRuleContext) grammarDTO.ast.getChild(0);
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("set");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, set.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, set.children, ruleNames, grammarDTO.tokens).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);
@@ -91,7 +91,7 @@ public class ParseTreeToIngridRuleMapperTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("book");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -106,7 +106,7 @@ public class ParseTreeToIngridRuleMapperTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("book");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames).first;
+        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens).first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);

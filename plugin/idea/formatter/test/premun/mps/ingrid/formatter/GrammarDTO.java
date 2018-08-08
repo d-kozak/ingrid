@@ -1,8 +1,11 @@
 package premun.mps.ingrid.formatter;
 
 import org.antlr.runtime.RecognitionException;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.tool.Grammar;
+import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.GrammarInfo;
 
 /**
@@ -15,11 +18,13 @@ public class GrammarDTO {
     public final GrammarInfo grammarInfo;
     public final Grammar grammar;
     public final ParserRuleContext ast;
+    public final CommonTokenStream tokens;
 
-    public GrammarDTO(GrammarInfo grammarInfo, Grammar grammar, ParserRuleContext ast) {
+    public GrammarDTO(GrammarInfo grammarInfo, Grammar grammar, ParserRuleContext ast, CommonTokenStream tokens) {
         this.grammarInfo = grammarInfo;
         this.grammar = grammar;
         this.ast = ast;
+        this.tokens = tokens;
     }
 
     /**
@@ -36,7 +41,9 @@ public class GrammarDTO {
         if (parsedGrammar.getRule(startRule) == null) {
             throw new IllegalArgumentException("Start rule not found");
         }
-        ParserRuleContext parseTree = (ParserRuleContext) InterpretingParser.parse(parsedGrammar, inputText, startRule);
-        return new GrammarDTO(grammarInfo, parsedGrammar, parseTree);
+        Pair<CommonTokenStream, ParseTree> pair = InterpretingParser.tokenizeAndParse(parsedGrammar, inputText, startRule);
+        CommonTokenStream tokens = pair.first;
+        ParserRuleContext parseTree = ((ParserRuleContext) pair.second);
+        return new GrammarDTO(grammarInfo, parsedGrammar, parseTree, tokens);
     }
 }

@@ -1,6 +1,7 @@
 package premun.mps.ingrid.formatter.boundary;
 
 import org.antlr.runtime.RecognitionException;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.tool.Grammar;
@@ -36,9 +37,11 @@ public class FormatExtractor {
     public static Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> extract(GrammarInfo grammarInfo, String inputGrammar, String input) {
         try {
             Grammar grammar = new Grammar(inputGrammar);
-            ParseTree ast = InterpretingParser.parse(grammar, input, grammar.rules.getElement(0).name);
+            Pair<CommonTokenStream, ParseTree> pair = InterpretingParser.tokenizeAndParse(grammar, input, grammar.rules.getElement(0).name);
+            CommonTokenStream tokens = pair.first;
+            ParseTree ast = pair.second;
             ParseTreeWalker walker = new ParseTreeWalker();
-            RuleEnterParseTreeListener listener = new RuleEnterParseTreeListener(grammar, grammarInfo);
+            RuleEnterParseTreeListener listener = new RuleEnterParseTreeListener(grammar, grammarInfo, tokens);
             walker.walk(listener, ast);
             return listener.getFormatInfo();
         } catch (RecognitionException ex) {

@@ -1,5 +1,6 @@
 package premun.mps.ingrid.formatter;
 
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.tool.Grammar;
 import org.antlr.v4.tool.Rule;
@@ -27,9 +28,14 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
     private final Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfo = new HashMap<>();
 
     /**
-     * Used to serialize various objects into Strigns, for debugging
+     * Used to serialize various objects into Strings, for debugging
      */
     private final Serializer serializer;
+
+    /**
+     * Stream of all tokens, used during formatting extraction
+     */
+    private final CommonTokenStream tokens;
 
     /**
      * Contains information about the grammar from Antlr4 perspective
@@ -41,10 +47,11 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
      */
     private final GrammarInfo grammarInfo;
 
-    public RuleEnterParseTreeListener(Grammar grammar, GrammarInfo grammarInfo) {
+    public RuleEnterParseTreeListener(Grammar grammar, GrammarInfo grammarInfo, CommonTokenStream tokens) {
         this.grammar = grammar;
         this.grammarInfo = grammarInfo;
         this.serializer = new Serializer(grammar);
+        this.tokens = tokens;
     }
 
     /**
@@ -58,11 +65,11 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
         Rule antlrRule = grammar.getRule(parserRuleContext.getRuleIndex());
         ParserRule parserRule = (ParserRule) grammarInfo.rules.get(antlrRule.name);
 
-        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(parserRule.alternatives, parserRuleContext.children, Arrays.asList(grammar.getRuleNames()));
+        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(parserRule.alternatives, parserRuleContext.children, Arrays.asList(grammar.getRuleNames()), tokens);
         Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules = ParseTreeToIngridRuleMapper.getBlockRules();
         addBlockRules(blockRules);
         Alternative appropriateAlternative = pair.first;
-        List<FormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(pair.second);
+        List<FormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(pair.second, tokens);
         List<RuleFormatInfo> ruleFormatInfos = this.formatInfo.computeIfAbsent(Pair.of(parserRule, appropriateAlternative), __ -> new ArrayList<>());
         ruleFormatInfos.add(new RuleFormatInfo(formatInfos));
     }
