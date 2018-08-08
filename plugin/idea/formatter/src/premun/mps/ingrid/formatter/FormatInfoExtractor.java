@@ -5,11 +5,13 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 import premun.mps.ingrid.formatter.model.FormatInfo;
 import premun.mps.ingrid.formatter.model.MatchInfo;
 import premun.mps.ingrid.model.Quantity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
@@ -22,6 +24,19 @@ import java.util.stream.Collectors;
  */
 class FormatInfoExtractor {
 
+
+    private static MatchInfo createDummyNextTokenMatchInfo(List<MatchInfo> matchInfos, CommonTokenStream tokens) {
+        MatchInfo lastMatchInfo = matchInfos.get(matchInfos.size() - 1);
+        if (lastMatchInfo.matched.size() > 0) {
+            Token rightmostToken = extractRightmostToken(lastMatchInfo.matched.get(lastMatchInfo.matched.size() - 1));
+            int rightmostTokenIndex = rightmostToken.getTokenIndex();
+            if (rightmostTokenIndex < tokens.size() - 1) {
+                return new MatchInfo(null, null, -1, Collections.singletonList(new TerminalNodeImpl(tokens.get(rightmostTokenIndex + 1))));
+            } else
+                return new MatchInfo(null, null, -1, Collections.emptyList());
+        } else return new MatchInfo(null, null, -1, Collections.emptyList());
+    }
+
     /**
      * Extract format information from list of MatchInfo objects
      * For each pair of MatchInfos it compares the rightmost
@@ -31,118 +46,51 @@ class FormatInfoExtractor {
         if (matchInfos.isEmpty())
             return new ArrayList<>();
 
-        List<FormatInfo> formatInfosA = new ArrayList<>();
+        int originalMatchInfoSize = matchInfos.size();
+        matchInfos = new ArrayList<>(matchInfos);
+        matchInfos.add(createDummyNextTokenMatchInfo(matchInfos, tokens));
 
-        // TODO merge both loops together, it should be possible, if we add an extra match info object representing next token after the rule AND in the second loop we are not actually using the previous token anyway
+        List<FormatInfo> result = new ArrayList<>();
 
-        for (int i = 0; i < matchInfos.size() - 1; i++) {
-            MatchInfo left = matchInfos.get(i);
-            MatchInfo right = matchInfos.get(i + 1);
-            if (left.matched.size() > 0 && right.matched.size() > 0) {
-                ParseTree rightmostNode = left.matched.get(left.matched.size() - 1);
-                ParseTree leftmostNode = right.matched.get(0);
-                Token current = extractRightmostToken(rightmostNode);
-                Token next = extractLeftmostToken(leftmostNode);
+        for (int i = 0; i < originalMatchInfoSize; i++) {
+            MatchInfo currentMatchInfo = matchInfos.get(i);
+            MatchInfo nextMatchInfo = matchInfos.get(i + 1);
+            if (currentMatchInfo.matched.size() > 0 && nextMatchInfo.matched.size() > 0) {
+                ParseTree rightmostNode = currentMatchInfo.matched.get(currentMatchInfo.matched.size() - 1);
+                ParseTree leftmostNode = nextMatchInfo.matched.get(0);
+                Token currentToken = extractRightmostToken(rightmostNode);
+                Token nextToken = extractLeftmostToken(leftmostNode);
 
-                int appendedNewLines = next.getLine() - current.getLine();
+                int appendedNewLines = nextToken.getLine() - currentToken.getLine();
                 int indentation = Integer.max(
-                        next.getCharPositionInLine() - (current.getCharPositionInLine() + current.getText()
-                                                                                                 .length()),
+                        nextToken.getCharPositionInLine() - (currentToken.getCharPositionInLine() + currentToken.getText()
+                                                                                                                .length()),
                         0);
-                formatInfosA.add(new FormatInfo(left.rule, appendedNewLines, indentation, false, false));
-            } else {
-                formatInfosA.add(FormatInfo.NULL_INFO);
-            }
-        }
-
-        MatchInfo matchInfo = matchInfos.get(matchInfos.size() - 1);
-        if (matchInfo.matched.size() > 0) {
-            Token current = extractRightmostToken(matchInfo.matched.get(matchInfo.matched.size() - 1));
-            if (current.getTokenIndex() < tokens.size() - 1) {
-                Token next = tokens.get(current.getTokenIndex() + 1);
-                int appendedNewLines = next.getLine() - current.getLine();
-                int indentation = Integer.max(
-                        next.getCharPositionInLine() - (current.getCharPositionInLine() + current.getText()
-                                                                                                 .length()),
-                        0);
-                formatInfosA.add(new FormatInfo(matchInfo.rule, appendedNewLines, indentation, false, false));
-            } else {
-                formatInfosA.add(FormatInfo.NULL_INFO);
-            }
-        } else {
-            formatInfosA.add(FormatInfo.NULL_INFO);
-        }
-
-
-        List<FormatInfo> formatInfosB = new ArrayList<>();
-        for (int i = 1; i < matchInfos.size(); i++) {
-            MatchInfo left = matchInfos.get(i - 1);
-            MatchInfo right = matchInfos.get(i);
-            if (left.matched.size() > 0 && right.matched.size() > 0) {
-                ParseTree rightmostNode = left.matched.get(left.matched.size() - 1);
-                ParseTree leftmostNode = right.matched.get(0);
-                Token previous = extractRightmostToken(rightmostNode);
-                Token current = extractLeftmostToken(leftmostNode);
-
 
                 boolean childrenOnNewLine = false;
                 boolean childrenIndented = false;
 
-                boolean isMultipleCardinality = (right.quantity == Quantity.AT_LEAST_ONE || right.quantity == Quantity.ANY) && right.times > 0;
+                boolean isMultipleCardinality = (currentMatchInfo.quantity == Quantity.AT_LEAST_ONE || currentMatchInfo.quantity == Quantity.ANY) && currentMatchInfo.times > 0;
                 if (isMultipleCardinality) {
-                    Set<Integer> lineNumbers = extractTokens(right.matched).stream()
-                                                                           .map(Token::getLine)
-                                                                           .collect(Collectors.toSet());
-                    childrenOnNewLine = lineNumbers.size() > right.times;
+                    Set<Integer> lineNumbers = extractTokens(currentMatchInfo.matched).stream()
+                                                                                      .map(Token::getLine)
+                                                                                      .collect(Collectors.toSet());
+                    childrenOnNewLine = lineNumbers.size() > currentMatchInfo.times;
 
                     // TODO verify that this works in every situation
-                    childrenIndented = childrenOnNewLine && extractTokens(right.matched).stream()
-                                                                                        .allMatch(it -> it.getCharPositionInLine() > 0);
+                    childrenIndented = childrenOnNewLine && extractTokens(currentMatchInfo.matched).stream()
+                                                                                                   .allMatch(it -> it.getCharPositionInLine() > 0);
                 }
 
-                formatInfosB.add(new FormatInfo(right.rule, 0, 0, childrenOnNewLine, childrenIndented));
+
+                result.add(new FormatInfo(currentMatchInfo.rule, appendedNewLines, indentation, childrenOnNewLine, childrenIndented));
             } else {
-                formatInfosB.add(FormatInfo.NULL_INFO);
+                result.add(FormatInfo.NULL_INFO);
             }
         }
 
-        MatchInfo right = matchInfos.get(0);
-        if (matchInfo.matched.size() > 0) {
-
-            boolean childrenOnNewLine = false;
-            boolean childrenIndented = false;
-
-            boolean isMultipleCardinality = (right.quantity == Quantity.AT_LEAST_ONE || right.quantity == Quantity.ANY) && right.times > 0;
-            if (isMultipleCardinality) {
-                Set<Integer> lineNumbers = extractTokens(right.matched).stream()
-                                                                       .map(Token::getLine)
-                                                                       .collect(Collectors.toSet());
-                childrenOnNewLine = lineNumbers.size() > right.times;
-
-                // TODO verify that this works in every situation
-                childrenIndented = childrenOnNewLine && extractTokens(right.matched).stream()
-                                                                                    .allMatch(it -> it.getCharPositionInLine() > 0);
-            }
-
-            formatInfosB.add(0,new FormatInfo(right.rule, 0, 0, childrenOnNewLine, childrenIndented));
-
-        } else {
-            formatInfosB.add(FormatInfo.NULL_INFO);
-        }
-
-
-        if (formatInfosA.size() != formatInfosB.size()) {
-            throw new IllegalStateException("FormatInfoLists should have the same size");
-        }
-
-        List<FormatInfo> result = new ArrayList<>();
-        for (int i = 0; i < matchInfos.size(); i++) {
-            result.add(formatInfosA.get(i)
-                                   .merge(formatInfosB.get(i)));
-        }
         return result;
     }
-
 
     private static List<Token> extractTokens(List<ParseTree> nodes) {
         List<Token> result = new ArrayList<>();
