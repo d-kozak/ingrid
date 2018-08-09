@@ -3,8 +3,6 @@ package premun.mps.ingrid.formatter.model;
 import premun.mps.ingrid.model.LiteralRule;
 import premun.mps.ingrid.model.Rule;
 
-import static java.lang.Integer.max;
-
 /**
  * Holds information about formatting of one element in the rule with respect to the next element.
  *
@@ -15,7 +13,7 @@ public final class FormatInfo {
     /**
      * Null object to be inserted when no information about formatting is known.
      */
-    public static final FormatInfo NULL_INFO = new FormatInfo(new LiteralRule("NULL"), 0, 0, false, false);
+    public static final FormatInfo NULL_INFO = new FormatInfo(new LiteralRule("NULL"), false, false, false, false);
 
     /**
      * Rule which is covered by this object.
@@ -25,27 +23,27 @@ public final class FormatInfo {
     /**
      * Is there a newline after this element?
      */
-    public final int followingNewLinesCount;
+    public final boolean appendNewLine;
 
     /**
      * Is there a space after this element?
      */
-    public final int followingSpacesCount;
+    public final boolean appendSpace;
 
     /**
-     * Are children pair this element on new lines?
+     * Are children of this element on new lines?
      */
     public final boolean childrenOnNewLine;
 
     /**
-     * Are children pair this element indented?
+     * Are children of this element indented?
      */
     public final boolean childrenIndented;
 
-    public FormatInfo(Rule rule, int followingNewLinesCount, int followingSpacesCount, boolean childrenOnNewLine, boolean childrenIndented) {
+    public FormatInfo(Rule rule, boolean appendNewLine, boolean appendSpace, boolean childrenOnNewLine, boolean childrenIndented) {
         this.rule = rule;
-        this.followingNewLinesCount = followingNewLinesCount;
-        this.followingSpacesCount = followingSpacesCount;
+        this.appendNewLine = appendNewLine;
+        this.appendSpace = appendSpace;
         this.childrenOnNewLine = childrenOnNewLine;
         this.childrenIndented = childrenIndented;
     }
@@ -60,8 +58,8 @@ public final class FormatInfo {
     public FormatInfo merge(FormatInfo other) {
         return new FormatInfo(
                 this.rule,
-                max(this.followingNewLinesCount, other.followingNewLinesCount),
-                max(this.followingSpacesCount, other.followingSpacesCount),
+                this.appendNewLine || other.appendNewLine,
+                this.appendSpace || other.appendSpace,
                 this.childrenOnNewLine || other.childrenOnNewLine,
                 this.childrenIndented || other.childrenIndented
         );
@@ -75,6 +73,6 @@ public final class FormatInfo {
         } else {
             ruleName = rule.name;
         }
-        return "'" + ruleName + "' => { 'newline': " + followingNewLinesCount + ", 'space': " + followingSpacesCount + ", appendSpace:" + childrenOnNewLine + ", childrenIndented: " + childrenIndented + " }";
+        return "'" + ruleName + "' => { 'newline': " + appendNewLine + ", 'space': " + appendSpace + ", appendSpace:" + childrenOnNewLine + ", childrenIndented: " + childrenIndented + " }";
     }
 }

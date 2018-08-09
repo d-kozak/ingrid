@@ -188,6 +188,9 @@
       </concept>
       <concept id="1081506762703" name="jetbrains.mps.baseLanguage.structure.GreaterThanExpression" flags="nn" index="3eOSWO" />
       <concept id="1081506773034" name="jetbrains.mps.baseLanguage.structure.LessThanExpression" flags="nn" index="3eOVzh" />
+      <concept id="1081516740877" name="jetbrains.mps.baseLanguage.structure.NotExpression" flags="nn" index="3fqX7Q">
+        <child id="1081516765348" name="expression" index="3fr31v" />
+      </concept>
       <concept id="1204053956946" name="jetbrains.mps.baseLanguage.structure.IMethodCall" flags="ng" index="1ndlxa">
         <reference id="1068499141037" name="baseMethodDeclaration" index="37wK5l" />
         <child id="1068499141038" name="actualArgument" index="37wK5m" />
@@ -909,17 +912,12 @@
         <node concept="3clFbJ" id="7rG6V4_ogob" role="3cqZAp">
           <node concept="3clFbS" id="7rG6V4_ogod" role="3clFbx">
             <node concept="3clFbJ" id="7rG6V4_ohRD" role="3cqZAp">
-              <node concept="3eOSWO" id="7rG6V4_okEv" role="3clFbw">
-                <node concept="2OqwBi" id="7rG6V4_ohYg" role="3uHU7B">
-                  <node concept="37vLTw" id="7rG6V4_ohSw" role="2Oq$k0">
-                    <ref role="3cqZAo" node="7rG6V4_ocfA" resolve="formatInfo" />
-                  </node>
-                  <node concept="2OwXpG" id="7rG6V4_oi5C" role="2OqNvi">
-                    <ref role="2Oxat5" to="2cjv:~FormatInfo.followingNewLinesCount" resolve="followingNewLinesCount" />
-                  </node>
+              <node concept="2OqwBi" id="7rG6V4_ohYg" role="3clFbw">
+                <node concept="37vLTw" id="7rG6V4_ohSw" role="2Oq$k0">
+                  <ref role="3cqZAo" node="7rG6V4_ocfA" resolve="formatInfo" />
                 </node>
-                <node concept="3cmrfG" id="7rG6V4_ol3k" role="3uHU7w">
-                  <property role="3cmrfH" value="0" />
+                <node concept="2OwXpG" id="7sPM5UF59ku" role="2OqNvi">
+                  <ref role="2Oxat5" to="2cjv:~FormatInfo.appendNewLine" resolve="appendNewLine" />
                 </node>
               </node>
               <node concept="3clFbS" id="7rG6V4_ohRF" role="3clFbx">
@@ -996,16 +994,13 @@
                   </node>
                 </node>
               </node>
-              <node concept="3clFbC" id="6U9afntV8lX" role="3clFbw">
-                <node concept="3cmrfG" id="6U9afntV8Hv" role="3uHU7w">
-                  <property role="3cmrfH" value="0" />
-                </node>
-                <node concept="2OqwBi" id="6U9afntV58d" role="3uHU7B">
+              <node concept="3fqX7Q" id="7sPM5UF59vW" role="3clFbw">
+                <node concept="2OqwBi" id="6U9afntV58d" role="3fr31v">
                   <node concept="37vLTw" id="6U9afntV52b" role="2Oq$k0">
                     <ref role="3cqZAo" node="7rG6V4_ocfA" resolve="formatInfo" />
                   </node>
-                  <node concept="2OwXpG" id="6U9afntV5fw" role="2OqNvi">
-                    <ref role="2Oxat5" to="2cjv:~FormatInfo.followingSpacesCount" resolve="followingSpacesCount" />
+                  <node concept="2OwXpG" id="7sPM5UF59sz" role="2OqNvi">
+                    <ref role="2Oxat5" to="2cjv:~FormatInfo.appendSpace" resolve="appendSpace" />
                   </node>
                 </node>
               </node>
@@ -1103,17 +1098,12 @@
         <node concept="3clFbJ" id="7rG6V4_otjn" role="3cqZAp">
           <node concept="3clFbS" id="7rG6V4_otjo" role="3clFbx">
             <node concept="3clFbJ" id="7rG6V4_otjp" role="3cqZAp">
-              <node concept="3eOSWO" id="7rG6V4_otjq" role="3clFbw">
-                <node concept="2OqwBi" id="7rG6V4_otjr" role="3uHU7B">
-                  <node concept="37vLTw" id="7rG6V4_otjs" role="2Oq$k0">
-                    <ref role="3cqZAo" node="7rG6V4_odiO" resolve="formatInfo" />
-                  </node>
-                  <node concept="2OwXpG" id="7rG6V4_otjt" role="2OqNvi">
-                    <ref role="2Oxat5" to="2cjv:~FormatInfo.followingNewLinesCount" resolve="followingNewLinesCount" />
-                  </node>
+              <node concept="2OqwBi" id="7rG6V4_otjr" role="3clFbw">
+                <node concept="37vLTw" id="7rG6V4_otjs" role="2Oq$k0">
+                  <ref role="3cqZAo" node="7rG6V4_odiO" resolve="formatInfo" />
                 </node>
-                <node concept="3cmrfG" id="7rG6V4_otju" role="3uHU7w">
-                  <property role="3cmrfH" value="0" />
+                <node concept="2OwXpG" id="7sPM5UF59JF" role="2OqNvi">
+                  <ref role="2Oxat5" to="2cjv:~FormatInfo.appendNewLine" resolve="appendNewLine" />
                 </node>
               </node>
               <node concept="3clFbS" id="7rG6V4_otjv" role="3clFbx">
@@ -1190,16 +1180,13 @@
                   </node>
                 </node>
               </node>
-              <node concept="3clFbC" id="6U9afntXsRY" role="3clFbw">
-                <node concept="3cmrfG" id="6U9afntXsRZ" role="3uHU7w">
-                  <property role="3cmrfH" value="0" />
-                </node>
-                <node concept="2OqwBi" id="6U9afntXsS0" role="3uHU7B">
-                  <node concept="37vLTw" id="6U9afntXsS1" role="2Oq$k0">
+              <node concept="3fqX7Q" id="7sPM5UF59NS" role="3clFbw">
+                <node concept="2OqwBi" id="7sPM5UF59Oi" role="3fr31v">
+                  <node concept="37vLTw" id="7sPM5UF59Oj" role="2Oq$k0">
                     <ref role="3cqZAo" node="7rG6V4_odiO" resolve="formatInfo" />
                   </node>
-                  <node concept="2OwXpG" id="6U9afntXsS2" role="2OqNvi">
-                    <ref role="2Oxat5" to="2cjv:~FormatInfo.followingSpacesCount" resolve="followingSpacesCount" />
+                  <node concept="2OwXpG" id="7sPM5UF59Ok" role="2OqNvi">
+                    <ref role="2Oxat5" to="2cjv:~FormatInfo.appendSpace" resolve="appendSpace" />
                   </node>
                 </node>
               </node>
@@ -1346,17 +1333,12 @@
             <node concept="3clFbJ" id="7rG6V4_ouHQ" role="3cqZAp">
               <node concept="3clFbS" id="7rG6V4_ouHR" role="3clFbx">
                 <node concept="3clFbJ" id="7rG6V4_ouHS" role="3cqZAp">
-                  <node concept="3eOSWO" id="7rG6V4_ouHT" role="3clFbw">
-                    <node concept="2OqwBi" id="7rG6V4_ouHU" role="3uHU7B">
-                      <node concept="37vLTw" id="7rG6V4_ouHV" role="2Oq$k0">
-                        <ref role="3cqZAo" node="7rG6V4_oemF" resolve="formatInfo" />
-                      </node>
-                      <node concept="2OwXpG" id="7rG6V4_ouHW" role="2OqNvi">
-                        <ref role="2Oxat5" to="2cjv:~FormatInfo.followingNewLinesCount" resolve="followingNewLinesCount" />
-                      </node>
+                  <node concept="2OqwBi" id="7rG6V4_ouHU" role="3clFbw">
+                    <node concept="37vLTw" id="7rG6V4_ouHV" role="2Oq$k0">
+                      <ref role="3cqZAo" node="7rG6V4_oemF" resolve="formatInfo" />
                     </node>
-                    <node concept="3cmrfG" id="7rG6V4_ouHX" role="3uHU7w">
-                      <property role="3cmrfH" value="0" />
+                    <node concept="2OwXpG" id="7sPM5UF5a3M" role="2OqNvi">
+                      <ref role="2Oxat5" to="2cjv:~FormatInfo.appendNewLine" resolve="appendNewLine" />
                     </node>
                   </node>
                   <node concept="3clFbS" id="7rG6V4_ouHY" role="3clFbx">
@@ -1434,16 +1416,13 @@
                       </node>
                     </node>
                   </node>
-                  <node concept="3clFbC" id="6U9afntXuVR" role="3clFbw">
-                    <node concept="3cmrfG" id="6U9afntXuVS" role="3uHU7w">
-                      <property role="3cmrfH" value="0" />
-                    </node>
-                    <node concept="2OqwBi" id="6U9afntXuVT" role="3uHU7B">
-                      <node concept="37vLTw" id="6U9afntXuVU" role="2Oq$k0">
+                  <node concept="3fqX7Q" id="7sPM5UF5a8v" role="3clFbw">
+                    <node concept="2OqwBi" id="7sPM5UF5a99" role="3fr31v">
+                      <node concept="37vLTw" id="7sPM5UF5a9a" role="2Oq$k0">
                         <ref role="3cqZAo" node="7rG6V4_oemF" resolve="formatInfo" />
                       </node>
-                      <node concept="2OwXpG" id="6U9afntXuVV" role="2OqNvi">
-                        <ref role="2Oxat5" to="2cjv:~FormatInfo.followingSpacesCount" resolve="followingSpacesCount" />
+                      <node concept="2OwXpG" id="7sPM5UF5a9b" role="2OqNvi">
+                        <ref role="2Oxat5" to="2cjv:~FormatInfo.appendSpace" resolve="appendSpace" />
                       </node>
                     </node>
                   </node>
@@ -1565,17 +1544,12 @@
               <node concept="3clFbJ" id="7rG6V4_ovMb" role="3cqZAp">
                 <node concept="3clFbS" id="7rG6V4_ovMc" role="3clFbx">
                   <node concept="3clFbJ" id="7rG6V4_ovMd" role="3cqZAp">
-                    <node concept="3eOSWO" id="7rG6V4_ovMe" role="3clFbw">
-                      <node concept="2OqwBi" id="7rG6V4_ovMf" role="3uHU7B">
-                        <node concept="37vLTw" id="7rG6V4_ovMg" role="2Oq$k0">
-                          <ref role="3cqZAo" node="7rG6V4_oemF" resolve="formatInfo" />
-                        </node>
-                        <node concept="2OwXpG" id="7rG6V4_ovMh" role="2OqNvi">
-                          <ref role="2Oxat5" to="2cjv:~FormatInfo.followingNewLinesCount" resolve="followingNewLinesCount" />
-                        </node>
+                    <node concept="2OqwBi" id="7rG6V4_ovMf" role="3clFbw">
+                      <node concept="37vLTw" id="7rG6V4_ovMg" role="2Oq$k0">
+                        <ref role="3cqZAo" node="7rG6V4_oemF" resolve="formatInfo" />
                       </node>
-                      <node concept="3cmrfG" id="7rG6V4_ovMi" role="3uHU7w">
-                        <property role="3cmrfH" value="0" />
+                      <node concept="2OwXpG" id="7sPM5UF5aib" role="2OqNvi">
+                        <ref role="2Oxat5" to="2cjv:~FormatInfo.appendNewLine" resolve="appendNewLine" />
                       </node>
                     </node>
                     <node concept="3clFbS" id="7rG6V4_ovMj" role="3clFbx">
@@ -1653,16 +1627,13 @@
                         </node>
                       </node>
                     </node>
-                    <node concept="3clFbC" id="6U9afntXwIY" role="3clFbw">
-                      <node concept="3cmrfG" id="6U9afntXwIZ" role="3uHU7w">
-                        <property role="3cmrfH" value="0" />
-                      </node>
-                      <node concept="2OqwBi" id="6U9afntXwJ0" role="3uHU7B">
-                        <node concept="37vLTw" id="6U9afntXwJ1" role="2Oq$k0">
+                    <node concept="3fqX7Q" id="7sPM5UF5atb" role="3clFbw">
+                      <node concept="2OqwBi" id="7sPM5UF5atB" role="3fr31v">
+                        <node concept="37vLTw" id="7sPM5UF5atC" role="2Oq$k0">
                           <ref role="3cqZAo" node="7rG6V4_oemF" resolve="formatInfo" />
                         </node>
-                        <node concept="2OwXpG" id="6U9afntXwJ2" role="2OqNvi">
-                          <ref role="2Oxat5" to="2cjv:~FormatInfo.followingSpacesCount" resolve="followingSpacesCount" />
+                        <node concept="2OwXpG" id="7sPM5UF5atD" role="2OqNvi">
+                          <ref role="2Oxat5" to="2cjv:~FormatInfo.appendSpace" resolve="appendSpace" />
                         </node>
                       </node>
                     </node>

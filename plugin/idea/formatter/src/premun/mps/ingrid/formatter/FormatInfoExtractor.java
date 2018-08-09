@@ -61,11 +61,9 @@ class FormatInfoExtractor {
         Token currentToken = extractRightmostToken(rightmostNode);
         Token nextToken = extractLeftmostToken(leftmostNode);
 
-        int appendedNewLines = nextToken.getLine() - currentToken.getLine();
-        int indentation = Integer.max(
-                nextToken.getCharPositionInLine() - (currentToken.getCharPositionInLine() + currentToken.getText()
-                                                                                                        .length()),
-                0);
+        boolean appendedNewLine = nextToken.getLine() - currentToken.getLine() > 0;
+        boolean appendSpace = (nextToken.getCharPositionInLine() - (currentToken.getCharPositionInLine() + currentToken.getText()
+                                                                                                                       .length())) > 0;
 
         boolean childrenOnNewLine = false;
         boolean childrenIndented = false;
@@ -81,7 +79,7 @@ class FormatInfoExtractor {
             childrenIndented = childrenOnNewLine && extractTokens(currentMatchInfo.matched).stream()
                                                                                            .allMatch(it -> it.getCharPositionInLine() > 0);
         }
-        return new FormatInfo(currentMatchInfo.rule, appendedNewLines, indentation, childrenOnNewLine, childrenIndented);
+        return new FormatInfo(currentMatchInfo.rule, appendedNewLine, appendSpace, childrenOnNewLine, childrenIndented);
 
     }
 
