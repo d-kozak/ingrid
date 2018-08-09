@@ -48,18 +48,6 @@ public final class FormatInfo {
         this.childrenIndented = childrenIndented;
     }
 
-
-    /**
-     * Uses for testing
-     */
-    public FormatInfo(boolean appendNewLine, boolean appendSpace, boolean childrenOnNewLine, boolean childrenIndented) {
-        this.rule = new LiteralRule("NULL");
-        this.appendNewLine = appendNewLine;
-        this.appendSpace = appendSpace;
-        this.childrenOnNewLine = childrenOnNewLine;
-        this.childrenIndented = childrenIndented;
-    }
-
     /**
      * Creates a new merged instance pair FormatInfo, which contains the bigger values for each field
      *
@@ -84,6 +72,6 @@ public final class FormatInfo {
         } else {
             ruleName = rule.name;
         }
-        return "'" + ruleName + "' => { 'newline': " + appendNewLine + ", 'space': " + appendSpace + ", appendSpace:" + childrenOnNewLine + ", childrenIndented: " + childrenIndented + " }";
+        return "'" + ruleName + "' => { 'newline': " + appendNewLine + ", 'space': " + appendSpace + ", childrenOnNewLine:" + childrenOnNewLine + ", childrenIndented: " + childrenIndented + " }";
     }
 }

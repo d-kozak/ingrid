@@ -14,7 +14,6 @@ import premun.mps.ingrid.parser.GrammarParser;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
 import static premun.mps.ingrid.formatter.boundary.FormatExtractor.*;
 import static premun.mps.ingrid.formatter.utils.FormatInfoAsserts.verifyFormatInfoMap;
 import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.AppliedRule.rule;
@@ -44,7 +43,7 @@ public class FormatExtractorBasicTest {
     public void setGrammarEmptySet() throws RecognitionException {
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{}", TestGrammars.setGrammar);
 
-        assertEquals(2, formatInfoMap.size());
+        dumpSimplifiedMap(formatInfoMap);
 
         verifyFormatInfoMap(
                 formatInfoMap,
@@ -62,15 +61,13 @@ public class FormatExtractorBasicTest {
                         )
                 )
         );
-
-        dumpSimplifiedMap(formatInfoMap);
-
     }
 
     @Test
     public void setGrammarSimpleInput() throws RecognitionException {
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1,2,3}", TestGrammars.setGrammar);
 
+        dumpSimplifiedMap(formatInfoMap);
 
         verifyFormatInfoMap(
                 formatInfoMap,
@@ -109,22 +106,113 @@ public class FormatExtractorBasicTest {
                         )
                 )
         );
-
-        dumpSimplifiedMap(formatInfoMap);
     }
 
     @Test
     public void setGrammarNestedInput() throws RecognitionException {
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1,{a,b,c},3}", TestGrammars.setGrammar);
-        printFormatInfo(formatInfoMap);
-        assertEquals(6, formatInfoMap.size());
+
+        dumpSimplifiedMap(formatInfoMap);
+
+        verifyFormatInfoMap(
+                formatInfoMap,
+                rules(
+                        rule("simpleElement", 0,
+                                handle(
+                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "elem", 0,
+                                handle(
+                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("elem", 1,
+                                handle(
+                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("set", 1,
+                                handle(
+                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "compilationUnit", 0,
+                                handle(
+                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "set_block_2_1", 0,
+                                handle(
+                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
     }
 
     @Test
     public void setGrammarNestedInputMoreComplex() throws RecognitionException {
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1,{a,b,c},{{},{a,b,c}}}", TestGrammars.setGrammar);
-        printFormatInfo(formatInfoMap);
-        assertEquals(7, formatInfoMap.size());
+
+        dumpSimplifiedMap(formatInfoMap);
+
+        verifyFormatInfoMap(
+                formatInfoMap,
+                rules(
+                        rule("simpleElement", 0,
+                                handle(
+                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "elem", 0,
+                                handle(
+                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("elem", 1,
+                                handle(
+                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "set", 0,
+                                handle(
+                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("set", 1,
+                                handle(
+                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "compilationUnit", 0,
+                                handle(
+                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "set_block_2_1", 0,
+                                handle(
+                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
     }
 
     @Test

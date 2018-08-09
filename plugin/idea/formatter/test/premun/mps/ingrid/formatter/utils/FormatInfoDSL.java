@@ -1,6 +1,7 @@
 package premun.mps.ingrid.formatter.utils;
 
 import premun.mps.ingrid.formatter.model.FormatInfo;
+import premun.mps.ingrid.model.Rule;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.List;
 public final class FormatInfoDSL {
 
     public static AppliedRuleReference elem(String ruleName, AppendNewLine appendNewLine, AppendSpace appendSpace, ChildrenOnNewLine childrenOnNewLine, ChildrenIndented childrenIndented) {
-        return new AppliedRuleReference(ruleName, new FormatInfo(appendNewLine.value, appendSpace.value, childrenOnNewLine.value, childrenIndented.value));
+        Rule dummy = new Rule(ruleName) {
+        };
+        return new AppliedRuleReference(ruleName, new FormatInfo(dummy, appendNewLine.value, appendSpace.value, childrenOnNewLine.value, childrenIndented.value));
     }
 
     public static List<AppliedRuleReference> handle(AppliedRuleReference... input) {
@@ -49,6 +52,11 @@ public final class FormatInfoDSL {
         public static AppliedRule rule(String ruleName, int alternativeIndex, List<AppliedRuleReference> expectedFormatting) {
             return new AppliedRule(ruleName, alternativeIndex, expectedFormatting);
         }
+
+        @Override
+        public String toString() {
+            return ruleName + ":" + alternativeIndex + " => " + expectedFormatting;
+        }
     }
 
     public static class AppliedRuleReference {
@@ -59,6 +67,11 @@ public final class FormatInfoDSL {
             this.ruleName = ruleName;
             this.formatInfo = formatInfo;
         }
+
+        @Override
+        public String toString() {
+            return formatInfo.toString();
+        }
     }
 
     private static class AppendNewLine {
@@ -66,6 +79,11 @@ public final class FormatInfoDSL {
 
         private AppendNewLine(boolean value) {
             this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return "newLine:" + value;
         }
     }
 
@@ -75,6 +93,11 @@ public final class FormatInfoDSL {
         private AppendSpace(boolean value) {
             this.value = value;
         }
+
+        @Override
+        public String toString() {
+            return "space:" + value;
+        }
     }
 
     private static class ChildrenOnNewLine {
@@ -83,6 +106,11 @@ public final class FormatInfoDSL {
         private ChildrenOnNewLine(boolean value) {
             this.value = value;
         }
+
+        @Override
+        public String toString() {
+            return "childrenOnNewLine:" + value;
+        }
     }
 
     private static class ChildrenIndented {
@@ -90,6 +118,11 @@ public final class FormatInfoDSL {
 
         private ChildrenIndented(boolean value) {
             this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return "childrenIndented:" + value;
         }
     }
 
