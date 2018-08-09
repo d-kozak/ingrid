@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
  */
 class FormatInfoExtractor {
 
-
     /**
      * Extracts format information from the list of MatchInfo objects
      */
@@ -76,7 +75,7 @@ class FormatInfoExtractor {
             Set<Integer> lineNumbers = extractTokens(currentMatchInfo.matched).stream()
                                                                               .map(Token::getLine)
                                                                               .collect(Collectors.toSet());
-            childrenOnNewLine = lineNumbers.size() >= currentMatchInfo.times;
+            childrenOnNewLine = lineNumbers.size() > 1;
 
             // TODO find a better way to extract children indentation
             childrenIndented = childrenOnNewLine && extractTokens(currentMatchInfo.matched).stream()
@@ -91,15 +90,13 @@ class FormatInfoExtractor {
      * It is used extract the formatting of the last element in the matched region with respect to the first element after it
      */
     private static MatchInfo createDummyNextTokenMatchInfo(List<MatchInfo> matchInfos, CommonTokenStream tokens) {
-        MatchInfo lastMatchInfo = matchInfos.get(matchInfos.size() - 1);
-        if (lastMatchInfo.matched.size() > 0) {
-            Token rightmostToken = extractRightmostToken(lastMatchInfo.matched.get(lastMatchInfo.matched.size() - 1));
-            int rightmostTokenIndex = rightmostToken.getTokenIndex();
-            if (rightmostTokenIndex < tokens.size() - 1) {
-                return new MatchInfo(null, null, -1, Collections.singletonList(new TerminalNodeImpl(tokens.get(rightmostTokenIndex + 1))));
-            } else
-                return new MatchInfo(null, null, -1, Collections.emptyList());
-        } else return new MatchInfo(null, null, -1, Collections.emptyList());
+        for (int i = matchInfos.size() - 1; i >= 0; i--) {
+            MatchInfo matchInfo = matchInfos.get(i);
+            if (!matchInfo.matched.isEmpty()) {
+                return new MatchInfo(null, null, -1, Collections.singletonList(new TerminalNodeImpl(extractRightmostToken(matchInfo.matched.get(matchInfo.matched.size() - 1)))));
+            }
+        }
+        return new MatchInfo(null, null, -1, Collections.emptyList());
     }
 
     /**

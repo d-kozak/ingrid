@@ -130,4 +130,30 @@ public class FormatExtractorBasicTest {
 
         dump(formatInfoMap);
     }
+
+
+    @Test
+    public void cimpleFibonacciMinimalFormat() throws RecognitionException {
+        String input = "fn fib(i){if(i < 2){return 1;}else{return fib(i - 1)  + fib(i - 2);}}\n" +
+                "i = 10;\n" +
+                "for(j = 0; j < i ; j = j+1){res = fib(j);print res;}";
+
+        String cimple = TestGrammars.loadCimple();
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat(input, cimple);
+
+        dump(formatInfoMap);
+    }
+
+
+    @Test
+    public void cimpleFibonacciNoFormat() throws RecognitionException {
+        String input = "fn fib(i){if(i < 2){return 1;}else{return fib(i - 1) + fib(i - 2);}} i = 10; for(j = 0; j < i ; j = j+1){res = fib(j);print res;}";
+
+        String cimple = TestGrammars.loadCimple();
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfoMap = extractFormat(input, cimple);
+
+        dump(formatInfoMap);
+    }
+
+
 }
