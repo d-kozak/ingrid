@@ -12,7 +12,6 @@ import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.parser.GrammarParser;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static premun.mps.ingrid.formatter.boundary.FormatExtractor.*;
 import static premun.mps.ingrid.formatter.utils.FormatInfoAsserts.verifyFormatInfoMap;
@@ -29,15 +28,6 @@ import static premun.mps.ingrid.formatter.utils.FormatInfoMapDump.dumpSimplified
  * @see FormatExtractor
  */
 public class FormatExtractorBasicTest {
-
-    private static void printFormatInfo(Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap) {
-        System.out.println(
-                formatInfoMap.entrySet()
-                             .stream()
-                             .map(entry -> entry.getKey() + " = " + entry.getValue())
-                             .collect(Collectors.joining(",\n"))
-        );
-    }
 
     @Test
     public void setGrammarEmptySet() throws RecognitionException {
@@ -223,27 +213,63 @@ public class FormatExtractorBasicTest {
                 "\tc\n" +
                 "}\n";
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
-        printFormatInfo(formatInfoMap);
+
+        dumpSimplifiedMap(formatInfoMap);
+
+        verifyFormatInfoMap(
+                formatInfoMap,
+                rules(
+                        rule("simpleElement", 0,
+                                handle(
+                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "elem", 0,
+                                handle(
+                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("elem", 1,
+                                handle(
+                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("set", 1,
+                                handle(
+                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "compilationUnit", 0,
+                                handle(
+                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "set_block_2_1", 0,
+                                handle(
+                                        elem(",", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
     }
 
     @Test
     public void expressionGrammarVerySimple() throws RecognitionException {
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("(1 + 1) * 2", TestGrammars.expressionGrammar);
-        printFormatInfo(formatInfoMap);
-    }
-
-    private Map<Pair<String, Integer>, RuleFormatInfo> extractFormat(String input, String grammar) throws RecognitionException {
-        GrammarParser grammarParser = new GrammarParser();
-        grammarParser.parseString(grammar);
-        GrammarInfo grammarInfo = grammarParser.resolveGrammar();
-        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> merge = merge(extract(grammarInfo, grammar, input));
-        return asRuleNameAlternativeIndexMap(merge);
+        dumpSimplifiedMap(formatInfoMap);
     }
 
     @Test
     public void expressionGrammarMoreComplex() throws RecognitionException {
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("((2*1) + 1) * 2", TestGrammars.expressionGrammar);
-        printFormatInfo(formatInfoMap);
+        dumpSimplifiedMap(formatInfoMap);
     }
 
     @Test
@@ -255,7 +281,7 @@ public class FormatExtractorBasicTest {
                 "}\n" +
                 "\n";
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
-        printFormatInfo(formatInfoMap);
+        dumpSimplifiedMap(formatInfoMap);
     }
 
 
@@ -307,4 +333,11 @@ public class FormatExtractorBasicTest {
     }
 
 
+    private Map<Pair<String, Integer>, RuleFormatInfo> extractFormat(String input, String grammar) throws RecognitionException {
+        GrammarParser grammarParser = new GrammarParser();
+        grammarParser.parseString(grammar);
+        GrammarInfo grammarInfo = grammarParser.resolveGrammar();
+        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> merge = merge(extract(grammarInfo, grammar, input));
+        return asRuleNameAlternativeIndexMap(merge);
+    }
 }
