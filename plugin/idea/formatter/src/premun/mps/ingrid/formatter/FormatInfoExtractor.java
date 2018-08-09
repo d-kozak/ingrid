@@ -63,8 +63,8 @@ class FormatInfoExtractor {
         Token nextToken = extractLeftmostToken(leftmostNode);
 
         boolean appendedNewLine = nextToken.getLine() - currentToken.getLine() > 0;
-        boolean appendSpace = (nextToken.getCharPositionInLine() - (currentToken.getCharPositionInLine() + currentToken.getText()
-                                                                                                                       .length())) > 0;
+        boolean appendSpace = !appendedNewLine && (nextToken.getCharPositionInLine() - (currentToken.getCharPositionInLine() + currentToken.getText()
+                                                                                                                                           .length())) > 0;
 
         boolean childrenOnNewLine = false;
         boolean childrenIndented = false;

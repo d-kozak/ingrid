@@ -261,18 +261,6 @@ public class FormatExtractorBasicTest {
     }
 
     @Test
-    public void expressionGrammarVerySimple() throws RecognitionException {
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("(1 + 1) * 2", TestGrammars.expressionGrammar);
-        dumpSimplifiedMap(formatInfoMap);
-    }
-
-    @Test
-    public void expressionGrammarMoreComplex() throws RecognitionException {
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("((2*1) + 1) * 2", TestGrammars.expressionGrammar);
-        dumpSimplifiedMap(formatInfoMap);
-    }
-
-    @Test
     public void setGrammarSimpleFormat() throws RecognitionException {
         String input = "{\n" +
                 "  a,\n" +
@@ -281,6 +269,57 @@ public class FormatExtractorBasicTest {
                 "}\n" +
                 "\n";
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
+        dumpSimplifiedMap(formatInfoMap);
+
+        verifyFormatInfoMap(
+                formatInfoMap,
+                rules(
+                        rule("simpleElement", 0,
+                                handle(
+                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "elem", 0,
+                                handle(
+                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("set", 1,
+                                handle(
+                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "compilationUnit", 0,
+                                handle(
+                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "set_block_2_1", 0,
+                                handle(
+                                        elem(",", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
+    }
+
+
+    @Test
+    public void expressionGrammarVerySimple() throws RecognitionException {
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("(1 + 1) * 2", TestGrammars.expressionGrammar);
+        dumpSimplifiedMap(formatInfoMap);
+    }
+
+    @Test
+    public void expressionGrammarMoreComplex() throws RecognitionException {
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("((2*1) + 1) * 2", TestGrammars.expressionGrammar);
         dumpSimplifiedMap(formatInfoMap);
     }
 
