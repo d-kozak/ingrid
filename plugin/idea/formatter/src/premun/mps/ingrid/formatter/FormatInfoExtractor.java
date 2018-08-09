@@ -1,5 +1,6 @@
 package premun.mps.ingrid.formatter;
 
+import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
@@ -91,7 +92,11 @@ class FormatInfoExtractor {
         for (int i = matchInfos.size() - 1; i >= 0; i--) {
             MatchInfo matchInfo = matchInfos.get(i);
             if (!matchInfo.matched.isEmpty()) {
-                return new MatchInfo(null, null, -1, Collections.singletonList(new TerminalNodeImpl(extractRightmostToken(matchInfo.matched.get(matchInfo.matched.size() - 1)))));
+                Token rightmostToken = extractRightmostToken(matchInfo.matched.get(matchInfo.matched.size() - 1));
+                CommonToken dummyToken = new CommonToken(rightmostToken);
+                dummyToken.setCharPositionInLine(rightmostToken.getCharPositionInLine() + rightmostToken.getText()
+                                                                                                        .length() + 1);
+                return new MatchInfo(null, null, -1, Collections.singletonList(new TerminalNodeImpl(dummyToken)));
             }
         }
         return new MatchInfo(null, null, -1, Collections.emptyList());
