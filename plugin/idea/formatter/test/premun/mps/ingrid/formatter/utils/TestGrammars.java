@@ -1,4 +1,4 @@
-package premun.mps.ingrid.formatter;
+package premun.mps.ingrid.formatter.utils;
 
 import org.junit.Test;
 import premun.mps.ingrid.model.GrammarInfo;

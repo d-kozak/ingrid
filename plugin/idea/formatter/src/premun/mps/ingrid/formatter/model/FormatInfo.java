@@ -50,6 +50,17 @@ public final class FormatInfo {
 
 
     /**
+     * Uses for testing
+     */
+    public FormatInfo(boolean appendNewLine, boolean appendSpace, boolean childrenOnNewLine, boolean childrenIndented) {
+        this.rule = new LiteralRule("NULL");
+        this.appendNewLine = appendNewLine;
+        this.appendSpace = appendSpace;
+        this.childrenOnNewLine = childrenOnNewLine;
+        this.childrenIndented = childrenIndented;
+    }
+
+    /**
      * Creates a new merged instance pair FormatInfo, which contains the bigger values for each field
      *
      * @param other another format info, which should be merged with this one

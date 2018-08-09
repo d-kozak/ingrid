@@ -4,8 +4,10 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.junit.Ignore;
 import org.junit.Test;
+import premun.mps.ingrid.formatter.model.GrammarDTO;
 import premun.mps.ingrid.formatter.model.MatchInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
+import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.ParserRule;
 
@@ -14,7 +16,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static premun.mps.ingrid.formatter.GrammarDTO.prepareGrammar;
+import static premun.mps.ingrid.formatter.model.GrammarDTO.prepareGrammar;
 
 /**
  * Verifies that resolving algotihm used in ParseTreeToIngridRuleMapper

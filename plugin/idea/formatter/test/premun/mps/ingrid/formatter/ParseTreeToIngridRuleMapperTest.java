@@ -3,6 +3,8 @@ package premun.mps.ingrid.formatter;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.junit.Test;
+import premun.mps.ingrid.formatter.model.GrammarDTO;
+import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.ParserRule;
 
@@ -10,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static premun.mps.ingrid.formatter.GrammarDTO.prepareGrammar;
+import static premun.mps.ingrid.formatter.model.GrammarDTO.prepareGrammar;
 
 /**
  * Tests the alternative resolving process in ParseTreeToIngridRuleMapper.

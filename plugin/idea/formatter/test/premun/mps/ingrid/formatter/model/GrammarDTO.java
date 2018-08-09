@@ -1,11 +1,13 @@
-package premun.mps.ingrid.formatter;
+package premun.mps.ingrid.formatter.model;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.tool.Grammar;
+import premun.mps.ingrid.formatter.InterpretingParser;
 import premun.mps.ingrid.formatter.utils.Pair;
+import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.GrammarInfo;
 
 /**

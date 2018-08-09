@@ -27,4 +27,19 @@ public class FormatInfoMapDump {
                      )
                      .forEach(System.out::println);
     }
+
+
+    /**
+     * Debug method to print the content of formatInfoMap
+     *
+     * @param formatInfoMap to be printed
+     */
+    public static void dumpSimplifiedMap(Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap) {
+        formatInfoMap.entrySet()
+                     .stream()
+                     .map(
+                             entry -> entry.getKey().first + ":" + entry.getKey().second + " => " + entry.getValue()
+                     )
+                     .forEach(System.out::println);
+    }
 }

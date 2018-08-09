@@ -60,16 +60,34 @@ public class FormatExtractor {
         return ruleFormatInfo.entrySet()
                              .stream()
                              .map(it -> pair(
-                            it.getKey(),
-                            it.getValue()
-                              .stream()
-                              .reduce(RuleFormatInfo::merge)
-                              .orElseThrow(() -> new IllegalStateException("Should never happen"))
-                            )
-                    )
+                                     it.getKey(),
+                                     it.getValue()
+                                       .stream()
+                                       .reduce(RuleFormatInfo::merge)
+                                       .orElseThrow(() -> new IllegalStateException("Should never happen"))
+                                     )
+                             )
                              .collect(toMap(
-                            Pair::fst,
-                            Pair::snd
-                    ));
+                                     Pair::fst,
+                                     Pair::snd
+                             ));
+    }
+
+
+    public static Map<Pair<String, Integer>, RuleFormatInfo> asRuleNameAlternativeIndexMap(Map<Pair<ParserRule, Alternative>, RuleFormatInfo> ruleFormatInfo) {
+        return ruleFormatInfo.entrySet()
+                             .stream()
+                             .map(entry -> pair(
+                                     pair(
+                                             entry.getKey().first.name,
+                                             entry.getKey().first.alternatives.indexOf(entry.getKey().second)
+                                     ),
+                                     entry.getValue()
+                                     )
+                             )
+                             .collect(toMap(
+                                     Pair::fst,
+                                     Pair::snd
+                             ));
     }
 }

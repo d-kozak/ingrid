@@ -38,7 +38,9 @@ public final class RuleFormatInfo {
         for (int i = 0; i < formatInfoList.size(); i++) {
             FormatInfo thisFormatInfo = formatInfoList.get(i);
             FormatInfo otherFormatInfo = other.formatInfoList.get(i);
-            if (!thisFormatInfo.rule.equals(otherFormatInfo.rule)) {
+
+            // TODO solve  the 'equals problem'
+            if (!thisFormatInfo.rule.name.equals(otherFormatInfo.rule.name)) {
                 throw new IllegalArgumentException("Comparing different formatInfo rules");
             }
             formatInfos.add(thisFormatInfo.merge(otherFormatInfo));
