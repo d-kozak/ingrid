@@ -51,26 +51,66 @@ public class FormatExtractorBasicTest {
                 rules(
                         rule("set", 0,
                                 handle(
-                                        elem(false, false, false, false),
-                                        elem(false, true, false, false)
+                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("compilationUnit", 0,
                                 handle(
-                                        elem(false, true, false, false)
+                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
         );
 
         dumpSimplifiedMap(formatInfoMap);
+
     }
 
     @Test
     public void setGrammarSimpleInput() throws RecognitionException {
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1,2,3}", TestGrammars.setGrammar);
-        printFormatInfo(formatInfoMap);
-        assertEquals(5, formatInfoMap.size());
+
+
+        verifyFormatInfoMap(
+                formatInfoMap,
+                rules(
+                        rule("simpleElement", 0,
+                                handle(
+                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "elem", 0,
+                                handle(
+                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("set", 1,
+                                handle(
+                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "compilationUnit", 0,
+                                handle(
+                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "set_block_2_1", 0,
+                                handle(
+                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
+
+        dumpSimplifiedMap(formatInfoMap);
     }
 
     @Test
