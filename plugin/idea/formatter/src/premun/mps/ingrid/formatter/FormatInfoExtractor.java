@@ -14,7 +14,6 @@ import premun.mps.ingrid.model.Quantity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -42,7 +41,7 @@ class FormatInfoExtractor {
             MatchInfo currentMatchInfo = matchInfos.get(i);
             MatchInfo nextMatchInfo = matchInfos.get(i + 1);
             if (currentMatchInfo.isNotEmpty() && nextMatchInfo.isNotEmpty()) {
-                result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo));
+                result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo, tokens));
             } else {
                 result.add(FormatInfo.NULL_INFO);
             }
@@ -56,7 +55,7 @@ class FormatInfoExtractor {
      * @param nextMatchInfo    next match info
      * @return formatInfo extracted from the input
      */
-    private static FormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo) {
+    private static FormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo, CommonTokenStream tokens) {
         ParseTree rightmostNode = currentMatchInfo.getRightMostParseTree();
         ParseTree leftmostNode = nextMatchInfo.getLeftmostParseTree();
         Token currentToken = extractRightmostToken(rightmostNode);
@@ -71,10 +70,7 @@ class FormatInfoExtractor {
 
         boolean isMultipleCardinality = (currentMatchInfo.quantity == Quantity.AT_LEAST_ONE || currentMatchInfo.quantity == Quantity.ANY) && currentMatchInfo.times() > 0;
         if (isMultipleCardinality) {
-            Set<Integer> lineNumbers = extractTokens(currentMatchInfo.getMatchedRegion()).stream()
-                                                                                         .map(Token::getLine)
-                                                                                         .collect(Collectors.toSet());
-            childrenOnNewLine = lineNumbers.size() > 1;
+            childrenOnNewLine = checkIfChildrenAreOnNewLine(currentMatchInfo, tokens);
 
             // TODO find a better way to extract children indentation
             childrenIndented = childrenOnNewLine && extractTokens(currentMatchInfo.getMatchedRegion()).stream()
@@ -82,6 +78,53 @@ class FormatInfoExtractor {
         }
         return new FormatInfo(currentMatchInfo.rule, appendedNewLine, appendSpace, childrenOnNewLine, childrenIndented);
 
+    }
+
+    private static boolean checkIfChildrenAreOnNewLine(MatchInfo matchInfo, CommonTokenStream tokenStream) {
+        //  one match only is an edge case
+        if (matchInfo.matched.size() == 1) {
+            List<Token> tokens = extractTokens(matchInfo.getMatchedRegion());
+            boolean allTokensOnOneLine = tokens.stream()
+                                               .map(Token::getLine)
+                                               .collect(Collectors.toSet())
+                                               .size() == 1;
+            boolean newlineBeforeElement = false;
+            Token firstToken = tokens.get(0);
+            if (firstToken.getTokenIndex() > 0) {
+                Token previousToken = tokenStream.get(firstToken.getTokenIndex() - 1);
+                newlineBeforeElement = previousToken.getLine() < firstToken.getLine();
+            }
+            return newlineBeforeElement && allTokensOnOneLine;
+        }
+
+        // skip the last element, the formatting of the last token after the matched region is not a reliable source of information
+        // so we handle one match separately
+        List<Boolean> collect = matchInfo.matched.subList(0, matchInfo.matched.size() - 1)
+                                                 .stream()
+                                                 .map(
+                                                         list -> {
+                                                             Token currentToken = extractRightmostToken(list.get(list.size() - 1));
+                                                             if (currentToken.getTokenIndex() >= tokenStream.size() - 1)
+                                                                 return false;
+                                                             Token nextToken = tokenStream.get(currentToken.getTokenIndex() + 1);
+                                                             return currentToken.getLine() < nextToken.getLine();
+                                                         }
+                                                 )
+                                                 .collect(Collectors.toList());
+
+        boolean allAreTrue = collect.stream()
+                                    .allMatch(it -> it);
+        if (allAreTrue)
+            return true;
+        else {
+            boolean allAreFalse = collect.stream()
+                                         .noneMatch(it -> it);
+            if (allAreFalse)
+                return false;
+            else {
+                throw new IllegalArgumentException("Inconsistent formatting");
+            }
+        }
     }
 
     /**

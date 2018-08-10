@@ -256,7 +256,7 @@ public class SetGrammarFormatExtractionTest {
 
     @Test
     public void setGrammarSimpleInput__spaceAfterComma() {
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1, 2,\n3}", TestGrammars.setGrammar);
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1, 2, 3}", TestGrammars.setGrammar);
 
         dumpSimplifiedMap(formatInfoMap);
 
@@ -291,7 +291,7 @@ public class SetGrammarFormatExtractionTest {
                         rule(
                                 "set_block_2_1", 0,
                                 handle(
-                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(",", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
@@ -441,7 +441,7 @@ public class SetGrammarFormatExtractionTest {
                                 handle(
                                         elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        elem("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
@@ -491,7 +491,7 @@ public class SetGrammarFormatExtractionTest {
                                 handle(
                                         elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(true)),
+                                        elem("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
