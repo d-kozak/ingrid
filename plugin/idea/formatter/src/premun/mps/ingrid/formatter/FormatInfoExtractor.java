@@ -41,7 +41,7 @@ class FormatInfoExtractor {
         for (int i = 0; i < originalMatchInfoSize; i++) {
             MatchInfo currentMatchInfo = matchInfos.get(i);
             MatchInfo nextMatchInfo = matchInfos.get(i + 1);
-            if (currentMatchInfo.matched.size() > 0 && nextMatchInfo.matched.size() > 0) {
+            if (currentMatchInfo.isNotEmpty() && nextMatchInfo.isNotEmpty()) {
                 result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo));
             } else {
                 result.add(FormatInfo.NULL_INFO);
@@ -57,8 +57,8 @@ class FormatInfoExtractor {
      * @return formatInfo extracted from the input
      */
     private static FormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo) {
-        ParseTree rightmostNode = currentMatchInfo.matched.get(currentMatchInfo.matched.size() - 1);
-        ParseTree leftmostNode = nextMatchInfo.matched.get(0);
+        ParseTree rightmostNode = currentMatchInfo.getRightMostParseTree();
+        ParseTree leftmostNode = nextMatchInfo.getLeftmostParseTree();
         Token currentToken = extractRightmostToken(rightmostNode);
         Token nextToken = extractLeftmostToken(leftmostNode);
 
@@ -69,16 +69,16 @@ class FormatInfoExtractor {
         boolean childrenOnNewLine = false;
         boolean childrenIndented = false;
 
-        boolean isMultipleCardinality = (currentMatchInfo.quantity == Quantity.AT_LEAST_ONE || currentMatchInfo.quantity == Quantity.ANY) && currentMatchInfo.times > 0;
+        boolean isMultipleCardinality = (currentMatchInfo.quantity == Quantity.AT_LEAST_ONE || currentMatchInfo.quantity == Quantity.ANY) && currentMatchInfo.times() > 0;
         if (isMultipleCardinality) {
-            Set<Integer> lineNumbers = extractTokens(currentMatchInfo.matched).stream()
-                                                                              .map(Token::getLine)
-                                                                              .collect(Collectors.toSet());
+            Set<Integer> lineNumbers = extractTokens(currentMatchInfo.getMatchedRegion()).stream()
+                                                                                         .map(Token::getLine)
+                                                                                         .collect(Collectors.toSet());
             childrenOnNewLine = lineNumbers.size() > 1;
 
             // TODO find a better way to extract children indentation
-            childrenIndented = childrenOnNewLine && extractTokens(currentMatchInfo.matched).stream()
-                                                                                           .allMatch(it -> it.getCharPositionInLine() > 0);
+            childrenIndented = childrenOnNewLine && extractTokens(currentMatchInfo.getMatchedRegion()).stream()
+                                                                                                      .allMatch(it -> it.getCharPositionInLine() > 0);
         }
         return new FormatInfo(currentMatchInfo.rule, appendedNewLine, appendSpace, childrenOnNewLine, childrenIndented);
 
@@ -91,15 +91,15 @@ class FormatInfoExtractor {
     private static MatchInfo createDummyNextTokenMatchInfo(List<MatchInfo> matchInfos, CommonTokenStream tokens) {
         for (int i = matchInfos.size() - 1; i >= 0; i--) {
             MatchInfo matchInfo = matchInfos.get(i);
-            if (!matchInfo.matched.isEmpty()) {
-                Token rightmostToken = extractRightmostToken(matchInfo.matched.get(matchInfo.matched.size() - 1));
+            if (matchInfo.isNotEmpty()) {
+                Token rightmostToken = extractRightmostToken(matchInfo.getRightMostParseTree());
                 CommonToken dummyToken = new CommonToken(rightmostToken);
                 dummyToken.setCharPositionInLine(rightmostToken.getCharPositionInLine() + rightmostToken.getText()
                                                                                                         .length() + 1);
-                return new MatchInfo(null, null, -1, Collections.singletonList(new TerminalNodeImpl(dummyToken)));
+                return new MatchInfo(null, null, Collections.singletonList(Collections.singletonList(new TerminalNodeImpl(dummyToken))));
             }
         }
-        return new MatchInfo(null, null, -1, Collections.emptyList());
+        return new MatchInfo(null, null, Collections.emptyList());
     }
 
     /**

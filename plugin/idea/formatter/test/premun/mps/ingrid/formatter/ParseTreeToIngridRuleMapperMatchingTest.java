@@ -2,6 +2,7 @@ package premun.mps.ingrid.formatter;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Ignore;
 import org.junit.Test;
 import premun.mps.ingrid.formatter.model.GrammarDTO;
@@ -12,7 +13,9 @@ import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.ParserRule;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -40,7 +43,8 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         // one element
         assertEquals(1, matchInfoList.size());
         // matches only once
-        assertEquals(1, matchInfoList.get(0).times);
+        assertEquals(1, matchInfoList.get(0)
+                                     .times());
 
         assertEquals("set", matchInfoList.get(0).rule.name);
 
@@ -72,16 +76,20 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         assertEquals(4, matchInfoList.size());
 
         // lbracket matched only once
-        assertEquals(1, matchInfoList.get(0).times);
+        assertEquals(1, matchInfoList.get(0)
+                                     .times());
 
         // elem matched only once
-        assertEquals(1, matchInfoList.get(1).times);
+        assertEquals(1, matchInfoList.get(1)
+                                     .times());
 
         // blk matched twice
-        assertEquals(2, matchInfoList.get(2).times);
+        assertEquals(2, matchInfoList.get(2)
+                                     .times());
 
         // rbracket matched once
-        assertEquals(1, matchInfoList.get(3).times);
+        assertEquals(1, matchInfoList.get(3)
+                                     .times());
 
         // check that correct alternative was selected
         assertEquals(
@@ -109,10 +117,12 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         assertEquals(2, matchInfoList.size());
 
         // lbracket matched only once
-        assertEquals(1, matchInfoList.get(0).times);
+        assertEquals(1, matchInfoList.get(0)
+                                     .times());
 
         // rbracket matched once
-        assertEquals(1, matchInfoList.get(1).times);
+        assertEquals(1, matchInfoList.get(1)
+                                     .times());
 
         // check that correct alternative was selected
         assertEquals(
@@ -141,14 +151,21 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         MatchInfo innerSetMatchInfo = matchInfoList.get(2);
         assertTrue(innerSetMatchInfo.rule instanceof ParseTreeToIngridRuleMapper.SerializedParserRule); // our own abstraction for handling block rules
 
+        // (',' elem) should be there twice
+        assertEquals(2, innerSetMatchInfo.matched.size());
+
+        List<ParseTree> blk = innerSetMatchInfo.matched.stream()
+                                                       .flatMap(Collection::stream)
+                                                       .collect(Collectors.toList());
+
         // blk should match: ',' elem ',' elem
-        assertEquals(4, innerSetMatchInfo.matched.size());
-        assertEquals(",", innerSetMatchInfo.matched.get(0)
-                                                   .getText());
-        assertEquals("elem", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) innerSetMatchInfo.matched.get(1)).getRuleIndex()]);
-        assertEquals(",", innerSetMatchInfo.matched.get(2)
-                                                   .getText());
-        assertEquals("elem", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) innerSetMatchInfo.matched.get(3)).getRuleIndex()]);
+        assertEquals(4, blk.size());
+        assertEquals(",", blk.get(0)
+                             .getText());
+        assertEquals("elem", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) blk.get(1)).getRuleIndex()]);
+        assertEquals(",", blk.get(2)
+                             .getText());
+        assertEquals("elem", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) blk.get(3)).getRuleIndex()]);
 
     }
 
@@ -172,17 +189,24 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         MatchInfo innerSetMatchInfo = matchInfoList.get(2);
         assertTrue(innerSetMatchInfo.rule instanceof ParseTreeToIngridRuleMapper.SerializedParserRule); // our own abstraction for handling block rules
 
+        // (',' elem) should be there twice
+        assertEquals(2, innerSetMatchInfo.matched.size());
+
+        List<ParseTree> blk = innerSetMatchInfo.matched.stream()
+                                                       .flatMap(Collection::stream)
+                                                       .collect(Collectors.toList());
+
         // blk should match: ',' elem ',' elem
-        assertEquals(4, innerSetMatchInfo.matched.size());
-        assertEquals(",", innerSetMatchInfo.matched.get(0)
+        assertEquals(4, blk.size());
+        assertEquals(",", blk.get(0)
                                                    .getText());
-        assertEquals("elem", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) innerSetMatchInfo.matched.get(1)).getRuleIndex()]);
-        assertEquals(",", innerSetMatchInfo.matched.get(2)
+        assertEquals("elem", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) blk.get(1)).getRuleIndex()]);
+        assertEquals(",", blk.get(2)
                                                    .getText());
-        ParserRuleContext mostNestedSetRule = ((ParserRuleContext) innerSetMatchInfo.matched.get(1));
+        ParserRuleContext mostNestedSetRule = ((ParserRuleContext) blk.get(1));
         // now elem -> set
         assertEquals(1, mostNestedSetRule.children.size());
-        assertEquals("set", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) mostNestedSetRule.children.get(0)).getRuleIndex()]);
+        assertEquals("set", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) mostNestedSetRule.getChild(0)).getRuleIndex()]);
 
 
     }

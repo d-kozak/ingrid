@@ -83,13 +83,12 @@ public class ParseTreeToIngridRuleMapper {
     private static List<MatchInfo> match(List<RuleReference> elements, List<ParseTree> ast, List<String> ruleNames, boolean isTopLevelCall) {
         List<MatchInfo> result = new ArrayList<>();
         for (RuleReference ruleReference : elements) {
-            List<ParseTree> tmp = new ArrayList<>();
-            int times = 0;
+            List<List<ParseTree>> matched = new ArrayList<>();
             switch (ruleReference.quantity) {
                 case MAX_ONE: {
                     // it is ok not to match optional element
                     List<ParseTree> match = match(ruleReference.rule, ast, ruleNames);
-                    result.add(new MatchInfo(ruleReference.rule, Quantity.MAX_ONE, match.size(), match));
+                    result.add(new MatchInfo(ruleReference.rule, Quantity.MAX_ONE, Collections.singletonList(match)));
                     break;
                 }
                 case EXACTLY_ONE: {
@@ -97,25 +96,23 @@ public class ParseTreeToIngridRuleMapper {
                     if (match.isEmpty()) {
                         return null;
                     }
-                    result.add(new MatchInfo(ruleReference.rule, Quantity.EXACTLY_ONE, 1, match));
+                    result.add(new MatchInfo(ruleReference.rule, Quantity.EXACTLY_ONE, Collections.singletonList(match)));
                     break;
                 }
                 case AT_LEAST_ONE:
-                    List<ParseTree> match = match(ruleReference.rule, ast, ruleNames);
-                    if (match.isEmpty()) {
+                    List<ParseTree> currentMatch = match(ruleReference.rule, ast, ruleNames);
+                    if (currentMatch.isEmpty()) {
                         return null;
                     }
-                    tmp.addAll(match);
-                    times++;
+                    matched.add(currentMatch);
                     // note that there is no break here, we continue to ANY to match any remaining iterations
                 case ANY:
-                    List<ParseTree> m = match(ruleReference.rule, ast, ruleNames);
-                    while (!m.isEmpty()) {
-                        tmp.addAll(m);
-                        times++;
-                        m = match(ruleReference.rule, ast, ruleNames);
+                    currentMatch = match(ruleReference.rule, ast, ruleNames);
+                    while (!currentMatch.isEmpty()) {
+                        matched.add(currentMatch);
+                        currentMatch = match(ruleReference.rule, ast, ruleNames);
                     }
-                    result.add(new MatchInfo(ruleReference.rule, ruleReference.quantity, times, tmp));
+                    result.add(new MatchInfo(ruleReference.rule, ruleReference.quantity, matched));
                     break;
             }
         }
@@ -169,7 +166,8 @@ public class ParseTreeToIngridRuleMapper {
                 List<RuleFormatInfo> formatInfoList = blockRules.computeIfAbsent(pair(parserRule.rule, ((AlternativeDTO) parserRule.alternative).original), __ -> new ArrayList<>());
                 formatInfoList.add(new RuleFormatInfo(FormatInfoExtractor.extractFormatInfo(result, ParseTreeToIngridRuleMapper.tokens)));
                 return result.stream()
-                             .flatMap(matchInfo -> matchInfo.matched.stream())
+                             .flatMap(matchInfo -> matchInfo.matched.stream()
+                                                                    .flatMap(Collection::stream))
                              .collect(Collectors.toList());
             } else return Collections.emptyList();
         } else return Collections.emptyList();
