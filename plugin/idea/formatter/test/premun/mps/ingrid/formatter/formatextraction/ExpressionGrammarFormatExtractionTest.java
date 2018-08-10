@@ -66,6 +66,258 @@ public class ExpressionGrammarFormatExtractionTest {
     }
 
     @Test
+    public void expressionGrammarVerySimple__noSpaces() {
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("(1+1)*2", TestGrammars.expressionGrammar);
+        dumpSimplifiedMap(formatInfoMap);
+
+        verifyFormatInfoMap(
+                formatInfoMap,
+                rules(
+                        rule(
+                                "expr", 5,
+                                handle(
+                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 3,
+                                handle(
+                                        elem("expr", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("+", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 1,
+                                handle(
+                                        elem("expr", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("*", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 0,
+                                handle(
+                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
+    }
+
+    @Test
+    public void expressionGrammarVerySimple__spacesEverywhere() {
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("( 1 + 1 ) * 2", TestGrammars.expressionGrammar);
+        dumpSimplifiedMap(formatInfoMap);
+
+        verifyFormatInfoMap(
+                formatInfoMap,
+                rules(
+                        rule(
+                                "expr", 5,
+                                handle(
+                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 3,
+                                handle(
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 1,
+                                handle(
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("*", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 0,
+                                handle(
+                                        elem("(", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
+    }
+
+    @Test
+    public void expressionGrammarVerySimple__plusHasNewLinesExpectForRightExpr() {
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("(1\n+\n1)*2", TestGrammars.expressionGrammar);
+        dumpSimplifiedMap(formatInfoMap);
+
+        verifyFormatInfoMap(
+                formatInfoMap,
+                rules(
+                        rule(
+                                "expr", 5,
+                                handle(
+                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 3,
+                                handle(
+                                        elem("expr", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("+", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 1,
+                                handle(
+                                        elem("expr", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("*", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 0,
+                                handle(
+                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
+    }
+
+    @Test
+    public void expressionGrammarVerySimple__plusHasNewLines__brackHasNewLineAfterLeftBracket() {
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("(\n1\n+\n1)*2", TestGrammars.expressionGrammar);
+        dumpSimplifiedMap(formatInfoMap);
+
+        verifyFormatInfoMap(
+                formatInfoMap,
+                rules(
+                        rule(
+                                "expr", 5,
+                                handle(
+                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 3,
+                                handle(
+                                        elem("expr", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("+", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 1,
+                                handle(
+                                        elem("expr", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("*", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 0,
+                                handle(
+                                        elem("(", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
+    }
+
+    @Test
+    public void expressionGrammarVerySimple__plusHasNewLines__brackHasNewLineAfterLeftBracket__multHasSpaceAfterLeftExpr() {
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("(\n1\n+\n1) *2", TestGrammars.expressionGrammar);
+        dumpSimplifiedMap(formatInfoMap);
+
+        verifyFormatInfoMap(
+                formatInfoMap,
+                rules(
+                        rule(
+                                "expr", 5,
+                                handle(
+                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 3,
+                                handle(
+                                        elem("expr", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("+", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 1,
+                                handle(
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("*", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 0,
+                                handle(
+                                        elem("(", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
+    }
+
+    @Test
+    public void expressionGrammarVerySimple__plusHasNewLines__brackHasNewLineAfterLeftBracket__multHasSpaceAfterLeftExprAndSpaceAfterTheMultSymbol() {
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("(\n1\n+\n1) *\n2", TestGrammars.expressionGrammar);
+        dumpSimplifiedMap(formatInfoMap);
+
+        verifyFormatInfoMap(
+                formatInfoMap,
+                rules(
+                        rule(
+                                "expr", 5,
+                                handle(
+                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 3,
+                                handle(
+                                        elem("expr", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("+", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 1,
+                                handle(
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("*", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule(
+                                "expr", 0,
+                                handle(
+                                        elem("(", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expr", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
+    }
+
+    @Test
     public void expressionGrammarMoreComplex() {
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("((2*1) + 1)*2", TestGrammars.expressionGrammar);
         dumpSimplifiedMap(formatInfoMap);
