@@ -62,5 +62,11 @@ public class FirstAndSecondSerializationTest {
         String doublySerialized = GrammarSerializer.serialize(grammarParser.getRawParserResult());
 
         assertEquals(serialized, doublySerialized);
+
+        System.out.println("\n\n =====ORIGINAL====\n\n");
+        System.out.println(setGrammar);
+        System.out.println("\n\n ====PROCESSED====\n\n");
+        System.out.println(serialized);
+        System.out.println("\n\n =================\n\n");
     }
 }
