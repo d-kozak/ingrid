@@ -1,6 +1,8 @@
 package premun.mps.ingrid.model;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class GrammarInfo {
     public String name;
@@ -29,5 +31,20 @@ public class GrammarInfo {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GrammarInfo that = (GrammarInfo) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(rules, that.rules) &&
+                Objects.equals(rootRule, that.rootRule);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, rules, rootRule);
     }
 }

@@ -1,6 +1,8 @@
 package premun.mps.ingrid.model;
 
-import org.jetbrains.mps.openapi.model.*;
+import org.jetbrains.mps.openapi.model.SNode;
+
+import java.util.Objects;
 
 /**
  * Class wrapper used inside rule alternatives. Represents a single alternative element.
@@ -34,5 +36,20 @@ public class RuleReference {
     @Override
     public String toString() {
         return this.rule.toString() + this.quantity.toString();
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RuleReference that = (RuleReference) o;
+        return Objects.equals(rule, that.rule) &&
+                quantity == that.quantity;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(rule, quantity);
     }
 }
