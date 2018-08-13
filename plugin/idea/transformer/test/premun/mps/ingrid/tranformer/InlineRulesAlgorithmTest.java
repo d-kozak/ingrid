@@ -5,7 +5,7 @@ import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.parser.GrammarParser;
 import premun.mps.ingrid.serialization.GrammarSerializer;
-import premun.mps.ingrid.transformer.GrammarTransformer;
+import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +17,7 @@ import static premun.mps.ingrid.tranformer.GrammarAsserts.assertGrammarEquals;
  *
  * @author dkozak
  */
-public class GrammarTransformerTest {
+public class InlineRulesAlgorithmTest {
 
     @Test
     public void bookGrammar__inlineBookName() {
@@ -186,7 +186,7 @@ public class GrammarTransformerTest {
         grammarParser.parseString(grammar);
         GrammarInfo grammarInfo = grammarParser.resolveGrammar();
 
-        GrammarInfo simplified = GrammarTransformer.inlineRules(grammarInfo, toInline);
+        GrammarInfo simplified = InlineRulesAlgorithm.inlineRules(grammarInfo, toInline);
 
         String result = GrammarSerializer.serializeGrammar(simplified);
 

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  *
  * @author dkozak
  */
-public class GrammarTransformer {
+public class InlineRulesAlgorithm {
 
     /**
      * Inlines specified rules
