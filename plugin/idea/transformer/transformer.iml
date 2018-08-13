@@ -20,5 +20,7 @@
     </orderEntry>
     <orderEntry type="module" module-name="model" />
     <orderEntry type="module" module-name="parser" />
+    <orderEntry type="module" module-name="formatter" />
+    <orderEntry type="module" module-name="serialization" />
   </component>
 </module>

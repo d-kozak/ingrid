@@ -19,4 +19,13 @@ public class ParserResult {
         this.rules = rules;
         this.rootRule = rootRule;
     }
+
+    @Override
+    public String toString() {
+        return "ParserResult{" +
+                "grammarName='" + grammarName + '\'' +
+                ", rules=" + rules +
+                ", rootRule='" + rootRule + '\'' +
+                '}';
+    }
 }
