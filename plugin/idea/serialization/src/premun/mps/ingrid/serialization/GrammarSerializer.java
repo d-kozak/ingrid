@@ -61,6 +61,10 @@ public class GrammarSerializer {
             stringBuilder.append(
                     ((RegexRule) rule).regexp
             );
+        } else if (rule instanceof LiteralRule) {
+            stringBuilder.append("'")
+                         .append(((LiteralRule) rule).value)
+                         .append("'");
         } else {
             throw new IllegalArgumentException("Invalid type of rule, don't know how to handle: " + rule.getClass()
                                                                                                         .getName());
