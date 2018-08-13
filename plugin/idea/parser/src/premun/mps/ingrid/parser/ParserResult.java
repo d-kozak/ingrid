@@ -1,10 +1,11 @@
 package premun.mps.ingrid.parser;
 
-import premun.mps.ingrid.model.*;
+import premun.mps.ingrid.model.Rule;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-class ParserResult {
+public class ParserResult {
     public String grammarName;
     public Map<String, Rule> rules;
     public String rootRule;

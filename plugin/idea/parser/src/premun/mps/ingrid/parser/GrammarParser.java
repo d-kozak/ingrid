@@ -1,13 +1,20 @@
 package premun.mps.ingrid.parser;
 
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
-import premun.mps.ingrid.model.*;
-import premun.mps.ingrid.parser.antlr.*;
-import premun.mps.ingrid.parser.exception.*;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import premun.mps.ingrid.model.GrammarInfo;
+import premun.mps.ingrid.model.Rule;
+import premun.mps.ingrid.parser.antlr.ANTLRv4Lexer;
+import premun.mps.ingrid.parser.antlr.ANTLRv4Parser;
+import premun.mps.ingrid.parser.exception.IngridParserException;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class GrammarParser {
     private ParserResult data = new ParserResult();
@@ -71,6 +78,13 @@ public class GrammarParser {
         for (Map.Entry<String, Rule> entry : parseResult.rules.entrySet()) {
             this.data.rules.put(entry.getKey(), entry.getValue());
         }
+    }
+
+    /**
+     * @return raw parser result without any post processing
+     */
+    public ParserResult getRawParserResult() {
+        return data;
     }
 
     public GrammarInfo resolveGrammar() {
