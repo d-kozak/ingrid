@@ -1,25 +1,33 @@
 package premun.mps.ingrid.serialization;
 
 import premun.mps.ingrid.model.*;
-import premun.mps.ingrid.parser.ParserResult;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
 
+/**
+ * Serializes GrammarInfo aka Ingrid Model back into Antlr4 grammar. This step
+ * is useful for rewrites on the grammar that should be done before the parser of the input
+ * language is generated from it, so that the parse tree returned from the parser
+ * corresponds with the Ingrid MOdel. If we first generated the parser and then tweaked the grammar,
+ * the parse tree would be different.
+ *
+ * @author dkozak
+ */
 public class GrammarSerializer {
 
-    public static String serialize(ParserResult parserResult) {
-        String name = parserResult.grammarName;
-
+    public static String serializeGrammar(GrammarInfo grammarInfo) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("grammar ")
-                     .append(name)
-                     .append(";\n\n");
+                     .append(grammarInfo.name)
+                     .append(";")
+                     .append("\n\n");
 
-        Rule rootRule = parserResult.rules.get(parserResult.rootRule);
-        HashMap<String, Rule> copy = new HashMap<>(parserResult.rules);
-        copy.remove(parserResult.rootRule);
+        Rule rootRule = grammarInfo.rules.get(grammarInfo.rootRule.name);
+        HashMap<String, Rule> copy = new HashMap<>(grammarInfo.rules);
+        copy.remove(rootRule.name);
 
         stringBuilder.append(serializeRule(rootRule));
 
@@ -28,51 +36,32 @@ public class GrammarSerializer {
                                  .map(GrammarSerializer::serializeRule)
                                  .collect(joining("\n")));
 
-
         return stringBuilder.toString();
     }
 
     private static String serializeRule(Rule rule) {
         StringBuilder stringBuilder = new StringBuilder();
-
         stringBuilder.append(rule.name)
                      .append("\n\t : ");
 
-        if (rule instanceof LexerRule) {
-            stringBuilder.append(((LexerRule) rule).alternatives.stream()
-                                                                .map(
-                                                                        list -> list.stream()
-                                                                                    .map(it -> {
-                                                                                        if (it instanceof LiteralRule)
-                                                                                            return "'" + ((LiteralRule) it).value + "'";
-                                                                                        else if (it instanceof RegexRule)
-                                                                                            return ((RegexRule) it).regexp;
-                                                                                        else return it.name;
-                                                                                    })
-                                                                                    .collect(joining(" ")))
-                                                                .collect(joining("|")));
+        if (rule instanceof FlatLexerRule) {
+            stringBuilder.append(serializeLexerRule((FlatLexerRule) rule));
         } else if (rule instanceof ParserRule) {
-            stringBuilder.append(
-                    ((ParserRule) rule).alternatives.stream()
-                                                    .map(GrammarSerializer::serializeAlternative)
-                                                    .collect(joining("\n\t | "))
-            );
-        } else if (rule instanceof RegexRule) {
-            stringBuilder.append(
-                    ((RegexRule) rule).regexp
-            );
-        } else if (rule instanceof LiteralRule) {
-            stringBuilder.append("'")
-                         .append(((LiteralRule) rule).value)
-                         .append("'");
+            stringBuilder.append(serializeParserRule(((ParserRule) rule)));
         } else {
-            throw new IllegalArgumentException("Invalid type of rule, don't know how to handle: " + rule.getClass()
-                                                                                                        .getName());
+            throw new IllegalArgumentException("Unsupported type of rule: " + rule.getClass()
+                                                                                  .getName());
         }
+        return stringBuilder.append("\n")
+                            .append("\t")
+                            .append(" ;\n\n")
+                            .toString();
+    }
 
-        return stringBuilder
-                .append("\n\t ;\n\n")
-                .toString();
+    private static String serializeParserRule(ParserRule rule) {
+        return rule.alternatives.stream()
+                                .map(GrammarSerializer::serializeAlternative)
+                                .collect(Collectors.joining("\n\t | "));
     }
 
     private static String serializeAlternative(Alternative alternative) {
@@ -82,8 +71,20 @@ public class GrammarSerializer {
     }
 
     private static String serializeRuleReference(RuleReference ruleReference) {
-        if (ruleReference.rule instanceof LiteralRule)
+        if (ruleReference.rule instanceof LiteralRule) {
             return "'" + ((LiteralRule) ruleReference.rule).value + "'" + ruleReference.quantity;
+        }
         return ruleReference.rule.name + ruleReference.quantity;
+    }
+
+    private static String serializeLexerRule(FlatLexerRule rule) {
+        if (rule instanceof LiteralRule) {
+            return "'" + ((LiteralRule) rule).value + "'";
+        } else if (rule instanceof RegexRule) {
+            return RegexSerializer.serializeRegex(((RegexRule) rule).regexp);
+        } else {
+            throw new IllegalArgumentException("Unsupported type of rule: " + rule.getClass()
+                                                                                  .getName());
+        }
     }
 }

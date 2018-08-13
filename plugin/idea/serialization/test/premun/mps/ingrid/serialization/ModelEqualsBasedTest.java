@@ -5,7 +5,6 @@ import org.junit.Test;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.parser.GrammarParser;
-import premun.mps.ingrid.parser.ParserResult;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,7 +20,6 @@ public class ModelEqualsBasedTest {
     @Test
     public void setGrammar() {
         compareModels(TestGrammars.setGrammar);
-
     }
 
     @Test
@@ -57,12 +55,9 @@ public class ModelEqualsBasedTest {
     private void compareModels(String grammar) {
         GrammarParser grammarParser = new GrammarParser();
         grammarParser.parseString(grammar);
-
-        ParserResult rawParserResult = grammarParser.getRawParserResult();
-
-        String serialized = GrammarSerializer.serialize(rawParserResult);
-
         GrammarInfo infoOne = grammarParser.resolveGrammar();
+
+        String serialized = GrammarSerializer.serializeGrammar(infoOne);
 
         grammarParser = new GrammarParser();
         grammarParser.parseString(serialized);

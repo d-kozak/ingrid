@@ -55,7 +55,7 @@ public class GrammarIsStillParseableTest {
         grammarParser.parseString(grammar);
         ParserResult rawParserResult = grammarParser.getRawParserResult();
 
-        String serialized = GrammarSerializer.serialize(rawParserResult);
+        String serialized = GrammarSerializer.serializeGrammar(grammarParser.resolveGrammar());
 
         try {
             Grammar antlrGrammar = new Grammar(serialized);

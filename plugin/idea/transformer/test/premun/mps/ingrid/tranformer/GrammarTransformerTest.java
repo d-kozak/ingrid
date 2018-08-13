@@ -2,8 +2,8 @@ package premun.mps.ingrid.tranformer;
 
 import org.junit.Test;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
+import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.parser.GrammarParser;
-import premun.mps.ingrid.parser.ParserResult;
 import premun.mps.ingrid.serialization.GrammarSerializer;
 import premun.mps.ingrid.transformer.GrammarTransformer;
 
@@ -26,11 +26,11 @@ public class GrammarTransformerTest {
 
         GrammarParser grammarParser = new GrammarParser();
         grammarParser.parseString(grammar);
-        ParserResult rawParserResult = grammarParser.getRawParserResult();
+        GrammarInfo grammarInfo = grammarParser.resolveGrammar();
 
-        ParserResult simplified = GrammarTransformer.inlineRules(rawParserResult, toInline);
+        GrammarInfo simplified = GrammarTransformer.inlineRules(grammarInfo, toInline);
 
-        String result = GrammarSerializer.serialize(simplified);
+        String result = GrammarSerializer.serializeGrammar(simplified);
 
 
         String expected = "grammar Book;\n" +
@@ -53,6 +53,7 @@ public class GrammarTransformerTest {
                 "WS : [ \\t\\n] -> skip;";
 
         System.out.println(result);
+
 
         assertGrammarEquals(expected, result);
 

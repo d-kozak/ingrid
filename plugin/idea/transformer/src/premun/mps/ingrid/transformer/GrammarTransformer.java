@@ -1,10 +1,6 @@
 package premun.mps.ingrid.transformer;
 
-import premun.mps.ingrid.model.Alternative;
-import premun.mps.ingrid.model.ParserRule;
-import premun.mps.ingrid.model.Rule;
-import premun.mps.ingrid.model.RuleReference;
-import premun.mps.ingrid.parser.ParserResult;
+import premun.mps.ingrid.model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,19 +22,13 @@ public class GrammarTransformer {
      * @param rulesToInline names of rules to inline
      * @return new instance of ParserResult containing specified rules
      */
-    public static ParserResult inlineRules(ParserResult input, List<String> rulesToInline) {
-        List<String> unresolvedRules = rulesToInline.stream()
-                                                    .filter(it -> input.rules.get(it) == null)
-                                                    .collect(Collectors.toList());
-        if (!unresolvedRules.isEmpty()) {
-            throw new IllegalArgumentException("Rules " + unresolvedRules + " were not found in " + input);
-        }
+    public static GrammarInfo inlineRules(GrammarInfo input, List<String> rulesToInline) {
+        checkForUnresolvedRules(input, rulesToInline);
 
 
-        ParserResult result = new ParserResult();
-        result.grammarName = input.grammarName;
+        GrammarInfo result = new GrammarInfo(input.name);
         result.rootRule = input.rootRule;
-        if (rulesToInline.contains(input.rootRule)) {
+        if (rulesToInline.contains(input.rootRule.name)) {
             throw new IllegalArgumentException("Cannot inline root rule");
         }
         result.rules = deepCopy(input.rules);
@@ -73,6 +63,15 @@ public class GrammarTransformer {
             result.rules.remove(ruleName);
         }
         return result;
+    }
+
+    private static void checkForUnresolvedRules(GrammarInfo input, List<String> rulesToInline) {
+        List<String> unresolvedRules = rulesToInline.stream()
+                                                    .filter(it -> input.rules.get(it) == null)
+                                                    .collect(Collectors.toList());
+        if (!unresolvedRules.isEmpty()) {
+            throw new IllegalArgumentException("Rules " + unresolvedRules + " were not found in " + input);
+        }
     }
 
     private static List<RuleReference> inlineRule(Rule ruleToInline) {
