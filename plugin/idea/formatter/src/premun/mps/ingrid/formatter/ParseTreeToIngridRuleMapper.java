@@ -44,29 +44,44 @@ import static premun.mps.ingrid.formatter.utils.Pair.pair;
  */
 public class ParseTreeToIngridRuleMapper {
 
-    private static final Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules = new HashMap<>();
+    /**
+     * Antlr4 stream of all tokens, it is necessary when processing the block rules, because FormatInfoExtractorRequires them
+     */
+    private final CommonTokenStream tokens;
+    /**
+     * Names of all rules, according to the order in which they appear in the grammar
+     */
+    private final List<String> ruleNames;
+    /**
+     * Block rules processed as a side effect of the mapping algorithm
+     */
+    private Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules;
 
-    private static CommonTokenStream tokens;
+    /**
+     * @param tokens    Antlr4 stream of all tokens, it is necessary when processing the block rules, because FormatInfoExtractorRequires them
+     * @param ruleNames Names of all rules, according to the order in which they appear in the grammar
+     */
+    public ParseTreeToIngridRuleMapper(CommonTokenStream tokens, List<String> ruleNames) {
+        this.tokens = tokens;
+        this.ruleNames = ruleNames;
+    }
+
 
     /**
      * Figures out which alternative can parse the ast and returns how the ast can be parsed
      *
      * @param alternatives list of alternatives, one of them has to match
      * @param ast          input which should be parsed by one of the alternative
-     * @param ruleNames    names of rules from grammar, in the same ordering as in the grammar file
      * @return Which Alternative matched the ast and how
      */
-    public static Pair<Alternative, List<MatchInfo>> resolve(List<Alternative> alternatives, List<ParseTree> ast, List<String> ruleNames, CommonTokenStream tokens) {
-        blockRules.clear();
-        ParseTreeToIngridRuleMapper.tokens = tokens;
-
+    public Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>>> resolve(List<Alternative> alternatives, List<ParseTree> ast) {
+        blockRules = new HashMap<>();
         alternatives = expandRules(alternatives);
         for (Alternative alternative : alternatives) {
-            List<MatchInfo> matchInfoList = match(alternative.elements, new ArrayList<>(ast), ruleNames, true);
+            List<MatchInfo> matchInfoList = match(alternative.elements, new ArrayList<>(ast), true);
             if (matchInfoList != null) {
-                return pair(((AlternativeDTO) alternative).original, matchInfoList);
+                return pair(pair(((AlternativeDTO) alternative).original, matchInfoList), blockRules);
             }
-            blockRules.clear();
         }
         throw new IllegalArgumentException("Did not match");
     }
@@ -76,23 +91,22 @@ public class ParseTreeToIngridRuleMapper {
      *
      * @param elements       rule handle which could match the ast
      * @param ast            ast to match
-     * @param ruleNames      names of rules from grammar, in the same ordering as in the grammar file
      * @param isTopLevelCall topLevel calls have to match the whole input, while calls for inner block rules don't have to do that
      * @return list of matchInfo objects, one for each ruleReference in the elements list, or null if input was not matched
      */
-    private static List<MatchInfo> match(List<RuleReference> elements, List<ParseTree> ast, List<String> ruleNames, boolean isTopLevelCall) {
+    private List<MatchInfo> match(List<RuleReference> elements, List<ParseTree> ast, boolean isTopLevelCall) {
         List<MatchInfo> result = new ArrayList<>();
         for (RuleReference ruleReference : elements) {
             List<List<ParseTree>> matched = new ArrayList<>();
             switch (ruleReference.quantity) {
                 case MAX_ONE: {
                     // it is ok not to match optional element
-                    List<ParseTree> match = match(ruleReference.rule, ast, ruleNames);
+                    List<ParseTree> match = match(ruleReference.rule, ast);
                     result.add(new MatchInfo(ruleReference.rule, Quantity.MAX_ONE, Collections.singletonList(match)));
                     break;
                 }
                 case EXACTLY_ONE: {
-                    List<ParseTree> match = match(ruleReference.rule, ast, ruleNames);
+                    List<ParseTree> match = match(ruleReference.rule, ast);
                     if (match.isEmpty()) {
                         return null;
                     }
@@ -100,17 +114,17 @@ public class ParseTreeToIngridRuleMapper {
                     break;
                 }
                 case AT_LEAST_ONE:
-                    List<ParseTree> currentMatch = match(ruleReference.rule, ast, ruleNames);
+                    List<ParseTree> currentMatch = match(ruleReference.rule, ast);
                     if (currentMatch.isEmpty()) {
                         return null;
                     }
                     matched.add(currentMatch);
                     // note that there is no break here, we continue to ANY to match any remaining iterations
                 case ANY:
-                    currentMatch = match(ruleReference.rule, ast, ruleNames);
+                    currentMatch = match(ruleReference.rule, ast);
                     while (!currentMatch.isEmpty()) {
                         matched.add(currentMatch);
-                        currentMatch = match(ruleReference.rule, ast, ruleNames);
+                        currentMatch = match(ruleReference.rule, ast);
                     }
                     result.add(new MatchInfo(ruleReference.rule, ruleReference.quantity, matched));
                     break;
@@ -129,10 +143,9 @@ public class ParseTreeToIngridRuleMapper {
      *
      * @param rule      rule which should match the parse tree
      * @param parseTree parse tree to match
-     * @param ruleNames names of rules from grammar, in the same ordering as in the grammar file
      * @return List of elements that matched the rule
      */
-    private static List<ParseTree> match(Rule rule, List<ParseTree> parseTree, List<String> ruleNames) {
+    private List<ParseTree> match(Rule rule, List<ParseTree> parseTree) {
         if (parseTree.size() == 0) {
             return Collections.emptyList();
         }
@@ -161,10 +174,10 @@ public class ParseTreeToIngridRuleMapper {
             return Collections.emptyList();
         } else if (rule instanceof SerializedParserRule) {
             SerializedParserRule parserRule = (SerializedParserRule) rule;
-            List<MatchInfo> result = match((parserRule).alternative.elements, parseTree, ruleNames, false);
+            List<MatchInfo> result = match((parserRule).alternative.elements, parseTree, false);
             if (result != null) {
                 List<RuleFormatInfo> formatInfoList = blockRules.computeIfAbsent(pair(parserRule.rule, ((AlternativeDTO) parserRule.alternative).original), __ -> new ArrayList<>());
-                formatInfoList.add(new RuleFormatInfo(FormatInfoExtractor.extractFormatInfo(result, ParseTreeToIngridRuleMapper.tokens)));
+                formatInfoList.add(new RuleFormatInfo(FormatInfoExtractor.extractFormatInfo(result, tokens)));
                 return result.stream()
                              .flatMap(matchInfo -> matchInfo.matched.stream()
                                                                     .flatMap(Collection::stream))
@@ -254,10 +267,6 @@ public class ParseTreeToIngridRuleMapper {
         }
     }
 
-    public static Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> getBlockRules() {
-        return blockRules;
-    }
-
     /**
      * A temporal rule inserted into the Ingrid model during alternative expanding
      */
@@ -273,7 +282,6 @@ public class ParseTreeToIngridRuleMapper {
 
 
     }
-
 
     /**
      * Internally used DTO that represents expanded alternative created in expandRules method.

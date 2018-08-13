@@ -3,7 +3,6 @@ package premun.mps.ingrid.formatter;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.junit.Ignore;
 import org.junit.Test;
 import premun.mps.ingrid.formatter.model.GrammarDTO;
 import premun.mps.ingrid.formatter.model.MatchInfo;
@@ -37,7 +36,8 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("compilationUnit");
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens);
+        ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children).first;
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         // one element
@@ -69,7 +69,8 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames, grammarDTO.tokens);
+        ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children).first;
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         // four elements - lbracket elem blk rbracket
@@ -110,7 +111,8 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames, grammarDTO.tokens);
+        ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children).first;
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         // two elements - lbracket rbracket
@@ -143,7 +145,8 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames, grammarDTO.tokens);
+        ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children).first;
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         assertEquals(4, matchInfoList.size());
@@ -181,7 +184,8 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         // get wanted subtree - set
         ParserRuleContext setSubtree = ((ParserRuleContext) grammarDTO.ast.getChild(0));
 
-        Pair<Alternative, List<MatchInfo>> selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children, ruleNames, grammarDTO.tokens);
+        ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Pair<Alternative, List<MatchInfo>> selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children).first;
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
         assertEquals(4, matchInfoList.size());
@@ -228,27 +232,9 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
         ParserRule compilationUnit = (ParserRule) grammarDTO.grammarInfo.rules.get("compilationUnit");
 
-
-        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(compilationUnit.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens);
+        ParseTreeToIngridRuleMapper ruleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Pair<Alternative, List<MatchInfo>> pair = ruleMapper.resolve(compilationUnit.alternatives, grammarDTO.ast.children).first;
 
         assertEquals(0, compilationUnit.alternatives.indexOf(pair.first));
-    }
-
-
-    @Ignore // TODO sadly this test does not work, the grammar cannot be parsed
-    @Test
-    public void cpp14Grammar__crazyTemplateExample() throws RecognitionException {
-        String cpp14grammar = TestGrammars.loadCpp14();
-        String startRuleName = "translationUnit";
-        String input = TestGrammars.loadResource("/brigand.hpp");
-
-        GrammarDTO grammarDTO = prepareGrammar(cpp14grammar, startRuleName, input);
-        List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
-        ParserRule translationUnit = (ParserRule) grammarDTO.grammarInfo.rules.get("translationUnit");
-
-
-        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(translationUnit.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens);
-
-        System.out.println("Made it!");
     }
 }

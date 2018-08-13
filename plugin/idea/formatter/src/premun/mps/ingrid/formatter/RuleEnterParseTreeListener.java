@@ -44,10 +44,13 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
      */
     private final GrammarInfo grammarInfo;
 
+    private final ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper;
+
     public RuleEnterParseTreeListener(Grammar grammar, GrammarInfo grammarInfo, CommonTokenStream tokens) {
         this.grammar = grammar;
         this.grammarInfo = grammarInfo;
         this.tokens = tokens;
+        this.parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(tokens, Arrays.asList(grammar.getRuleNames()));
     }
 
     /**
@@ -61,8 +64,9 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
         Rule antlrRule = grammar.getRule(parserRuleContext.getRuleIndex());
         ParserRule parserRule = (ParserRule) grammarInfo.rules.get(antlrRule.name);
 
-        Pair<Alternative, List<MatchInfo>> pair = ParseTreeToIngridRuleMapper.resolve(parserRule.alternatives, parserRuleContext.children, Arrays.asList(grammar.getRuleNames()), tokens);
-        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules = ParseTreeToIngridRuleMapper.getBlockRules();
+        Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>>> resolved = parseTreeToIngridRuleMapper.resolve(parserRule.alternatives, parserRuleContext.children);
+        Pair<Alternative, List<MatchInfo>> pair = resolved.first;
+        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules = resolved.second;
         addBlockRules(blockRules);
         Alternative appropriateAlternative = pair.first;
         List<FormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(pair.second, tokens);

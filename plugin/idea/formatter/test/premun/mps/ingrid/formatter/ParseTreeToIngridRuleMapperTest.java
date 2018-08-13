@@ -31,7 +31,8 @@ public class ParseTreeToIngridRuleMapperTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("rule");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens).first;
+        ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Alternative selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children).first.first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -45,7 +46,8 @@ public class ParseTreeToIngridRuleMapperTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("rule");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens).first;
+        ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Alternative selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children).first.first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);
@@ -62,7 +64,8 @@ public class ParseTreeToIngridRuleMapperTest {
         ParserRuleContext set = (ParserRuleContext) grammarDTO.ast.getChild(0);
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("set");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, set.children, ruleNames, grammarDTO.tokens).first;
+        ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Alternative selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, set.children).first.first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -79,7 +82,8 @@ public class ParseTreeToIngridRuleMapperTest {
         ParserRuleContext set = (ParserRuleContext) grammarDTO.ast.getChild(0);
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("set");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, set.children, ruleNames, grammarDTO.tokens).first;
+        ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Alternative selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, set.children).first.first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);
@@ -93,7 +97,8 @@ public class ParseTreeToIngridRuleMapperTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("book");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens).first;
+        ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Alternative selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children).first.first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(0, indexOfAlternative);
@@ -108,7 +113,8 @@ public class ParseTreeToIngridRuleMapperTest {
         List<String> ruleNames = Arrays.asList(grammarDTO.grammar.getRuleNames());
 
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("book");
-        Alternative selectedAlternative = ParseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children, ruleNames, grammarDTO.tokens).first;
+        ParseTreeToIngridRuleMapper parseTreeToIngridRuleMapper = new ParseTreeToIngridRuleMapper(grammarDTO.tokens, Arrays.asList(grammarDTO.grammar.getRuleNames()));
+        Alternative selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, grammarDTO.ast.children).first.first;
 
         int indexOfAlternative = examinedRule.alternatives.indexOf(selectedAlternative);
         assertEquals(1, indexOfAlternative);
