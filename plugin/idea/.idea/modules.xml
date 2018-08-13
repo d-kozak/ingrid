@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/parser/parser.iml" filepath="$PROJECT_DIR$/parser/parser.iml" />
       <module fileurl="file://$PROJECT_DIR$/parser_tests/parser_tests.iml" filepath="$PROJECT_DIR$/parser_tests/parser_tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/serialization/serialization.iml" filepath="$PROJECT_DIR$/serialization/serialization.iml" />
+      <module fileurl="file://$PROJECT_DIR$/transformer/transformer.iml" filepath="$PROJECT_DIR$/transformer/transformer.iml" />
     </modules>
   </component>
 </project>
