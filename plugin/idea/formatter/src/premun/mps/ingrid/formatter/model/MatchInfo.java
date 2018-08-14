@@ -18,7 +18,7 @@ public final class MatchInfo {
     /**
      * Which rule was matched
      */
-    public final premun.mps.ingrid.model.Rule rule;
+    public final Rule rule;
 
     /**
      * What quantity the rule has

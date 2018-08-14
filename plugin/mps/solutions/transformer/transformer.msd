@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<solution name="transformer" uuid="e160cd38-793b-429d-84fd-f5e8dc0825dd" moduleVersion="0" compileInMPS="true">
+<solution name="premun.mps.ingrid.transformer" uuid="e160cd38-793b-429d-84fd-f5e8dc0825dd" moduleVersion="0" compileInMPS="true">
   <models>
     <modelRoot contentPath="${module}" type="default">
       <sourceRoot location="models" />
@@ -34,7 +34,7 @@
     <module reference="4db458f1-215f-424c-8756-4cc4b0227697(org.antlr)" version="0" />
     <module reference="a34e01c8-8c6f-48c5-a512-bb294cca062e(premun.mps.ingrid.model)" version="0" />
     <module reference="66288791-e621-45d1-bebf-408d2568bbe6(premun.mps.ingrid.parser)" version="0" />
-    <module reference="e160cd38-793b-429d-84fd-f5e8dc0825dd(transformer)" version="0" />
+    <module reference="e160cd38-793b-429d-84fd-f5e8dc0825dd(premun.mps.ingrid.transformer)" version="0" />
   </dependencyVersions>
 </solution>
 

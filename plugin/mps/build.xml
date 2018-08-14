@@ -312,6 +312,78 @@
       <zipfileset file="${basedir}/solutions/premun.mps.ingrid.formatter/premun.mps.ingrid.formatter.msd" prefix="module" />
       <zipfileset dir="${build.tmp}/customProcessors/copyModels/plugin-mps-solutions-premun.mps.ingrid.formatter-models" prefix="module/models" />
     </jar>
+    <mkdir dir="${build.tmp}/default/premun.mps.ingrid.transformer.jar" />
+    <mkdir dir="${build.tmp}/default/premun.mps.ingrid.transformer.jar/META-INF" />
+    <echoxml file="${build.tmp}/default/premun.mps.ingrid.transformer.jar/META-INF/module.xml">
+      <module namespace="premun.mps.ingrid.transformer" type="solution" uuid="e160cd38-793b-429d-84fd-f5e8dc0825dd">
+        <dependencies />
+        <classpath>
+          <entry path="." />
+        </classpath>
+        <sources jar="premun.mps.ingrid.transformer-src.jar" descriptor="transformer.msd" />
+      </module>
+    </echoxml>
+    <jar destfile="${build.tmp}/default/premun.mps.ingrid.zip/Ingrid/languages/Ingrid/premun.mps.ingrid.transformer.jar" duplicate="preserve">
+      <fileset dir="${build.tmp}/java/out/premun.mps.ingrid.transformer" />
+      <fileset dir="${INGRID_HOME}/plugin/idea/transformer/src" includes="**/trace.info, **/exports, **/*.mps, **/checkpoints" />
+      <fileset dir="${INGRID_HOME}/plugin/mps/solutions/transformer/source_gen" includes="**/trace.info, **/exports, **/*.mps, **/checkpoints" />
+      <fileset dir="${build.tmp}/default/premun.mps.ingrid.transformer.jar" />
+    </jar>
+    <copyModels todir="${build.tmp}/customProcessors/copyModels/plugin-mps-solutions-transformer-models">
+      <fileset dir="${INGRID_HOME}/plugin/mps/solutions/transformer/models" includes="**/*.mps, **/*.metadata, **/*.history, **/*.mpsr, **/.model" />
+    </copyModels>
+    <jar destfile="${build.tmp}/default/premun.mps.ingrid.zip/Ingrid/languages/Ingrid/premun.mps.ingrid.transformer-src.jar" duplicate="preserve">
+      <fileset dir="${INGRID_HOME}/plugin/idea/transformer/src">
+        <exclude name="**/trace.info" />
+        <exclude name="**/exports" />
+        <exclude name="**/checkpoints" />
+        <exclude name="**/*.mps" />
+      </fileset>
+      <fileset dir="${INGRID_HOME}/plugin/mps/solutions/transformer/source_gen">
+        <exclude name="**/trace.info" />
+        <exclude name="**/exports" />
+        <exclude name="**/checkpoints" />
+        <exclude name="**/*.mps" />
+      </fileset>
+      <zipfileset file="${basedir}/solutions/transformer/transformer.msd" prefix="module" />
+      <zipfileset dir="${build.tmp}/customProcessors/copyModels/plugin-mps-solutions-transformer-models" prefix="module/models" />
+    </jar>
+    <mkdir dir="${build.tmp}/default/premun.mps.ingrid.serialization.jar" />
+    <mkdir dir="${build.tmp}/default/premun.mps.ingrid.serialization.jar/META-INF" />
+    <echoxml file="${build.tmp}/default/premun.mps.ingrid.serialization.jar/META-INF/module.xml">
+      <module namespace="premun.mps.ingrid.serialization" type="solution" uuid="e642743d-cfae-4464-8341-5180948bcf58">
+        <dependencies />
+        <classpath>
+          <entry path="." />
+        </classpath>
+        <sources jar="premun.mps.ingrid.serialization-src.jar" descriptor="serialization.msd" />
+      </module>
+    </echoxml>
+    <jar destfile="${build.tmp}/default/premun.mps.ingrid.zip/Ingrid/languages/Ingrid/premun.mps.ingrid.serialization.jar" duplicate="preserve">
+      <fileset dir="${build.tmp}/java/out/premun.mps.ingrid.serialization" />
+      <fileset dir="${INGRID_HOME}/plugin/idea/serialization/src" includes="**/trace.info, **/exports, **/*.mps, **/checkpoints" />
+      <fileset dir="${INGRID_HOME}/plugin/mps/solutions/serialization/source_gen" includes="**/trace.info, **/exports, **/*.mps, **/checkpoints" />
+      <fileset dir="${build.tmp}/default/premun.mps.ingrid.serialization.jar" />
+    </jar>
+    <copyModels todir="${build.tmp}/customProcessors/copyModels/plugin-mps-solutions-serialization-models">
+      <fileset dir="${INGRID_HOME}/plugin/mps/solutions/serialization/models" includes="**/*.mps, **/*.metadata, **/*.history, **/*.mpsr, **/.model" />
+    </copyModels>
+    <jar destfile="${build.tmp}/default/premun.mps.ingrid.zip/Ingrid/languages/Ingrid/premun.mps.ingrid.serialization-src.jar" duplicate="preserve">
+      <fileset dir="${INGRID_HOME}/plugin/idea/serialization/src">
+        <exclude name="**/trace.info" />
+        <exclude name="**/exports" />
+        <exclude name="**/checkpoints" />
+        <exclude name="**/*.mps" />
+      </fileset>
+      <fileset dir="${INGRID_HOME}/plugin/mps/solutions/serialization/source_gen">
+        <exclude name="**/trace.info" />
+        <exclude name="**/exports" />
+        <exclude name="**/checkpoints" />
+        <exclude name="**/*.mps" />
+      </fileset>
+      <zipfileset file="${basedir}/solutions/serialization/serialization.msd" prefix="module" />
+      <zipfileset dir="${build.tmp}/customProcessors/copyModels/plugin-mps-solutions-serialization-models" prefix="module/models" />
+    </jar>
     <copy todir="${build.tmp}/default/premun.mps.ingrid.zip/Ingrid">
       <fileset file="${INGRID_HOME}/plugin/lib/antlr-4.5.2-complete.jar" />
     </copy>
@@ -332,7 +404,7 @@
     <delete dir="${build.layout}" />
   </target>
   
-  <target name="compileJava" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.plugin, java.compile.premun.mps.ingrid.importer, java.compile.premun.mps.ingrid.library, java.compile.premun.mps.ingrid.model, java.compile.premun.mps.ingrid.parser, java.compile.premun.mps.ingrid.formatter" />
+  <target name="compileJava" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.plugin, java.compile.premun.mps.ingrid.importer, java.compile.premun.mps.ingrid.library, java.compile.premun.mps.ingrid.model, java.compile.premun.mps.ingrid.parser, java.compile.premun.mps.ingrid.formatter, java.compile.premun.mps.ingrid.transformer, java.compile.premun.mps.ingrid.serialization" />
   
   <target name="processResources" />
   
@@ -419,6 +491,8 @@
         <module file="${basedir}/model/premun.mps.ingrid.model.msd" />
         <module file="${basedir}/parser/premun.mps.ingrid.parser.msd" />
         <module file="${basedir}/plugin/premun.mps.ingrid.plugin.msd" />
+        <module file="${basedir}/solutions/serialization/serialization.msd" />
+        <module file="${basedir}/solutions/transformer/transformer.msd" />
       </chunk>
       <jvmargs>
         <arg value="-Xmx512m" />
@@ -492,7 +566,7 @@
     </javac>
   </target>
   
-  <target name="java.compile.premun.mps.ingrid.importer" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.formatter, java.compile.premun.mps.ingrid.library, java.compile.premun.mps.ingrid.model, java.compile.premun.mps.ingrid.parser, fetchDependencies">
+  <target name="java.compile.premun.mps.ingrid.importer" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.formatter, java.compile.premun.mps.ingrid.library, java.compile.premun.mps.ingrid.model, java.compile.premun.mps.ingrid.parser, java.compile.premun.mps.ingrid.serialization, fetchDependencies">
     <mkdir dir="${INGRID_HOME}/plugin/idea/importer/src" />
     <mkdir dir="${INGRID_HOME}/plugin/mps/importer/source_gen" />
     <mkdir dir="${build.tmp}/java/out/premun.mps.ingrid.importer" />
@@ -524,6 +598,7 @@
         <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.library" />
         <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.model" />
         <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.parser" />
+        <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.serialization" />
         <fileset file="${INGRID_HOME}/plugin/lib/antlr-4.5.2-complete.jar" />
         <fileset file="${artifacts.mps}/lib/annotations.jar" />
         <fileset file="${artifacts.mps}/lib/log4j.jar" />
@@ -656,6 +731,67 @@
     </javac>
   </target>
   
+  <target name="java.compile.premun.mps.ingrid.transformer" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.model, java.compile.premun.mps.ingrid.parser, fetchDependencies">
+    <mkdir dir="${INGRID_HOME}/plugin/idea/transformer/src" />
+    <mkdir dir="${INGRID_HOME}/plugin/mps/solutions/transformer/source_gen" />
+    <mkdir dir="${build.tmp}/java/out/premun.mps.ingrid.transformer" />
+    <javac destdir="${build.tmp}/java/out/premun.mps.ingrid.transformer" fork="true" encoding="utf8" includeantruntime="false" debug="true">
+      <compilerarg value="-Xlint:none" />
+      <src>
+        <path location="${INGRID_HOME}/plugin/idea/transformer/src" />
+        <path location="${INGRID_HOME}/plugin/mps/solutions/transformer/source_gen" />
+      </src>
+      <classpath>
+        <pathelement path="${build.tmp}/java/out/org.antlr" />
+        <fileset file="${artifacts.mps}/lib/mps-annotations.jar" />
+        <fileset file="${artifacts.mps}/lib/mps-openapi.jar" />
+        <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.model" />
+        <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.parser" />
+        <fileset file="${artifacts.mps}/lib/mps-core.jar" />
+        <fileset file="${artifacts.mps}/lib/mps-logging.jar" />
+        <fileset file="${artifacts.mps}/lib/mps-closures.jar" />
+        <fileset file="${artifacts.mps}/lib/mps-collections.jar" />
+        <fileset file="${artifacts.mps}/lib/mps-tuples.jar" />
+        <fileset file="${artifacts.mps}/lib/mps-behavior-api.jar" />
+        <fileset file="${artifacts.mps}/lib/mps-behavior-runtime.jar" />
+        <fileset file="${artifacts.mps}/lib/mps-messaging.jar" />
+        <fileset file="${artifacts.mps}/lib/mps-boot-util.jar" />
+        <fileset file="${INGRID_HOME}/plugin/lib/antlr-4.5.2-complete.jar" />
+        <fileset file="${artifacts.mps}/lib/annotations.jar" />
+        <fileset file="${artifacts.mps}/lib/log4j.jar" />
+        <fileset file="${artifacts.mps}/lib/jdom.jar" />
+        <fileset file="${artifacts.mps}/lib/trove4j.jar" />
+        <fileset file="${artifacts.mps}/lib/ecj-4.7.2.jar" />
+        <fileset file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.jar" />
+        <fileset file="${artifacts.mps}/languages/baseLanguage/jetbrains.mps.baseLanguage.scopes.jar" />
+        <fileset file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.core.jar" />
+        <fileset file="${artifacts.mps}/languages/languageDesign/jetbrains.mps.lang.traceable.jar" />
+      </classpath>
+    </javac>
+  </target>
+  
+  <target name="java.compile.premun.mps.ingrid.serialization" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.model, java.compile.premun.mps.ingrid.parser, fetchDependencies">
+    <mkdir dir="${INGRID_HOME}/plugin/idea/serialization/src" />
+    <mkdir dir="${INGRID_HOME}/plugin/mps/solutions/serialization/source_gen" />
+    <mkdir dir="${build.tmp}/java/out/premun.mps.ingrid.serialization" />
+    <javac destdir="${build.tmp}/java/out/premun.mps.ingrid.serialization" fork="true" encoding="utf8" includeantruntime="false" debug="true">
+      <compilerarg value="-Xlint:none" />
+      <src>
+        <path location="${INGRID_HOME}/plugin/idea/serialization/src" />
+        <path location="${INGRID_HOME}/plugin/mps/solutions/serialization/source_gen" />
+      </src>
+      <classpath>
+        <pathelement path="${build.tmp}/java/out/org.antlr" />
+        <fileset file="${artifacts.mps}/lib/mps-annotations.jar" />
+        <fileset file="${artifacts.mps}/lib/mps-openapi.jar" />
+        <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.model" />
+        <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.parser" />
+        <fileset file="${INGRID_HOME}/plugin/lib/antlr-4.5.2-complete.jar" />
+        <fileset file="${artifacts.mps}/lib/annotations.jar" />
+      </classpath>
+    </javac>
+  </target>
+  
   <target name="cleanSources">
     <delete dir="${INGRID_HOME}/plugin/mps/org.antlr/source_gen" />
     <delete dir="${INGRID_HOME}/plugin/mps/solutions/premun.mps.ingrid.formatter/source_gen" />
@@ -664,5 +800,7 @@
     <delete dir="${INGRID_HOME}/plugin/mps/model/source_gen" />
     <delete dir="${INGRID_HOME}/plugin/mps/parser/source_gen" />
     <delete dir="${INGRID_HOME}/plugin/mps/plugin/source_gen" />
+    <delete dir="${INGRID_HOME}/plugin/mps/solutions/serialization/source_gen" />
+    <delete dir="${INGRID_HOME}/plugin/mps/solutions/transformer/source_gen" />
   </target>
 </project>

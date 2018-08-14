@@ -1,12 +1,17 @@
 package premun.mps.ingrid.parser;
 
-import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 import premun.mps.ingrid.model.*;
 import premun.mps.ingrid.parser.antlr.ANTLRv4Parser.*;
-import premun.mps.ingrid.parser.antlr.*;
-import premun.mps.ingrid.parser.model.*;
+import premun.mps.ingrid.parser.antlr.ANTLRv4ParserBaseListener;
+import premun.mps.ingrid.parser.model.UnresolvedLexerRule;
+import premun.mps.ingrid.parser.model.UnresolvedParserRule;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class that handles walking through imported grammar and constructs the tree.
@@ -32,7 +37,7 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
     @Override
     public void enterGrammarSpec(GrammarSpecContext context) {
         this.grammarName = context.id().getText();
-        this.rules = new HashMap<>();
+        this.rules = new LinkedHashMap<>();
     }
 
     @Override

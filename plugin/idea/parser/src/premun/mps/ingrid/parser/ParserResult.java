@@ -2,7 +2,7 @@ package premun.mps.ingrid.parser;
 
 import premun.mps.ingrid.model.Rule;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ParserResult {
@@ -11,8 +11,9 @@ public class ParserResult {
     public String rootRule;
 
     public ParserResult() {
-        this.rules = new HashMap<>();
+        this.rules = new LinkedHashMap<>();
     }
+
 
     public ParserResult(String grammarName, Map<String, Rule> rules, String rootRule) {
         this.grammarName = grammarName;

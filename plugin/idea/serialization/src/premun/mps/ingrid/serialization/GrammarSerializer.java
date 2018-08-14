@@ -3,6 +3,7 @@ package premun.mps.ingrid.serialization;
 import premun.mps.ingrid.model.*;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
@@ -26,7 +27,7 @@ public class GrammarSerializer {
                      .append("\n\n");
 
         Rule rootRule = grammarInfo.rules.get(grammarInfo.rootRule.name);
-        HashMap<String, Rule> copy = new HashMap<>(grammarInfo.rules);
+        HashMap<String, Rule> copy = new LinkedHashMap<>(grammarInfo.rules);
         copy.remove(rootRule.name);
 
         stringBuilder.append(serializeRule(rootRule));
@@ -52,6 +53,12 @@ public class GrammarSerializer {
             throw new IllegalArgumentException("Unsupported type of rule: " + rule.getClass()
                                                                                   .getName());
         }
+
+        // small hack to handle whitespace properly
+        if ("WS".equals(rule.name)) {
+            stringBuilder.append(" -> skip ");
+        }
+
         return stringBuilder.append("\n")
                             .append("\t")
                             .append(" ;\n\n")

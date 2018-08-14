@@ -1,12 +1,12 @@
 package premun.mps.ingrid.model;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class GrammarInfo {
     public String name;
-    public Map<String, Rule> rules = new HashMap<>();
+    public Map<String, Rule> rules = new LinkedHashMap<>();
     public Rule rootRule = null;
 
     public GrammarInfo(String name) {

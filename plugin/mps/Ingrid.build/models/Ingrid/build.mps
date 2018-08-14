@@ -444,6 +444,12 @@
             <ref role="3bR37D" node="7rG6V4_oYAj" resolve="premun.mps.ingrid.formatter" />
           </node>
         </node>
+        <node concept="1SiIV0" id="7$1hM0XxxpF" role="3bR37C">
+          <node concept="3bR9La" id="7$1hM0XxxpG" role="1SiIV1">
+            <property role="3bR36h" value="false" />
+            <ref role="3bR37D" node="7$1hM0Xxqc8" resolve="premun.mps.ingrid.serialization" />
+          </node>
+        </node>
       </node>
       <node concept="1E1JtA" id="5FaaOUBGVUG" role="2G$12L">
         <property role="BnDLt" value="true" />
@@ -627,6 +633,70 @@
           <node concept="3bR9La" id="7rG6V4_oZhY" role="1SiIV1">
             <property role="3bR36h" value="false" />
             <ref role="3bR37D" node="5FaaOUBGVUZ" resolve="premun.mps.ingrid.model" />
+          </node>
+        </node>
+      </node>
+      <node concept="1E1JtA" id="7$1hM0XxpSi" role="2G$12L">
+        <property role="BnDLt" value="true" />
+        <property role="TrG5h" value="premun.mps.ingrid.transformer" />
+        <property role="3LESm3" value="e160cd38-793b-429d-84fd-f5e8dc0825dd" />
+        <property role="2GAjPV" value="false" />
+        <node concept="55IIr" id="7$1hM0XxpSl" role="3LF7KH">
+          <node concept="2Ry0Ak" id="7$1hM0XxpYm" role="iGT6I">
+            <property role="2Ry0Am" value="solutions" />
+            <node concept="2Ry0Ak" id="7$1hM0Xxq0n" role="2Ry0An">
+              <property role="2Ry0Am" value="transformer" />
+              <node concept="2Ry0Ak" id="7$1hM0Xxq2o" role="2Ry0An">
+                <property role="2Ry0Am" value="transformer.msd" />
+              </node>
+            </node>
+          </node>
+        </node>
+        <node concept="1SiIV0" id="7$1hM0Xxq7g" role="3bR37C">
+          <node concept="3bR9La" id="7$1hM0Xxq7h" role="1SiIV1">
+            <property role="3bR36h" value="false" />
+            <ref role="3bR37D" to="ffeo:7Kfy9QB6KYb" resolve="jetbrains.mps.baseLanguage" />
+          </node>
+        </node>
+        <node concept="1SiIV0" id="7$1hM0Xxq7i" role="3bR37C">
+          <node concept="3bR9La" id="7$1hM0Xxq7j" role="1SiIV1">
+            <property role="3bR36h" value="false" />
+            <ref role="3bR37D" node="5FaaOUBGVUZ" resolve="premun.mps.ingrid.model" />
+          </node>
+        </node>
+        <node concept="1SiIV0" id="7$1hM0Xxq7k" role="3bR37C">
+          <node concept="3bR9La" id="7$1hM0Xxq7l" role="1SiIV1">
+            <property role="3bR36h" value="false" />
+            <ref role="3bR37D" node="5FaaOUBGVVi" resolve="premun.mps.ingrid.parser" />
+          </node>
+        </node>
+      </node>
+      <node concept="1E1JtA" id="7$1hM0Xxqc8" role="2G$12L">
+        <property role="BnDLt" value="true" />
+        <property role="TrG5h" value="premun.mps.ingrid.serialization" />
+        <property role="3LESm3" value="e642743d-cfae-4464-8341-5180948bcf58" />
+        <property role="2GAjPV" value="false" />
+        <node concept="55IIr" id="7$1hM0Xxqcb" role="3LF7KH">
+          <node concept="2Ry0Ak" id="7$1hM0Xxqvn" role="iGT6I">
+            <property role="2Ry0Am" value="solutions" />
+            <node concept="2Ry0Ak" id="7$1hM0XxqxG" role="2Ry0An">
+              <property role="2Ry0Am" value="serialization" />
+              <node concept="2Ry0Ak" id="7$1hM0Xxq$1" role="2Ry0An">
+                <property role="2Ry0Am" value="serialization.msd" />
+              </node>
+            </node>
+          </node>
+        </node>
+        <node concept="1SiIV0" id="7$1hM0XxqAj" role="3bR37C">
+          <node concept="3bR9La" id="7$1hM0XxqAk" role="1SiIV1">
+            <property role="3bR36h" value="false" />
+            <ref role="3bR37D" node="5FaaOUBGVUZ" resolve="premun.mps.ingrid.model" />
+          </node>
+        </node>
+        <node concept="1SiIV0" id="7$1hM0XxqAl" role="3bR37C">
+          <node concept="3bR9La" id="7$1hM0XxqAm" role="1SiIV1">
+            <property role="3bR36h" value="false" />
+            <ref role="3bR37D" node="5FaaOUBGVVi" resolve="premun.mps.ingrid.parser" />
           </node>
         </node>
       </node>

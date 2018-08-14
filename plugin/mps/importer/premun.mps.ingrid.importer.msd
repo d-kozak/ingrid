@@ -19,6 +19,7 @@
     <dependency reexport="false">7866978e-a0f0-4cc7-81bc-4d213d9375e1(jetbrains.mps.lang.smodel)</dependency>
     <dependency reexport="true">4db458f1-215f-424c-8756-4cc4b0227697(org.antlr)</dependency>
     <dependency reexport="false">640165f1-e62d-415b-b300-3d0903929449(premun.mps.ingrid.formatter)</dependency>
+    <dependency reexport="false">e642743d-cfae-4464-8341-5180948bcf58(premun.mps.ingrid.serialization)</dependency>
   </dependencies>
   <languageVersions>
     <language slang="l:f3061a53-9226-4cc5-a443-f952ceaf5816:jetbrains.mps.baseLanguage" version="6" />
@@ -45,6 +46,7 @@
     <module reference="9450b346-4f8d-4243-9894-05b73fc17e09(premun.mps.ingrid.library)" version="0" />
     <module reference="a34e01c8-8c6f-48c5-a512-bb294cca062e(premun.mps.ingrid.model)" version="0" />
     <module reference="66288791-e621-45d1-bebf-408d2568bbe6(premun.mps.ingrid.parser)" version="0" />
+    <module reference="e642743d-cfae-4464-8341-5180948bcf58(premun.mps.ingrid.serialization)" version="0" />
   </dependencyVersions>
 </solution>
 

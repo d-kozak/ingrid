@@ -13,6 +13,7 @@ import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.ParserRule;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +49,26 @@ public class FormatExtractor {
         } catch (RecognitionException ex) {
             throw new IllegalArgumentException(ex);
         }
+    }
+
+
+    /**
+     * Merges two format info maps together, propagates maximum known formatting
+     *
+     * @return new map with combined formatting from both arguments
+     */
+    public static Map<Pair<ParserRule, Alternative>, RuleFormatInfo> mergeFormatInfoMaps(Map<Pair<ParserRule, Alternative>, RuleFormatInfo> left, Map<Pair<ParserRule, Alternative>, RuleFormatInfo> right) {
+        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> result = new HashMap<>();
+        for (Map.Entry<Pair<ParserRule, Alternative>, RuleFormatInfo> entry : right.entrySet()) {
+            RuleFormatInfo ruleFormatInfo = left.get(entry.getKey());
+            if (ruleFormatInfo != null) {
+                ruleFormatInfo = ruleFormatInfo.merge(entry.getValue());
+            } else {
+                ruleFormatInfo = entry.getValue();
+            }
+            result.put(entry.getKey(), ruleFormatInfo);
+        }
+        return result;
     }
 
     /**

@@ -11,12 +11,18 @@ import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.parser.GrammarParser;
+import premun.mps.ingrid.serialization.GrammarSerializer;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
 
 public class GrammarImporter {
     private SModel editorModel;
@@ -54,10 +60,13 @@ public class GrammarImporter {
     }
 
 
-    static String readFile(String path)
-            throws IOException {
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded);
+    static String readFile(String path) {
+        try {
+            byte[] encoded = Files.readAllBytes(Paths.get(path));
+            return new String(encoded);
+        } catch (IOException ex) {
+            throw new IllegalArgumentException(ex);
+        }
     }
 
     /**
@@ -66,39 +75,45 @@ public class GrammarImporter {
      * @param files List of ANTLR grammar files to be imported.
      */
     public void importGrammars(File[] files) {
-        try {
-            initializeLanguage();
-
-            // TODO make this work for multiple files
-            if (files.length != 2) {
-                throw new IllegalArgumentException("Expected two files: first the grammar, then example file to extract formatting information");
-            }
-            GrammarParser parser = new GrammarParser();
-
-            parser.parseFile(files[0].getPath());
-
-            this.grammar = parser.resolveGrammar();
-            this.importInfo = new ImportInfo(this.grammar.rootRule.name);
-
-            String inputGrammar = readFile(files[0].getPath());
-            String input = readFile(files[1].getPath());
+        initializeLanguage();
 
 
-            Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap = FormatExtractor.merge(FormatExtractor.extract(this.grammar, inputGrammar, input));
+        List<File> grammarFiles = Arrays.stream(files)
+                                        .filter(file -> file.getName()
+                                                            .endsWith(".g4"))
+                                        .collect(toList());
+        List<File> sourceFiles = Arrays.stream(files)
+                                       .filter(file -> !file.getName()
+                                                            .endsWith(".g4"))
+                                       .collect(toList());
 
-            ImportStep[] steps = new ImportStep[]{
-                    new RegexTransformer(),
-                    new ConceptImporter(),
-                    new ConceptLinker(),
-                    new AliasFinder(),
-                    new EditorBuilder(formatInfoMap),
-                    new TextGenBuilder()
-            };
-
-            this.executeSteps(steps);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+        GrammarParser parser = new GrammarParser();
+        for (File grammarFile : grammarFiles) {
+            parser.parseFile(grammarFile.getPath());
         }
+
+        this.grammar = parser.resolveGrammar();
+        this.importInfo = new ImportInfo(this.grammar.rootRule.name);
+
+        String inputGrammar = GrammarSerializer.serializeGrammar(this.grammar);
+
+        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap = sourceFiles.stream()
+                                                                                      .map(File::getPath)
+                                                                                      .map(GrammarImporter::readFile)
+                                                                                      .map(fileContent -> FormatExtractor.merge(FormatExtractor.extract(this.grammar, inputGrammar, fileContent)))
+                                                                                      .reduce(FormatExtractor::mergeFormatInfoMaps)
+                                                                                      .orElseGet(HashMap::new);
+
+
+        ImportStep[] steps = new ImportStep[]{
+                new RegexTransformer(),
+                new ConceptImporter(),
+                new ConceptLinker(),
+                new AliasFinder(),
+                new EditorBuilder(formatInfoMap),
+                new TextGenBuilder()
+        };
+        this.executeSteps(steps);
     }
 
     public ImportInfo getImportInfo() {
