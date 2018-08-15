@@ -83,8 +83,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
@@ -111,13 +111,13 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
@@ -145,8 +145,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -257,8 +257,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
@@ -285,13 +285,13 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
@@ -319,8 +319,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -443,8 +443,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
@@ -471,13 +471,13 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
@@ -505,8 +505,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -629,8 +629,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
@@ -657,13 +657,13 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
@@ -691,8 +691,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -803,8 +803,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
@@ -831,13 +831,13 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
@@ -865,8 +865,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -988,8 +988,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
@@ -1016,13 +1016,13 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
@@ -1050,8 +1050,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -1173,8 +1173,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
@@ -1201,13 +1201,13 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
@@ -1235,8 +1235,8 @@ public class CimpleGrammarFormatExtractionTest {
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("NULL", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,

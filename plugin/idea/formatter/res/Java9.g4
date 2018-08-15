@@ -64,6 +64,14 @@ Total lexer+parser time 2497ms.
  */
 grammar Java9;
 
+// TODO enable the user to use any rule as start rule, not just the first one in the file
+
+compilationUnit
+	:	ordinaryCompilation
+	|	modularCompilation
+	;
+
+
 /*
  * Productions from §3 (Lexical Structure)
  */
@@ -243,11 +251,6 @@ ambiguousName
 /*
  * Productions from §7 (Packages)
  */
-
-compilationUnit
-	:	ordinaryCompilation
-	|	modularCompilation
-	;
 
 ordinaryCompilation
 	:	packageDeclaration? importDeclaration* typeDeclaration* EOF

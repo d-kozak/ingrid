@@ -39,8 +39,8 @@ public final class RuleFormatInfo {
             FormatInfo thisFormatInfo = formatInfoList.get(i);
             FormatInfo otherFormatInfo = other.formatInfoList.get(i);
 
-            if (!thisFormatInfo.rule.equals(otherFormatInfo.rule)) {
-                throw new IllegalArgumentException("Comparing different formatInfo rules: " + thisFormatInfo.rule + "\n\n is not equal to \n\n" + otherFormatInfo.rule + "\n\n");
+            if (!thisFormatInfo.equals(otherFormatInfo)) {
+                throw new IllegalArgumentException("Comparing different formatInfos: " + thisFormatInfo.rule + "\n\n is not equal to \n\n" + otherFormatInfo.rule + "\n\n");
             }
             formatInfos.add(thisFormatInfo.merge(otherFormatInfo));
         }

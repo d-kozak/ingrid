@@ -83,7 +83,10 @@ public class ParseTreeToIngridRuleMapper {
                 return pair(pair(((AlternativeDTO) alternative).original, matchInfoList), blockRules);
             }
         }
-        throw new IllegalArgumentException("Did not match");
+
+        throw new IllegalArgumentException("Did not match tree: \n" + ast + "\n\n with alternatives " + alternatives.stream()
+                                                                                                                    .map(Object::toString)
+                                                                                                                    .collect(Collectors.joining("\n\n")));
     }
 
     /**
@@ -161,7 +164,8 @@ public class ParseTreeToIngridRuleMapper {
         } else if (rule instanceof RegexRule && current instanceof TerminalNode) {
             boolean matches = ((TerminalNode) current).getSymbol()
                                                       .getText()
-                                                      .matches(((RegexRule) rule).regexp);
+                                                      .matches(((RegexRule) rule).regexp.replaceAll("~\\[", "[^")
+                                                                                        .replaceAll("~ \\[", "[^"));
             if (matches) {
                 return Collections.singletonList(parseTree.remove(0));
             }
@@ -280,7 +284,13 @@ public class ParseTreeToIngridRuleMapper {
             this.alternative = alternative;
         }
 
-
+        @Override
+        public String toString() {
+            return "SerializedParserRule{" +
+                    "rule=" + rule +
+                    ", alternative=" + alternative +
+                    '}';
+        }
     }
 
     /**
@@ -299,6 +309,11 @@ public class ParseTreeToIngridRuleMapper {
         public AlternativeDTO(Alternative original, List<RuleReference> elements) {
             this.original = original;
             this.elements = elements;
+        }
+
+        @Override
+        public String toString() {
+            return "AltenativeDTO for: " + original.toString();
         }
     }
 }

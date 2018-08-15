@@ -8,10 +8,7 @@ import premun.mps.ingrid.parser.antlr.ANTLRv4ParserBaseListener;
 import premun.mps.ingrid.parser.model.UnresolvedLexerRule;
 import premun.mps.ingrid.parser.model.UnresolvedParserRule;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class that handles walking through imported grammar and constructs the tree.
@@ -30,14 +27,58 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
     private Map<String, Rule> rules;
     private String rootRule;
 
+    private Set<String> fragmentLexerRules = new HashSet<>();
+
+    private static void debugPrintANTLRTree(ParseTree tree, int indent) {
+        System.out.print(new String(new char[indent]).replace("\0", " "));
+
+        String classname = tree.getClass()
+                               .getSimpleName();
+
+        if (classname.equals("TerminalNodeImpl")) {
+            classname += " (" + tree.getText() + ")";
+        }
+
+        System.out.println(classname);
+
+        for (int i = 0; i < tree.getChildCount(); i++) {
+            ParseTree child = tree.getChild(i);
+            debugPrintANTLRTree(child, indent + 4);
+        }
+    }
+
+    /**
+     * Method useful for debugging - prints the full AST, that ANTLR parsed.
+     *
+     * @param tree AST to be printed
+     */
+    private static void debugPrintANTLRTree(ParseTree tree) {
+        debugPrintANTLRTree(tree, 0);
+    }
+
     public ParserResult getParseResult() {
-        return new ParserResult(grammarName, rules, rootRule);
+        return new ParserResult(grammarName, rules, rootRule, fragmentLexerRules);
     }
 
     @Override
     public void enterGrammarSpec(GrammarSpecContext context) {
-        this.grammarName = context.id().getText();
+        this.grammarName = context.id()
+                                  .getText();
         this.rules = new LinkedHashMap<>();
+    }
+
+    @Override
+    public void enterLabeledAlt(LabeledAltContext context) {
+        Alternative alternative = parseParserAlternative(context.alternative());
+
+        if (context.children.size() > 0) {
+            ParseTree lastChild = context.children.get(context.children.size() - 1);
+            if (lastChild instanceof IdContext) {
+                alternative.comment = lastChild.getText();
+            }
+        }
+
+        currentParserRule.alternatives.add(alternative);
     }
 
     @Override
@@ -54,7 +95,9 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
                 exceptionGroup
             ;
         */
-        currentParserRule = new ParserRule(context.RULE_REF().getText().trim());
+        currentParserRule = new ParserRule(context.RULE_REF()
+                                                  .getText()
+                                                  .trim());
 
         // First rule in file is the root rule
         if (rootRule == null) {
@@ -62,20 +105,6 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
         }
 
         this.rules.put(currentParserRule.name, currentParserRule);
-    }
-
-    @Override
-    public void enterLabeledAlt(LabeledAltContext context) {
-        Alternative alternative = parseParserAlternative(context.alternative());
-
-        if (context.children.size() > 0) {
-            ParseTree lastChild = context.children.get(context.children.size() - 1);
-            if (lastChild instanceof IdContext) {
-                alternative.comment = lastChild.getText();
-            }
-        }
-
-        currentParserRule.alternatives.add(alternative);
     }
 
     /**
@@ -94,31 +123,31 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
 
         // Parse every element into a RuleReference
         context
-            .children
-            .stream()
-            .map(c -> parseParserAlternativeElement((ElementContext) c))
-            .filter(ref -> ref != null)
-            .forEach(alternative.elements::add);
+                .children
+                .stream()
+                .map(c -> parseParserAlternativeElement((ElementContext) c))
+                .filter(ref -> ref != null)
+                .forEach(alternative.elements::add);
 
         return alternative;
     }
 
     /**
      * Parses an element of an alternative into a RuleReference.
-     *
+     * <p>
      * Example:
-     *     rule : a (b | (c | d))* DIGIT?
-     *          ;
-     *
+     * rule : a (b | (c | d))* DIGIT?
+     * ;
+     * <p>
      * Will be parsed into 3 references:
-     *   1) Reference to a parser rule 'a'
-     *   2) Reference to a newly created block rule for the middle part
-     *   3) Reference to a lexer rule 'DIGIT'
-     *
+     * 1) Reference to a parser rule 'a'
+     * 2) Reference to a newly created block rule for the middle part
+     * 3) Reference to a lexer rule 'DIGIT'
+     * <p>
      * There will be following quantities:
-     *   1) Exactly one
-     *   2) Any number
-     *   3) Max one
+     * 1) Exactly one
+     * 2) Any number
+     * 3) Max one
      *
      * @param element Element context
      * @return A rule reference representing element
@@ -130,7 +159,8 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
         if (element.ebnfSuffix() == null) {
             quantity = Quantity.EXACTLY_ONE;
         } else {
-            quantity = Quantity.FromString(element.ebnfSuffix().getText());
+            quantity = Quantity.FromString(element.ebnfSuffix()
+                                                  .getText());
         }
 
         Rule rule = null;
@@ -180,7 +210,8 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
                 if (blockRule.blockSuffix() == null) {
                     quantity = Quantity.EXACTLY_ONE;
                 } else {
-                    quantity = Quantity.FromString(blockRule.blockSuffix().getText());
+                    quantity = Quantity.FromString(blockRule.blockSuffix()
+                                                            .getText());
                 }
             } else if (child instanceof BlockContext) {
                 // We encountered a block rule inside alternative!
@@ -204,10 +235,10 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
 
     /**
      * When a rule contains a block inside its alternative, we need to create a special block rule.
-     *
+     * <p>
      * Example:
-     *     rule : a (b | (c | d))* DIGIT?
-     *          ;
+     * rule : a (b | (c | d))* DIGIT?
+     * ;
      * Inside first alternative there is a block '(b | (c | d))*'
      *
      * @param context Block context
@@ -234,43 +265,14 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
         // The rule usually looks like (a | b | c)
         // We want to skip terminals '(', '|', ')' so we filter
         context
-            .altList()
-            .children
-            .stream()
-            .filter(n -> n instanceof AlternativeContext)
-            .map(n -> parseParserAlternative((AlternativeContext) n))
-            .forEach(alt -> rule.alternatives.add(alt));
+                .altList()
+                .children
+                .stream()
+                .filter(n -> n instanceof AlternativeContext)
+                .map(n -> parseParserAlternative((AlternativeContext) n))
+                .forEach(alt -> rule.alternatives.add(alt));
 
         return rule;
-    }
-
-    /**
-     * Called when a new lexer rule is met.
-     *
-     * @param context Parser context
-     */
-    @Override
-    public void enterLexerRuleSpec(LexerRuleSpecContext context) {
-        /*
-        lexerRuleSpec
-            :	DOC_COMMENT? FRAGMENT?
-                TOKEN_REF COLON lexerRuleBlock SEMI
-            ;
-        */
-        currentLexerRule = new LexerRule(context.TOKEN_REF().getText());
-
-        this.rules.put(currentLexerRule.name, currentLexerRule);
-
-        // Parse all alternatives of this rule
-        context
-            .lexerRuleBlock()
-            .lexerAltList()
-            .children
-            .stream()
-            .filter(alternative -> alternative instanceof LexerAltContext)
-            .forEach(alternative ->
-                this.parseLexerRule((LexerAltContext) alternative)
-            );
     }
 
     /**
@@ -297,6 +299,40 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
     }
 
     /**
+     * Called when a new lexer rule is met.
+     *
+     * @param context Parser context
+     */
+    @Override
+    public void enterLexerRuleSpec(LexerRuleSpecContext context) {
+        /*
+        lexerRuleSpec
+            :	DOC_COMMENT? FRAGMENT?
+                TOKEN_REF COLON lexerRuleBlock SEMI
+            ;
+        */
+        String ruleName = context.TOKEN_REF()
+                                 .getText();
+        if (context.FRAGMENT() != null) {
+            fragmentLexerRules.add(ruleName);
+        }
+        currentLexerRule = new LexerRule(ruleName);
+
+        this.rules.put(currentLexerRule.name, currentLexerRule);
+
+        // Parse all alternatives of this rule
+        context
+                .lexerRuleBlock()
+                .lexerAltList()
+                .children
+                .stream()
+                .filter(alternative -> alternative instanceof LexerAltContext)
+                .forEach(alternative ->
+                        this.parseLexerRule((LexerAltContext) alternative)
+                );
+    }
+
+    /**
      * Explores the full tree of a node, finds all token types
      * and transforms them into Rule objects.
      *
@@ -310,8 +346,10 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
 
             if (node.getChildCount() == 1 && node.getChild(0) instanceof RangeContext) {
                 ParseTree range = node.getChild(0);
-                String rangeStart = range.getChild(0).getText();
-                String rangeEnd = range.getChild(2).getText();
+                String rangeStart = range.getChild(0)
+                                         .getText();
+                String rangeEnd = range.getChild(2)
+                                       .getText();
 
                 // We have quoted literals, we need to strip quotes (apostrophes)
                 rangeStart = rangeStart.substring(1, rangeStart.length() - 1);
@@ -344,7 +382,8 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
 
         // Reference to another rule, we save it's name
         if (node instanceof RulerefContext) {
-            Rule rule = new UnresolvedParserRule(node.getChild(0).getText());
+            Rule rule = new UnresolvedParserRule(node.getChild(0)
+                                                     .getText());
             elements.add(rule);
             return;
         }
@@ -356,17 +395,20 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
         // Then, whenever we meet the | character, we know, we are inside a block,
         // because top level | are ignored in the enterLexerRuleSpec() method.
         if (node instanceof TerminalNodeImpl) {
-            if (node.getText().equals("(")) {
+            if (node.getText()
+                    .equals("(")) {
                 elements.add(new BlockStartRule());
                 return;
             }
 
-            if (node.getText().equals(")")) {
+            if (node.getText()
+                    .equals(")")) {
                 elements.add(new BlockEndRule());
                 return;
             }
 
-            if (node.getText().equals("|")) {
+            if (node.getText()
+                    .equals("|")) {
                 elements.add(new BlockAltRule());
                 return;
             }
@@ -375,32 +417,6 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
         // Recursively explore further
         for (int i = 0; i < node.getChildCount(); i++) {
             parseLexerAlternativeElement(node.getChild(i), elements);
-        }
-    }
-
-    /**
-     * Method useful for debugging - prints the full AST, that ANTLR parsed.
-     *
-     * @param tree AST to be printed
-     */
-    private static void debugPrintANTLRTree(ParseTree tree) {
-        debugPrintANTLRTree(tree, 0);
-    }
-
-    private static void debugPrintANTLRTree(ParseTree tree, int indent) {
-        System.out.print(new String(new char[indent]).replace("\0", " "));
-
-        String classname = tree.getClass().getSimpleName();
-
-        if (classname.equals("TerminalNodeImpl")) {
-            classname += " (" + tree.getText() + ")";
-        }
-
-        System.out.println(classname);
-
-        for (int i = 0; i < tree.getChildCount(); i++) {
-            ParseTree child = tree.getChild(i);
-            debugPrintANTLRTree(child, indent + 4);
         }
     }
 }

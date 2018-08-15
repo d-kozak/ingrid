@@ -5,6 +5,7 @@ import org.jetbrains.mps.openapi.model.SNode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Alternative {
     public List<RuleReference> elements = new ArrayList<>();
@@ -26,5 +27,16 @@ public class Alternative {
     @Override
     public int hashCode() {
         return Objects.hash(elements);
+    }
+
+    @Override
+    public String toString() {
+        return elements.stream()
+                       .map(ruleReference -> {
+                           if (ruleReference.rule instanceof LiteralRule)
+                               return ((LiteralRule) ruleReference.rule).value + ruleReference.quantity;
+                           else return ruleReference.rule.name + ruleReference.quantity;
+                       })
+                       .collect(Collectors.joining(" "));
     }
 }

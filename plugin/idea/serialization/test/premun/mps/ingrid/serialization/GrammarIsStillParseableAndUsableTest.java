@@ -2,11 +2,17 @@ package premun.mps.ingrid.serialization;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.tool.Grammar;
 import org.junit.Test;
+import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.parser.GrammarParser;
-import premun.mps.ingrid.parser.ParserResult;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static premun.mps.ingrid.formatter.utils.Pair.pair;
 
 /**
  * Tests that verify that the grammar is still parseable by antlr even after serialization.
@@ -139,19 +145,46 @@ public class GrammarIsStillParseableAndUsableTest {
     private void serializeAndParseGrammar(String grammar, String input) {
         GrammarParser grammarParser = new GrammarParser();
         grammarParser.parseString(grammar);
-        ParserResult rawParserResult = grammarParser.getRawParserResult();
 
         String serialized = GrammarSerializer.serializeGrammar(grammarParser.resolveGrammar());
 
+        System.out.println(serialized);
+
         try {
-            Grammar antlrGrammar = new Grammar(serialized);
-            LexerInterpreter lexerInterpreter = antlrGrammar.createLexerInterpreter(new ANTLRInputStream(input));
-            CommonTokenStream commonTokenStream = new CommonTokenStream(lexerInterpreter);
-            ParserInterpreter parserInterpreter = antlrGrammar.createParserInterpreter(commonTokenStream);
-            ParserRuleContext ast = parserInterpreter.parse(0);
+            Pair<ParseTree, List<String>> resultFromOriginalGrammar = parse(grammar, input);
+            if (!resultFromOriginalGrammar.second.isEmpty()) {
+                throw new IllegalArgumentException("Could not parse the input even with the original grammar, errors: " + resultFromOriginalGrammar.second);
+            }
+
+            Pair<ParseTree, List<String>> resultAfterSerialization = parse(serialized, input);
+            if (!resultAfterSerialization.second.isEmpty()) {
+                throw new IllegalArgumentException("Could not parse the input with serialized grammar, errors : " + resultAfterSerialization.second);
+            }
+
         } catch (RecognitionException e) {
             e.printStackTrace();
             throw new AssertionError("Grammar was not parsed successfully");
         }
+    }
+
+    private Pair<ParseTree, List<String>> parse(String grammar, String input) throws RecognitionException {
+        class CollectionErrorListener extends BaseErrorListener {
+            private final List<String> errors = new ArrayList<>();
+
+            @Override
+            public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, org.antlr.v4.runtime.RecognitionException e) {
+                this.errors.add(msg);
+            }
+        }
+
+        Grammar antlrGrammar = new Grammar(grammar);
+        LexerInterpreter lexerInterpreter = antlrGrammar.createLexerInterpreter(new ANTLRInputStream(input));
+        CommonTokenStream commonTokenStream = new CommonTokenStream(lexerInterpreter);
+        ParserInterpreter parserInterpreter = antlrGrammar.createParserInterpreter(commonTokenStream);
+
+        CollectionErrorListener listener = new CollectionErrorListener();
+        parserInterpreter.addErrorListener(listener);
+        ParserRuleContext ast = parserInterpreter.parse(0);
+        return pair(ast, listener.errors);
     }
 }

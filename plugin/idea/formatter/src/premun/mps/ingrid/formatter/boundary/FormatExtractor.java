@@ -80,18 +80,25 @@ public class FormatExtractor {
     public static Map<Pair<ParserRule, Alternative>, RuleFormatInfo> merge(Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> ruleFormatInfo) {
         return ruleFormatInfo.entrySet()
                              .stream()
-                             .map(it -> pair(
-                                     it.getKey(),
-                                     it.getValue()
-                                       .stream()
-                                       .reduce(RuleFormatInfo::merge)
-                                       .orElseThrow(() -> new IllegalStateException("Should never happen"))
-                                     )
-                             )
+                             .map(FormatExtractor::mergeOneEntry)
                              .collect(toMap(
                                      Pair::fst,
                                      Pair::snd
                              ));
+    }
+
+    private static Pair<Pair<ParserRule, Alternative>, RuleFormatInfo> mergeOneEntry(Map.Entry<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> entry) {
+        try {
+            return pair(
+                    entry.getKey(),
+                    entry.getValue()
+                         .stream()
+                         .reduce(RuleFormatInfo::merge)
+                         .orElseThrow(() -> new IllegalStateException("Should never happen"))
+            );
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("In Rule:  " + entry.getKey().first + "\n\n in alternative: " + entry.getKey().second, ex);
+        }
     }
 
 

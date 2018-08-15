@@ -43,7 +43,7 @@ class FormatInfoExtractor {
             if (currentMatchInfo.isNotEmpty() && nextMatchInfo.isNotEmpty()) {
                 result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo, tokens));
             } else {
-                result.add(FormatInfo.NULL_INFO);
+                result.add(FormatInfo.UnknownFormatInfo.UNKNOWN_FORMAT_INFO);
             }
         }
 

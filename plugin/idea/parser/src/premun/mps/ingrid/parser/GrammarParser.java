@@ -75,6 +75,8 @@ public class GrammarParser {
             this.data.rootRule = parseResult.rootRule;
         }
 
+        this.data.fragmentLexerRules.addAll(parseResult.fragmentLexerRules);
+
         for (Map.Entry<String, Rule> entry : parseResult.rules.entrySet()) {
             this.data.rules.put(entry.getKey(), entry.getValue());
         }
