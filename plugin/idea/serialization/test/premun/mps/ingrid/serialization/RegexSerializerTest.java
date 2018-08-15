@@ -12,6 +12,11 @@ import static org.junit.Assert.assertEquals;
 public class RegexSerializerTest {
 
     @Test
+    public void lineCommentTest() {
+        assertEquals("'/''*'.*'*''/'()", RegexSerializer.serializeRegex("/\\*.*\\*/()"));
+    }
+
+    @Test
     public void booleanParseTest() {
         assertEquals("('true'|'false')",
                 RegexSerializer.serializeRegex("(true|false)"));

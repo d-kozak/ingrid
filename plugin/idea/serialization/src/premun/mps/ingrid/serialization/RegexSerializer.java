@@ -2,6 +2,7 @@ package premun.mps.ingrid.serialization;
 
 /**
  * Preprocessor for regexes that is used when they are serialize back to the g4 grammar file
+ *
  * @author dkozak
  */
 public class RegexSerializer {
@@ -42,6 +43,7 @@ public class RegexSerializer {
     /**
      * When serializing into Antlr4 format, regex expressions have to be tweaked.
      *
+     * TODO: something goes wrong with regular expressions when they are being flattened, for example the line comment in Java is handled incorrectly, figure out what is going wrong and why
      * @param regex regex to be modified
      * @return antlr4 version of the input regex
      */
@@ -71,6 +73,13 @@ public class RegexSerializer {
                         if (i == regex.length() - 1) {
                             throw new IllegalArgumentException("Escape without any following character");
                         }
+
+                        if (quotesStarted) {
+                            // finish previous quotes
+                            quotesStarted = false;
+                            stringBuilder.append("'");
+                        }
+
                         stringBuilder.append("'");
 
                         char nextChar = regex.charAt(++i);
