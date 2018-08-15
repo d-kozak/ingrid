@@ -5,12 +5,18 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.tool.Grammar;
 import org.junit.Test;
+import premun.mps.ingrid.formatter.boundary.FormatExtractor;
+import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
+import premun.mps.ingrid.model.Alternative;
+import premun.mps.ingrid.model.GrammarInfo;
+import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.parser.GrammarParser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static premun.mps.ingrid.formatter.utils.Pair.pair;
 
@@ -160,6 +166,13 @@ public class GrammarIsStillParseableAndUsableTest {
             if (!resultAfterSerialization.second.isEmpty()) {
                 throw new IllegalArgumentException("Could not parse the input with serialized grammar, errors : " + resultAfterSerialization.second);
             }
+
+            grammarParser = new GrammarParser();
+            grammarParser.parseString(serialized);
+
+            GrammarInfo grammarInfo = grammarParser.resolveGrammar();
+
+            Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap = FormatExtractor.merge(FormatExtractor.extract(grammarInfo, serialized, input));
 
         } catch (RecognitionException e) {
             e.printStackTrace();

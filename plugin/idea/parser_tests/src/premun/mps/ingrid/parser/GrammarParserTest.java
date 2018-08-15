@@ -1,11 +1,10 @@
 package premun.mps.ingrid.parser;
 
-import org.junit.*;
+import org.junit.Test;
 import premun.mps.ingrid.model.*;
-import premun.mps.ingrid.model.Rule;
-import premun.mps.ingrid.parser.exception.*;
+import premun.mps.ingrid.parser.exception.IngridParserException;
 
-import java.util.*;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -27,7 +26,7 @@ public class GrammarParserTest {
         // All resolved
         assertTrue(Arrays.stream(parserRules).allMatch(r -> grammar.rules.get(r) instanceof ParserRule));
 
-        String[] lexerRules = {"Content", "Name", "NameChar", "LT"};
+        String[] lexerRules = {"Content", "Name", "LT"};
         // All present
         assertTrue(Arrays.stream(lexerRules).allMatch(r -> grammar.rules.containsKey(r)));
         // All resolved

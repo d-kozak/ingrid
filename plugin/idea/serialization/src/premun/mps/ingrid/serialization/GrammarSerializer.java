@@ -2,8 +2,7 @@ package premun.mps.ingrid.serialization;
 
 import premun.mps.ingrid.model.*;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
@@ -18,6 +17,9 @@ import static java.util.stream.Collectors.joining;
  * @author dkozak
  */
 public class GrammarSerializer {
+
+    // TODO remember which lexer rules should be skipped instead of hardcoding it
+    private static Set<String> skipLexerRules = new HashSet<>(Arrays.asList("WS", "COMMENT", "LINE_COMMENT"));
 
     public static String serializeGrammar(GrammarInfo grammarInfo) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -34,6 +36,7 @@ public class GrammarSerializer {
 
         stringBuilder.append(copy.values()
                                  .stream()
+                                 .filter(rule -> !rule.name.contains("_block_"))
                                  .map(GrammarSerializer::serializeRule)
                                  .collect(joining("\n")));
 
@@ -55,7 +58,7 @@ public class GrammarSerializer {
         }
 
         // small hack to handle whitespace properly
-        if ("WS".equals(rule.name)) {
+        if (skipLexerRules.contains(rule.name)) {
             stringBuilder.append(" -> skip ");
         }
 
@@ -78,6 +81,12 @@ public class GrammarSerializer {
     }
 
     private static String serializeRuleReference(RuleReference ruleReference) {
+        if (ruleReference.rule.name.contains("_block_")) {
+            String alternatives = ((ParserRule) ruleReference.rule).alternatives.stream()
+                                                                                .map(GrammarSerializer::serializeAlternative)
+                                                                                .collect(Collectors.joining("|"));
+            return "(" + alternatives + ")" + ruleReference.quantity;
+        }
         if (ruleReference.rule instanceof LiteralRule) {
             return "'" + ((LiteralRule) ruleReference.rule).value + "'" + ruleReference.quantity;
         }

@@ -65,5 +65,6 @@ public class ModelEqualsBasedTest {
         GrammarInfo infoTwo = grammarParser.resolveGrammar();
 
         assertEquals(infoOne, infoTwo);
+        assertEquals(serialized, GrammarSerializer.serializeGrammar(infoTwo));
     }
 }

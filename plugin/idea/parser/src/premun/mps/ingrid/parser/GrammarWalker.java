@@ -19,7 +19,7 @@ import java.util.*;
  * <p>
  * Parsed grammar representation is then available.
  */
-class GrammarWalker extends ANTLRv4ParserBaseListener {
+public class GrammarWalker extends ANTLRv4ParserBaseListener {
     private ParserRule currentParserRule;
     private LexerRule currentLexerRule;
 
@@ -52,7 +52,7 @@ class GrammarWalker extends ANTLRv4ParserBaseListener {
      *
      * @param tree AST to be printed
      */
-    private static void debugPrintANTLRTree(ParseTree tree) {
+    public static void debugPrintANTLRTree(ParseTree tree) {
         debugPrintANTLRTree(tree, 0);
     }
 

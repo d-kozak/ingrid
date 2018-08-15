@@ -8,6 +8,7 @@ import premun.mps.ingrid.formatter.model.MatchInfo;
 import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.*;
+import premun.mps.ingrid.parser.GrammarWalker;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -83,6 +84,8 @@ public class ParseTreeToIngridRuleMapper {
                 return pair(pair(((AlternativeDTO) alternative).original, matchInfoList), blockRules);
             }
         }
+
+        ast.forEach(GrammarWalker::debugPrintANTLRTree);
 
         throw new IllegalArgumentException("Did not match tree: \n" + ast + "\n\n with alternatives " + alternatives.stream()
                                                                                                                     .map(Object::toString)
@@ -165,7 +168,7 @@ public class ParseTreeToIngridRuleMapper {
             boolean matches = ((TerminalNode) current).getSymbol()
                                                       .getText()
                                                       .matches(((RegexRule) rule).regexp.replaceAll("~\\[", "[^")
-                                                                                        .replaceAll("~ \\[", "[^"));
+                                                                                        .replaceAll("~ \\[", "[^")); // TODO transform the lexer regex rules globally before the matching algorithm starts?
             if (matches) {
                 return Collections.singletonList(parseTree.remove(0));
             }
