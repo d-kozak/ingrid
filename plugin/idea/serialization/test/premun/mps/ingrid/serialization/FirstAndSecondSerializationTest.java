@@ -55,9 +55,6 @@ public class FirstAndSecondSerializationTest {
 
         String serialized = GrammarSerializer.serializeGrammar(grammarParser.resolveGrammar());
 
-
-//        System.out.println(serialized);
-
         grammarParser = new GrammarParser();
         grammarParser.parseString(serialized);
 
