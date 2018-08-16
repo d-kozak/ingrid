@@ -22,5 +22,6 @@
     <orderEntry type="module" module-name="parser" />
     <orderEntry type="module" module-name="formatter" />
     <orderEntry type="module" module-name="serialization" />
+    <orderEntry type="library" name="org.jetbrains.mps" level="project" />
   </component>
 </module>

@@ -52,6 +52,7 @@ public class InlineRulesAlgorithm {
                             List<RuleReference> inlined = inlineRule(ruleToInline);
                             alternative.elements.addAll(i, inlined);
                             i += inlined.size();
+                            changed = true;
                         }
                     }
                 }
@@ -105,6 +106,22 @@ public class InlineRulesAlgorithm {
                 result.put(entry.getKey(), entry.getValue());
             }
         }
+
+        result.values()
+              .stream()
+              .filter(rule -> rule instanceof ParserRule)
+              .map(rule -> (ParserRule) rule)
+              .flatMap(rule -> rule.alternatives.stream())
+              .flatMap(alternative -> alternative.elements.stream())
+              .filter(ruleReference -> ruleReference.rule instanceof ParserRule)
+              .forEach(ruleReference -> {
+                  Rule rule = result.get(ruleReference.rule.name);
+                  if (rule == null) {
+                      throw new IllegalStateException("Every rule reference should be valid now");
+                  }
+                  ruleReference.rule = rule;
+              });
+
         return result;
     }
 
