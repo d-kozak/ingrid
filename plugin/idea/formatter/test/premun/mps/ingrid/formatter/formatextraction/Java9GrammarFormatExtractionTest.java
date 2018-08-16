@@ -8,6 +8,7 @@ import premun.mps.ingrid.formatter.utils.TestGrammars;
 import java.util.Map;
 
 import static premun.mps.ingrid.formatter.utils.FormatExtraction.extractFormat;
+import static premun.mps.ingrid.formatter.utils.FormatInfoMapDump.dumpSimplifiedMap;
 
 public class Java9GrammarFormatExtractionTest {
 
@@ -76,5 +77,6 @@ public class Java9GrammarFormatExtractionTest {
                 "}\n";
 
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, TestGrammars.loadJava9());
+        dumpSimplifiedMap(formatInfoMap);
     }
 }
