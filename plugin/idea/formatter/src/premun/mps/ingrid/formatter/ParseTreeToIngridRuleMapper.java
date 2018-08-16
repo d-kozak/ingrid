@@ -167,8 +167,7 @@ public class ParseTreeToIngridRuleMapper {
         } else if (rule instanceof RegexRule && current instanceof TerminalNode) {
             boolean matches = ((TerminalNode) current).getSymbol()
                                                       .getText()
-                                                      .matches(((RegexRule) rule).regexp.replaceAll("~\\[", "[^")
-                                                                                        .replaceAll("~ \\[", "[^")); // TODO transform the lexer regex rules globally before the matching algorithm starts?
+                                                      .matches(((RegexRule) rule).regexp);
             if (matches) {
                 return Collections.singletonList(parseTree.remove(0));
             }

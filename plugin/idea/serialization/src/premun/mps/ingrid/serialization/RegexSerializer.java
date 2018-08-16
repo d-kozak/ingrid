@@ -49,6 +49,9 @@ public class RegexSerializer {
     public static String serializeRegex(String regex) {
         regex = removeOuterDoubleBackSlash(regex);
 
+        // rewrite the syntax for negation
+        regex = regex.replaceAll("\\[\\^", "~[");
+
         StringBuilder stringBuilder = new StringBuilder();
         int depth = 0;
         boolean quotesStarted = false;

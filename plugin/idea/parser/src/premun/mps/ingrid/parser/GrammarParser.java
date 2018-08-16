@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import premun.mps.ingrid.model.GrammarInfo;
+import premun.mps.ingrid.model.RegexRule;
 import premun.mps.ingrid.model.Rule;
 import premun.mps.ingrid.parser.antlr.ANTLRv4Lexer;
 import premun.mps.ingrid.parser.antlr.ANTLRv4Parser;
@@ -100,15 +101,45 @@ public class GrammarParser {
         return data;
     }
 
+    /**
+     * Transforms the result of parsing into GrammarInfo object and performs some postprocessing on it.
+     * The postprocessing currently involves setting a custom root rule, if it was specified
+     * and rewriting regex rules to follow the java spec instead of antlr spec
+     *
+     * @return
+     */
     public GrammarInfo resolveGrammar() {
         GrammarInfo grammarInfo = GrammarResolver.generateGrammar(this.data);
         if (rootRule != null && !rootRule.isEmpty()) {
-            Rule rootRule = grammarInfo.rules.get(this.rootRule);
-            if (rootRule == null) {
-                throw new IllegalStateException("Specified root rule was not found");
-            }
-            grammarInfo.rootRule = rootRule;
+            setSpecificRootRule(grammarInfo);
         }
+        rewriteRegexRules(grammarInfo);
         return grammarInfo;
     }
+
+    /**
+     * Rewrites the regex rules in given grammar info object.
+     * Currently it rewrites the negation from antlr '~[' into java '[^'
+     *
+     * @param grammarInfo whose regex rules should be processed
+     */
+    private void rewriteRegexRules(GrammarInfo grammarInfo) {
+        grammarInfo.rules.values()
+                         .stream()
+                         .filter(rule -> rule instanceof RegexRule)
+                         .map(rule -> (RegexRule) rule)
+                         .forEach(rule -> {
+                             rule.regexp = rule.regexp.replaceAll("~\\[", "[^")
+                                                      .replaceAll("~ \\[", "[^");
+                         });
+    }
+
+    private void setSpecificRootRule(GrammarInfo grammarInfo) {
+        Rule rootRule = grammarInfo.rules.get(this.rootRule);
+        if (rootRule == null) {
+            throw new IllegalStateException("Specified root rule was not found");
+        }
+        grammarInfo.rootRule = rootRule;
+    }
 }
+
