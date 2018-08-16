@@ -12,17 +12,19 @@ import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.parser.GrammarParser;
 import premun.mps.ingrid.serialization.GrammarSerializer;
+import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
+import static premun.mps.ingrid.formatter.utils.Pair.pair;
 
 public class GrammarImporter {
     private SModel editorModel;
@@ -70,6 +72,28 @@ public class GrammarImporter {
     }
 
     /**
+     * Processes a list of grammar files and a list of source files to extract formatting.
+     * This method is static for easier testing.
+     *
+     * @param grammarFiles  grammar files to load
+     * @param inputFiles    source files to extract formatting from
+     * @param rulesToInline rules from the grammar to be inlined
+     * @return grammar info of the processed grammar and format info map
+     */
+    static Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> fullIngridPipeline(List<String> grammarFiles, List<String> inputFiles, List<String> rulesToInline) {
+        GrammarParser parser = new GrammarParser();
+        for (String grammarFile : grammarFiles) {
+            parser.parseString(grammarFile);
+        }
+        GrammarInfo grammarInfo = parser.resolveGrammar();
+        GrammarInfo withInlinedRules = InlineRulesAlgorithm.inlineRules(grammarInfo, rulesToInline);
+        String serialized = GrammarSerializer.serializeGrammar(grammarInfo);
+
+        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> pairRuleFormatInfoMap = FormatExtractor.fullyProcessMultipleFiles(withInlinedRules, serialized, inputFiles);
+        return pair(withInlinedRules, pairRuleFormatInfoMap);
+    }
+
+    /**
      * Main method of the import process.
      *
      * @param files List of ANTLR grammar files to be imported.
@@ -78,31 +102,25 @@ public class GrammarImporter {
         initializeLanguage();
 
 
-        List<File> grammarFiles = Arrays.stream(files)
-                                        .filter(file -> file.getName()
-                                                            .endsWith(".g4"))
-                                        .collect(toList());
-        List<File> sourceFiles = Arrays.stream(files)
-                                       .filter(file -> !file.getName()
-                                                            .endsWith(".g4"))
-                                       .collect(toList());
+        List<String> grammarFiles = Arrays.stream(files)
+                                          .filter(file -> file.getName()
+                                                              .endsWith(".g4"))
+                                          .map(File::getPath)
+                                          .map(GrammarImporter::readFile)
+                                          .collect(toList());
+        List<String> sourceFiles = Arrays.stream(files)
+                                         .filter(file -> !file.getName()
+                                                              .endsWith(".g4"))
+                                         .map(File::getPath)
+                                         .map(GrammarImporter::readFile)
+                                         .collect(toList());
 
-        GrammarParser parser = new GrammarParser();
-        for (File grammarFile : grammarFiles) {
-            parser.parseFile(grammarFile.getPath());
-        }
 
-        this.grammar = parser.resolveGrammar();
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(grammarFiles, sourceFiles, Collections.emptyList());
+
+
+        this.grammar = grammarInfoMapPair.first;
         this.importInfo = new ImportInfo(this.grammar.rootRule.name);
-
-        String inputGrammar = GrammarSerializer.serializeGrammar(this.grammar);
-
-        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap = sourceFiles.stream()
-                                                                                      .map(File::getPath)
-                                                                                      .map(GrammarImporter::readFile)
-                                                                                      .map(fileContent -> FormatExtractor.merge(FormatExtractor.extract(this.grammar, inputGrammar, fileContent)))
-                                                                                      .reduce(FormatExtractor::mergeFormatInfoMaps)
-                                                                                      .orElseGet(HashMap::new);
 
 
         ImportStep[] steps = new ImportStep[]{
@@ -110,7 +128,7 @@ public class GrammarImporter {
                 new ConceptImporter(),
                 new ConceptLinker(),
                 new AliasFinder(),
-                new EditorBuilder(formatInfoMap),
+                new EditorBuilder(grammarInfoMapPair.second),
                 new TextGenBuilder()
         };
         this.executeSteps(steps);

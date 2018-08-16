@@ -14,5 +14,6 @@
     <orderEntry type="library" name="library" level="project" />
     <orderEntry type="module" module-name="formatter" />
     <orderEntry type="module" module-name="serialization" />
+    <orderEntry type="module" module-name="transformer" />
   </component>
 </module>

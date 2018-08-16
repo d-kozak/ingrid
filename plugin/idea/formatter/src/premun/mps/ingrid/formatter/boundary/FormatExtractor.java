@@ -27,6 +27,24 @@ import static premun.mps.ingrid.formatter.utils.Pair.pair;
  */
 public class FormatExtractor {
 
+
+    /**
+     * Extracts formatting from multiple files and merges it into single formatInfoMap
+     *
+     * @param grammarInfo  information about the grammar as parsed by the Ingrid Parser
+     * @param inputGrammar antlr4 grammar of the input
+     * @param sourceFiles  list of source files from which the input should be extracted
+     * @return all information about formatting that could be extracted from the source files
+     */
+    public static Map<Pair<ParserRule, Alternative>, RuleFormatInfo> fullyProcessMultipleFiles(GrammarInfo grammarInfo, String inputGrammar, List<String> sourceFiles) {
+        return sourceFiles
+                .stream()
+                .map(sourceFile -> extract(grammarInfo, inputGrammar, sourceFile))
+                .map(FormatExtractor::merge)
+                .reduce(FormatExtractor::mergeFormatInfoMaps)
+                .orElseGet(HashMap::new);
+    }
+
     /**
      * Extracts formatting information from given input using the inputGrammar
      *
