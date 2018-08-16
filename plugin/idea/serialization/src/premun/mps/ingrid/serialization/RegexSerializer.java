@@ -43,7 +43,6 @@ public class RegexSerializer {
     /**
      * When serializing into Antlr4 format, regex expressions have to be tweaked.
      *
-     * TODO: something goes wrong with regular expressions when they are being flattened, for example the line comment in Java is handled incorrectly, figure out what is going wrong and why
      * @param regex regex to be modified
      * @return antlr4 version of the input regex
      */
