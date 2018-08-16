@@ -57,7 +57,7 @@ public class FormatExtractor {
     public static Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> extract(GrammarInfo grammarInfo, String inputGrammar, String input) {
         try {
             Grammar grammar = new Grammar(inputGrammar);
-            Pair<CommonTokenStream, ParseTree> pair = InterpretingParser.tokenizeAndParse(grammar, input, grammar.rules.getElement(0).name);
+            Pair<CommonTokenStream, ParseTree> pair = InterpretingParser.tokenizeAndParse(grammar, input, grammarInfo.rootRule.name);
             CommonTokenStream tokens = pair.first;
             ParseTree ast = pair.second;
             ParseTreeWalker walker = new ParseTreeWalker();

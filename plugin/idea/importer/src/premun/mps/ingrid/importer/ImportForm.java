@@ -1,15 +1,16 @@
 package premun.mps.ingrid.importer;
 
 import javax.swing.*;
-import javax.swing.filechooser.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.*;
-import java.util.function.*;
-import java.util.stream.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Class represents an input form, that prompts user for import data.
@@ -28,6 +29,8 @@ public class ImportForm {
     private JButton cancelButton;
     private JComboBox languages;
     private JPanel languagePanel;
+    private JPanel rootRule;
+    private JTextField rootRuleTextField;
 
     private static JDialog frame = new JDialog(); // JFrame was not working together with MPS
 
@@ -60,16 +63,20 @@ public class ImportForm {
         // File list
         this.fileList.setModel(new DefaultListModel<String>());
         this.fileList.addListSelectionListener(e ->
-            this.removeFileButton.setEnabled(!this.fileList.isSelectionEmpty())
+                this.removeFileButton.setEnabled(!this.fileList.isSelectionEmpty())
         );
 
         // Language combo box
         DefaultComboBoxModel<String> languageModel = new DefaultComboBoxModel<>();
         this.mpsLanguages
-            .stream()
-            .forEach(languageModel::addElement);
+                .stream()
+                .forEach(languageModel::addElement);
         languageModel.addElement("New language...");
         this.languages.setModel(languageModel);
+    }
+
+    public static void main(String[] args) {
+        new ImportForm(Collections.emptyList()).openAndGet();
     }
 
     /**
@@ -94,6 +101,10 @@ public class ImportForm {
         return this.files.toArray(new File[0]);
     }
 
+    public String getRootRule() {
+        return this.rootRuleTextField.getText();
+    }
+
     /**
      * Called, when user presses the "Import" button.
      */
@@ -104,7 +115,8 @@ public class ImportForm {
         }
 
         // "New language..." selected
-        if (this.languages.getSelectedIndex() == this.languages.getModel().getSize() - 1) {
+        if (this.languages.getSelectedIndex() == this.languages.getModel()
+                                                               .getSize() - 1) {
             this.language = null;
         } else {
             this.language = (String) this.languages.getSelectedItem();
@@ -147,9 +159,9 @@ public class ImportForm {
 
         // Remove duplicates from the files list
         files = files
-            .stream()
-            .filter(distinctFile(File::getPath))
-            .collect(Collectors.toList());
+                .stream()
+                .filter(distinctFile(File::getPath))
+                .collect(Collectors.toList());
 
         this.syncFilesAndList();
     }
@@ -159,9 +171,10 @@ public class ImportForm {
      */
     private void removeFiles() {
         this.fileList
-            .getSelectedValuesList()
-            .stream()
-            .forEach(i -> this.files.removeIf(f -> f.getName().equals(i)));
+                .getSelectedValuesList()
+                .stream()
+                .forEach(i -> this.files.removeIf(f -> f.getName()
+                                                        .equals(i)));
 
         this.syncFilesAndList();
     }
@@ -173,9 +186,9 @@ public class ImportForm {
         DefaultListModel listModel = (DefaultListModel) this.fileList.getModel();
         listModel.clear();
         files
-            .stream()
-            .map(File::getName)
-            .forEach(listModel::addElement);
+                .stream()
+                .map(File::getName)
+                .forEach(listModel::addElement);
     }
 
     /**
@@ -228,7 +241,8 @@ public class ImportForm {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         filePanel.add(fileButtonPanel, gbc);
         addFileButton = new JButton();
-        addFileButton.setFont(new Font(addFileButton.getFont().getName(), Font.BOLD, 16));
+        Font addFileButtonFont = this.$$$getFont$$$(null, Font.BOLD, 16, addFileButton.getFont());
+        if (addFileButtonFont != null) addFileButton.setFont(addFileButtonFont);
         addFileButton.setText("+");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -238,7 +252,8 @@ public class ImportForm {
         gbc.anchor = GridBagConstraints.WEST;
         fileButtonPanel.add(addFileButton, gbc);
         removeFileButton = new JButton();
-        removeFileButton.setFont(new Font(removeFileButton.getFont().getName(), Font.BOLD, 16));
+        Font removeFileButtonFont = this.$$$getFont$$$(null, Font.BOLD, 16, removeFileButton.getFont());
+        if (removeFileButtonFont != null) removeFileButton.setFont(removeFileButtonFont);
         removeFileButton.setText("-");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -288,10 +303,10 @@ public class ImportForm {
         buttonPanel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.SOUTHEAST;
-        gbc.insets = new Insets(0, 0, 8, 8);
+        gbc.insets = new Insets(8, 0, 8, 8);
         mainPanel.add(buttonPanel, gbc);
         importButton = new JButton();
         importButton.setText("Import");
@@ -368,6 +383,51 @@ public class ImportForm {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel3.add(languages, gbc);
+        rootRule = new JPanel();
+        rootRule.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 8, 0, 8);
+        mainPanel.add(rootRule, gbc);
+        final JLabel label3 = new JLabel();
+        label3.setText("Root rule: (leave empty for first rule):");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        rootRule.add(label3, gbc);
+        rootRuleTextField = new JTextField();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        rootRule.add(rootRuleTextField, gbc);
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**

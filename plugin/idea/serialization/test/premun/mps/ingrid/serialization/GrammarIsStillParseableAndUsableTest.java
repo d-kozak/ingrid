@@ -145,11 +145,15 @@ public class GrammarIsStillParseableAndUsableTest {
                 "        animal.count();\n" +
                 "    }\n" +
                 "}\n";
-        serializeAndParseGrammar(TestGrammars.loadJava9(), input);
+        serializeAndParseGrammar(TestGrammars.loadJava9(), input, "compilationUnit");
     }
 
     private void serializeAndParseGrammar(String grammar, String input) {
-        GrammarParser grammarParser = new GrammarParser();
+        serializeAndParseGrammar(grammar, input, null);
+    }
+
+    private void serializeAndParseGrammar(String grammar, String input, String rootRule) {
+        GrammarParser grammarParser = new GrammarParser(rootRule);
         grammarParser.parseString(grammar);
 
         String serialized = GrammarSerializer.serializeGrammar(grammarParser.resolveGrammar());
@@ -157,17 +161,17 @@ public class GrammarIsStillParseableAndUsableTest {
         System.out.println(serialized);
 
         try {
-            Pair<ParseTree, List<String>> resultFromOriginalGrammar = parse(grammar, input);
+            Pair<ParseTree, List<String>> resultFromOriginalGrammar = parse(grammar, input, rootRule);
             if (!resultFromOriginalGrammar.second.isEmpty()) {
                 throw new IllegalArgumentException("Could not parse the input even with the original grammar, errors: " + resultFromOriginalGrammar.second);
             }
 
-            Pair<ParseTree, List<String>> resultAfterSerialization = parse(serialized, input);
+            Pair<ParseTree, List<String>> resultAfterSerialization = parse(serialized, input, rootRule);
             if (!resultAfterSerialization.second.isEmpty()) {
                 throw new IllegalArgumentException("Could not parse the input with serialized grammar, errors : " + resultAfterSerialization.second);
             }
 
-            grammarParser = new GrammarParser();
+            grammarParser = new GrammarParser(rootRule);
             grammarParser.parseString(serialized);
 
             GrammarInfo grammarInfo = grammarParser.resolveGrammar();
@@ -181,6 +185,10 @@ public class GrammarIsStillParseableAndUsableTest {
     }
 
     private Pair<ParseTree, List<String>> parse(String grammar, String input) throws RecognitionException {
+        return parse(grammar, input, null);
+    }
+
+    private Pair<ParseTree, List<String>> parse(String grammar, String input, String rootRule) throws RecognitionException {
         class CollectionErrorListener extends BaseErrorListener {
             private final List<String> errors = new ArrayList<>();
 
@@ -195,9 +203,14 @@ public class GrammarIsStillParseableAndUsableTest {
         CommonTokenStream commonTokenStream = new CommonTokenStream(lexerInterpreter);
         ParserInterpreter parserInterpreter = antlrGrammar.createParserInterpreter(commonTokenStream);
 
+        int startRuleIndex = 0;
+        if (rootRule != null) {
+            startRuleIndex = antlrGrammar.getRule(rootRule).index;
+        }
+
         CollectionErrorListener listener = new CollectionErrorListener();
         parserInterpreter.addErrorListener(listener);
-        ParserRuleContext ast = parserInterpreter.parse(0);
+        ParserRuleContext ast = parserInterpreter.parse(startRuleIndex);
         return pair(ast, listener.errors);
     }
 }

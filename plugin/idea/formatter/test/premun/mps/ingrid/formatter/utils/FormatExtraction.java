@@ -18,12 +18,22 @@ import static premun.mps.ingrid.formatter.boundary.FormatExtractor.*;
 public class FormatExtraction {
 
     /**
-     * @param input   text written in the target language
+     * @param input text written in the target language
      * @param grammar grammar of the target language
      * @return simplified version of the formatInfoMap, where key is a pair of rule name and alternative index
      */
     public static Map<Pair<String, Integer>, RuleFormatInfo> extractFormat(String input, String grammar) {
-        GrammarParser grammarParser = new GrammarParser();
+        return extractFormat(input, grammar, null);
+    }
+
+    /**
+     * @param input    text written in the target language
+     * @param grammar  grammar of the target language
+     * @param rootRule rule from which to start parsing
+     * @return simplified version of the formatInfoMap, where key is a pair of rule name and alternative index
+     */
+    public static Map<Pair<String, Integer>, RuleFormatInfo> extractFormat(String input, String grammar, String rootRule) {
+        GrammarParser grammarParser = new GrammarParser(rootRule);
         grammarParser.parseString(grammar);
         GrammarInfo grammarInfo = grammarParser.resolveGrammar();
         Map<Pair<ParserRule, Alternative>, RuleFormatInfo> merge = merge(extract(grammarInfo, grammar, input));

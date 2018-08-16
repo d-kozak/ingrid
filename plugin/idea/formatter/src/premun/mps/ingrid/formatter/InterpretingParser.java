@@ -24,14 +24,14 @@ public class InterpretingParser {
      *
      * @param grammar   grammar according to which the input should be parsed
      * @param input     input to be parsed
-     * @param startRule the first rule to use when parsing
+     * @param rootRule the first rule to use when parsing
      * @return parse tree returned by the Antlr4 parserInterpreter
      */
-    public static ParseTree parse(Grammar grammar, String input, String startRule) {
+    public static ParseTree parse(Grammar grammar, String input, String rootRule) {
         LexerInterpreter lexerInterpreter = grammar.createLexerInterpreter(new ANTLRInputStream(input));
         CommonTokenStream tokens = new CommonTokenStream(lexerInterpreter);
         ParserInterpreter parserInterpreter = grammar.createParserInterpreter(tokens);
-        return parserInterpreter.parse(grammar.rules.get(startRule).index);
+        return parserInterpreter.parse(grammar.rules.get(rootRule).index);
     }
 
     /**
@@ -39,14 +39,14 @@ public class InterpretingParser {
      *
      * @param grammar   grammar according to which the input should be parsed
      * @param input     input to be parsed
-     * @param startRule the first rule to use when parsing
+     * @param rootRule the first rule to use when parsing
      * @return stream of tokens from the lexer and parse tree returned by the Antlr4 parserInterpreter
      */
-    public static Pair<CommonTokenStream, ParseTree> tokenizeAndParse(Grammar grammar, String input, String startRule) {
+    public static Pair<CommonTokenStream, ParseTree> tokenizeAndParse(Grammar grammar, String input, String rootRule) {
         LexerInterpreter lexerInterpreter = grammar.createLexerInterpreter(new ANTLRInputStream(input));
         CommonTokenStream tokens = new CommonTokenStream(lexerInterpreter);
         ParserInterpreter parserInterpreter = grammar.createParserInterpreter(tokens);
-        ParseTree ast = parserInterpreter.parse(grammar.rules.get(startRule).index);
+        ParseTree ast = parserInterpreter.parse(grammar.rules.get(rootRule).index);
         return pair(tokens, ast);
     }
 

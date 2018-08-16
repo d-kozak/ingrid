@@ -566,7 +566,7 @@
     </javac>
   </target>
   
-  <target name="java.compile.premun.mps.ingrid.importer" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.formatter, java.compile.premun.mps.ingrid.library, java.compile.premun.mps.ingrid.model, java.compile.premun.mps.ingrid.parser, java.compile.premun.mps.ingrid.serialization, fetchDependencies">
+  <target name="java.compile.premun.mps.ingrid.importer" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.formatter, java.compile.premun.mps.ingrid.library, java.compile.premun.mps.ingrid.model, java.compile.premun.mps.ingrid.parser, java.compile.premun.mps.ingrid.serialization, java.compile.premun.mps.ingrid.transformer, fetchDependencies">
     <mkdir dir="${INGRID_HOME}/plugin/idea/importer/src" />
     <mkdir dir="${INGRID_HOME}/plugin/mps/importer/source_gen" />
     <mkdir dir="${build.tmp}/java/out/premun.mps.ingrid.importer" />
@@ -599,6 +599,7 @@
         <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.model" />
         <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.parser" />
         <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.serialization" />
+        <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.transformer" />
         <fileset file="${INGRID_HOME}/plugin/lib/antlr-4.5.2-complete.jar" />
         <fileset file="${artifacts.mps}/lib/annotations.jar" />
         <fileset file="${artifacts.mps}/lib/log4j.jar" />
@@ -710,7 +711,7 @@
     </javac>
   </target>
   
-  <target name="java.compile.premun.mps.ingrid.formatter" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.model, fetchDependencies">
+  <target name="java.compile.premun.mps.ingrid.formatter" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.model, java.compile.premun.mps.ingrid.parser, fetchDependencies">
     <mkdir dir="${INGRID_HOME}/plugin/idea/formatter/src" />
     <mkdir dir="${INGRID_HOME}/plugin/mps/solutions/premun.mps.ingrid.formatter/source_gen" />
     <mkdir dir="${build.tmp}/java/out/premun.mps.ingrid.formatter" />
@@ -725,6 +726,7 @@
         <fileset file="${artifacts.mps}/lib/mps-annotations.jar" />
         <fileset file="${artifacts.mps}/lib/mps-openapi.jar" />
         <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.model" />
+        <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.parser" />
         <fileset file="${INGRID_HOME}/plugin/lib/antlr-4.5.2-complete.jar" />
         <fileset file="${artifacts.mps}/lib/annotations.jar" />
       </classpath>

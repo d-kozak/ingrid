@@ -71,6 +71,10 @@ public class GrammarImporter {
         }
     }
 
+    static Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> fullIngridPipeline(List<String> grammarFiles, List<String> inputFiles, List<String> rulesToInline) {
+        return fullIngridPipeline(grammarFiles, inputFiles, rulesToInline, null);
+    }
+
     /**
      * Processes a list of grammar files and a list of source files to extract formatting.
      * This method is static for easier testing.
@@ -80,8 +84,8 @@ public class GrammarImporter {
      * @param rulesToInline rules from the grammar to be inlined
      * @return grammar info of the processed grammar and format info map
      */
-    static Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> fullIngridPipeline(List<String> grammarFiles, List<String> inputFiles, List<String> rulesToInline) {
-        GrammarParser parser = new GrammarParser();
+    static Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> fullIngridPipeline(List<String> grammarFiles, List<String> inputFiles, List<String> rulesToInline, String startRule) {
+        GrammarParser parser = new GrammarParser(startRule);
         for (String grammarFile : grammarFiles) {
             parser.parseString(grammarFile);
         }
@@ -98,7 +102,7 @@ public class GrammarImporter {
      *
      * @param files List of ANTLR grammar files to be imported.
      */
-    public void importGrammars(File[] files) {
+    public void importGrammars(File[] files, String startRule) {
         initializeLanguage();
 
 
@@ -116,7 +120,7 @@ public class GrammarImporter {
                                          .collect(toList());
 
 
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(grammarFiles, sourceFiles, Collections.emptyList());
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(grammarFiles, sourceFiles, Collections.emptyList(), startRule);
 
 
         this.grammar = grammarInfoMapPair.first;

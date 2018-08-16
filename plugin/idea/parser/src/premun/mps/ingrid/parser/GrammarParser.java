@@ -17,7 +17,18 @@ import java.util.List;
 import java.util.Map;
 
 public class GrammarParser {
+    private final String rootRule;
+
+
     private ParserResult data = new ParserResult();
+
+    public GrammarParser() {
+        this.rootRule = null;
+    }
+
+    public GrammarParser(String rootRule) {
+        this.rootRule = rootRule;
+    }
 
     public void parseFile(String fileName) {
         File file = new File(fileName);
@@ -90,6 +101,14 @@ public class GrammarParser {
     }
 
     public GrammarInfo resolveGrammar() {
-        return GrammarResolver.generateGrammar(this.data);
+        GrammarInfo grammarInfo = GrammarResolver.generateGrammar(this.data);
+        if (rootRule != null && !rootRule.isEmpty()) {
+            Rule rootRule = grammarInfo.rules.get(this.rootRule);
+            if (rootRule == null) {
+                throw new IllegalStateException("Specified root rule was not found");
+            }
+            grammarInfo.rootRule = rootRule;
+        }
+        return grammarInfo;
     }
 }

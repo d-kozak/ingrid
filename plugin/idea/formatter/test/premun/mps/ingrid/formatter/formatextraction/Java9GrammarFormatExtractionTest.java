@@ -76,7 +76,7 @@ public class Java9GrammarFormatExtractionTest {
                 "    }\n" +
                 "}\n";
 
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, TestGrammars.loadJava9());
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, TestGrammars.loadJava9(), "compilationUnit");
         dumpSimplifiedMap(formatInfoMap);
     }
 }
