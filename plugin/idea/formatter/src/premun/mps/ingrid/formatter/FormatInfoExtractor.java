@@ -27,13 +27,13 @@ class FormatInfoExtractor {
     /**
      * Extracts format information from the list of MatchInfo objects
      */
-    static List<FormatInfo> extractFormatInfo(List<MatchInfo> matchInfos, CommonTokenStream tokens) {
+    static List<FormatInfo> extractFormatInfo(List<MatchInfo> matchInfos, CommonTokenStream allTokens) {
         if (matchInfos.isEmpty())
             return new ArrayList<>();
 
         int originalMatchInfoSize = matchInfos.size();
         matchInfos = new ArrayList<>(matchInfos);
-        matchInfos.add(createDummyNextTokenMatchInfo(matchInfos, tokens));
+        matchInfos.add(createDummyNextTokenMatchInfo(matchInfos, allTokens));
 
         List<FormatInfo> result = new ArrayList<>();
 
@@ -41,7 +41,7 @@ class FormatInfoExtractor {
             MatchInfo currentMatchInfo = matchInfos.get(i);
             MatchInfo nextMatchInfo = matchInfos.get(i + 1);
             if (currentMatchInfo.isNotEmpty() && nextMatchInfo.isNotEmpty()) {
-                result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo, tokens));
+                result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo, allTokens));
             } else {
                 result.add(FormatInfo.UnknownFormatInfo.UNKNOWN_FORMAT_INFO);
             }
@@ -72,9 +72,8 @@ class FormatInfoExtractor {
         if (isMultipleCardinality) {
             childrenOnNewLine = checkIfChildrenAreOnNewLine(currentMatchInfo, tokens);
 
-            // TODO find a better way to extract children indentation
-            childrenIndented = childrenOnNewLine && extractTokens(currentMatchInfo.getMatchedRegion()).stream()
-                                                                                                      .allMatch(it -> it.getCharPositionInLine() > 0);
+
+            childrenIndented = checkIfChildrenAreIndented(currentMatchInfo, childrenOnNewLine, tokens);
         }
         return new FormatInfo(currentMatchInfo.rule, appendedNewLine, appendSpace, childrenOnNewLine, childrenIndented);
 
@@ -125,6 +124,43 @@ class FormatInfoExtractor {
                 throw new IllegalArgumentException("Inconsistent formatting");
             }
         }
+    }
+
+    /**
+     * We can check for indentation by comparing all tokens from the matched region with
+     * the leftmost token from previous line. If their position on line is bigger, then they have to be indented
+     */
+    private static boolean checkIfChildrenAreIndented(MatchInfo currentMatchInfo, boolean childrenOnNewLine, CommonTokenStream tokens) {
+        if (!childrenOnNewLine)
+            return false;
+        Token leftmostTokenInThisRegion = extractLeftmostToken(currentMatchInfo.getLeftmostParseTree());
+        Token leftmostTokenOnPreviousLine = getLeftmostTokenOnLine(leftmostTokenInThisRegion.getTokenIndex(), leftmostTokenInThisRegion.getLine() - 1, tokens);
+        return extractTokens(currentMatchInfo.getMatchedRegion()).stream()
+                                                                 .allMatch(it -> it.getCharPositionInLine() > leftmostTokenOnPreviousLine.getCharPositionInLine());
+    }
+
+    /**
+     * Gets the leftmost token from token stream on specified line, starting traversing the list from index startTokenIndex.
+     *
+     * @param startTokenIndex index from which to start traversing the list.
+     * @param wantedLine      line on which the token should be
+     * @param tokens          antlr4 stream of tokens to traverse
+     * @return the leftmost token on specified line, or dummy token with line position zero
+     */
+    private static Token getLeftmostTokenOnLine(int startTokenIndex, int wantedLine, CommonTokenStream tokens) {
+        int index = startTokenIndex - 1;
+        Token right = tokens.get(startTokenIndex);
+        while (index >= 0) {
+            Token left = tokens.get(index);
+            if (left.getLine() < right.getLine() && right.getLine() == wantedLine)
+                return right;
+            right = left;
+            index--;
+        }
+        // no token found, just return dummy one
+        CommonToken dummy = new CommonToken(-1);
+        dummy.setCharPositionInLine(0);
+        return dummy;
     }
 
     /**
