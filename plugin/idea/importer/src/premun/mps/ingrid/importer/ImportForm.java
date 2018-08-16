@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Class represents an input form, that prompts user for import data.
@@ -31,6 +32,12 @@ public class ImportForm {
     private JPanel languagePanel;
     private JPanel rootRule;
     private JTextField rootRuleTextField;
+    private JPanel inlineRulesPanel;
+    private JTextArea inlineRulesTextArea;
+    private JPanel simplifySeparatorListPanel;
+    private JTabbedPane tabbedPane;
+    private JCheckBox enableRuleInliningCheckBox;
+    private JCheckBox simplifyListsWithSeparatorsCheckBox;
 
     private static JDialog frame = new JDialog(); // JFrame was not working together with MPS
 
@@ -73,6 +80,18 @@ public class ImportForm {
                 .forEach(languageModel::addElement);
         languageModel.addElement("New language...");
         this.languages.setModel(languageModel);
+
+        this.enableRuleInliningCheckBox.addChangeListener(__ -> {
+            if (enableRuleInliningCheckBox.isSelected()) {
+                inlineRulesTextArea.setBackground(Color.white);
+                inlineRulesTextArea.setEnabled(true);
+            } else {
+                inlineRulesTextArea.setBackground(Color.lightGray);
+                inlineRulesTextArea.setEnabled(false);
+            }
+        });
+        this.enableRuleInliningCheckBox.setSelected(false);
+        this.tabbedPane.setSelectedIndex(0);
     }
 
     public static void main(String[] args) {
@@ -104,6 +123,20 @@ public class ImportForm {
     public String getRootRule() {
         return this.rootRuleTextField.getText();
     }
+
+    public List<String> rulesToInline() {
+        if (!enableRuleInliningCheckBox.isSelected())
+            return Collections.emptyList();
+        return Arrays.stream(inlineRulesTextArea.getText()
+                                                .split("\n"))
+                     .map(String::trim)
+                     .collect(toList());
+    }
+
+    public boolean simplifyListsWithSeparators() {
+        return simplifyListsWithSeparatorsCheckBox.isSelected();
+    }
+
 
     /**
      * Called, when user presses the "Import" button.
@@ -161,7 +194,7 @@ public class ImportForm {
         files = files
                 .stream()
                 .filter(distinctFile(File::getPath))
-                .collect(Collectors.toList());
+                .collect(toList());
 
         this.syncFilesAndList();
     }
@@ -220,9 +253,7 @@ public class ImportForm {
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
-        mainPanel.setEnabled(true);
-        filePanel = new JPanel();
-        filePanel.setLayout(new GridBagLayout());
+        tabbedPane = new JTabbedPane();
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -230,8 +261,20 @@ public class ImportForm {
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
+        mainPanel.add(tabbedPane, gbc);
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridBagLayout());
+        tabbedPane.addTab("Common", panel1);
+        filePanel = new JPanel();
+        filePanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(8, 8, 8, 8);
-        mainPanel.add(filePanel, gbc);
+        panel1.add(filePanel, gbc);
         fileButtonPanel = new JPanel();
         fileButtonPanel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -299,14 +342,142 @@ public class ImportForm {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         fileListPanel.add(fileList, gbc);
+        final JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 8, 8, 8);
+        panel1.add(panel2, gbc);
+        languagePanel = new JPanel();
+        languagePanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel2.add(languagePanel, gbc);
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        languagePanel.add(panel3, gbc);
+        final JLabel label2 = new JLabel();
+        label2.setText("Target language:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel3.add(label2, gbc);
+        final JPanel panel4 = new JPanel();
+        panel4.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 8, 0, 0);
+        languagePanel.add(panel4, gbc);
+        languages = new JComboBox();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel4.add(languages, gbc);
+        rootRule = new JPanel();
+        rootRule.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 8, 0, 8);
+        panel1.add(rootRule, gbc);
+        final JLabel label3 = new JLabel();
+        label3.setText("Root rule: (leave empty for first rule):");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        rootRule.add(label3, gbc);
+        rootRuleTextField = new JTextField();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        rootRule.add(rootRuleTextField, gbc);
+        final JPanel panel5 = new JPanel();
+        panel5.setLayout(new GridBagLayout());
+        tabbedPane.addTab("Transformations", panel5);
+        inlineRulesPanel = new JPanel();
+        inlineRulesPanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(8, 8, 8, 8);
+        panel5.add(inlineRulesPanel, gbc);
+        inlineRulesTextArea = new JTextArea();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(8, 0, 0, 0);
+        inlineRulesPanel.add(inlineRulesTextArea, gbc);
+        enableRuleInliningCheckBox = new JCheckBox();
+        enableRuleInliningCheckBox.setText("Enable rule inlining");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        inlineRulesPanel.add(enableRuleInliningCheckBox, gbc);
+        simplifySeparatorListPanel = new JPanel();
+        simplifySeparatorListPanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.insets = new Insets(8, 8, 8, 8);
+        panel5.add(simplifySeparatorListPanel, gbc);
+        simplifyListsWithSeparatorsCheckBox = new JCheckBox();
+        simplifyListsWithSeparatorsCheckBox.setText("Simplify lists with separators");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        simplifySeparatorListPanel.add(simplifyListsWithSeparatorsCheckBox, gbc);
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 1;
         gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.SOUTHEAST;
-        gbc.insets = new Insets(8, 0, 8, 8);
         mainPanel.add(buttonPanel, gbc);
         importButton = new JButton();
         importButton.setText("Import");
@@ -326,89 +497,6 @@ public class ImportForm {
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.EAST;
         buttonPanel.add(cancelButton, gbc);
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.SOUTH;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 8, 8, 8);
-        mainPanel.add(panel1, gbc);
-        languagePanel = new JPanel();
-        languagePanel.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.SOUTH;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel1.add(languagePanel, gbc);
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        languagePanel.add(panel2, gbc);
-        final JLabel label2 = new JLabel();
-        label2.setText("Target language:");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel2.add(label2, gbc);
-        final JPanel panel3 = new JPanel();
-        panel3.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.SOUTH;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0, 8, 0, 0);
-        languagePanel.add(panel3, gbc);
-        languages = new JComboBox();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel3.add(languages, gbc);
-        rootRule = new JPanel();
-        rootRule.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(0, 8, 0, 8);
-        mainPanel.add(rootRule, gbc);
-        final JLabel label3 = new JLabel();
-        label3.setText("Root rule: (leave empty for first rule):");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        rootRule.add(label3, gbc);
-        rootRuleTextField = new JTextField();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        rootRule.add(rootRuleTextField, gbc);
     }
 
     /**
