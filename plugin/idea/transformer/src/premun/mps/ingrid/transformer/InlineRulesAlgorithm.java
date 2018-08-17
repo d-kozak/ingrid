@@ -3,7 +3,8 @@ package premun.mps.ingrid.transformer;
 import premun.mps.ingrid.model.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Inlines rules specified in the constructor
@@ -37,7 +38,7 @@ public class InlineRulesAlgorithm implements GenericGrammarTransformation {
                                                  .stream()
                                                  .filter(it -> it instanceof ParserRule)
                                                  .map(it -> ((ParserRule) it))
-                                                 .collect(Collectors.toList());
+                                                 .collect(toList());
 
         boolean changed = true;
         while (changed) {
@@ -78,7 +79,7 @@ public class InlineRulesAlgorithm implements GenericGrammarTransformation {
     private void checkForInvalidRuleNames(GrammarInfo input, List<String> rulesToInline) {
         List<String> unresolvedRules = rulesToInline.stream()
                                                     .filter(it -> input.rules.get(it) == null)
-                                                    .collect(Collectors.toList());
+                                                    .collect(toList());
         if (!unresolvedRules.isEmpty()) {
             throw new IllegalArgumentException("Rules " + unresolvedRules + " were not found in " + input);
         }
@@ -87,7 +88,14 @@ public class InlineRulesAlgorithm implements GenericGrammarTransformation {
     private List<RuleReference> inlineRule(Rule ruleToInline) {
         if (ruleToInline instanceof ParserRule) {
             if (((ParserRule) ruleToInline).alternatives.size() == 1) {
-                return ((ParserRule) ruleToInline).alternatives.get(0).elements;
+                List<RuleReference> elements = ((ParserRule) ruleToInline).alternatives.get(0).elements;
+                // make a copy of the references so that they are not shared by multiple rules
+                // the rules they point to are shared, but that's what we want to keep to rules interconnected
+                // but we cannot let multiple rules share rule references, because ConceptImporter assign
+                // nodes to those references
+                return elements.stream()
+                               .map(RuleReference::new)
+                               .collect(toList());
             } else {
                 throw new IllegalArgumentException("Cannot inline rule with more than one alternative. Afterwards Ingrid will create special block rule for it anyway...");
             }

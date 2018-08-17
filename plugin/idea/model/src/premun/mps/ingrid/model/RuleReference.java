@@ -33,6 +33,17 @@ public class RuleReference {
         this.quantity = quantity;
     }
 
+    /**
+     * Copy constructor, makes a shallow copy
+     *
+     * @param oldReference
+     */
+    public RuleReference(RuleReference oldReference) {
+        this.rule = oldReference.rule;
+        this.quantity = oldReference.quantity;
+        this.nodeReference = oldReference.nodeReference;
+    }
+
     @Override
     public String toString() {
         return this.rule.toString() + this.quantity.toString();
