@@ -23,6 +23,16 @@ public class Alternative {
         this.elements = elements;
     }
 
+    /**
+     * Copy constructor, makes a shallow copy
+     */
+    public Alternative(Alternative other) {
+        this.elements = new ArrayList<>(other.elements);
+        this.comment = other.comment;
+        this.node = other.node;
+        this.alias = other.alias;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -27,23 +27,31 @@ public class DetectListWithSeparatorsAlgorithm implements MpsSpecificGrammarTran
                                                         .map(it -> (ParserRule) it)
                                                         .collect(Collectors.toList());
 
+        // TODO add more tests and refactor this mess :)
+
         for (ParserRule parserRule : parserRules) {
-            for (Alternative alternative : parserRule.alternatives) {
+            for (int alternativeIndex = 0; alternativeIndex < parserRule.alternatives.size(); alternativeIndex++) {
+                Alternative alternative = parserRule.alternatives.get(alternativeIndex);
+                // TODO the map should be filled, therefore this can be replaces with simple get, once the tests are updated
                 RuleFormatInfo ruleFormatInfo = formatInfoMap.computeIfAbsent(pair(parserRule, alternative), __ -> new RuleFormatInfo(new ArrayList<>()));
-                for (int i = 0; i < alternative.elements.size() - 1; i++) {
-                    RuleReference current = alternative.elements.get(i);
-                    RuleReference next = alternative.elements.get(i + 1);
+                for (int ruleReferenceIndex = 0; ruleReferenceIndex < alternative.elements.size() - 1; ruleReferenceIndex++) {
+                    RuleReference current = alternative.elements.get(ruleReferenceIndex);
+                    RuleReference next = alternative.elements.get(ruleReferenceIndex + 1);
                     boolean mightBeNextElements = next.quantity == Quantity.ANY && next.rule instanceof ParserRule && ((ParserRule) next.rule).alternatives.size() == 1;
                     if (mightBeNextElements) {
                         Alternative nextAlternative = ((ParserRule) next.rule).alternatives.get(0);
                         if (nextAlternative.elements.size() == 2 && nextAlternative.elements.get(0).rule instanceof LiteralRule && current.rule.equals(nextAlternative.elements.get(1).rule)) {
                             String separator = ((LiteralRule) nextAlternative.elements.get(0).rule).value;
                             System.out.println("found list of " + current.rule.name + " with separator " + separator);
-                            alternative.elements.clear();
-                            current.quantity = Quantity.ANY;
-                            alternative.elements.add(current);
 
-                            FormatInfo currentFormatInfo = i < ruleFormatInfo.formatInfoList.size() ? ruleFormatInfo.formatInfoList.get(i) : new FormatInfo(current.rule, false, false, false, false);
+                            // clear the map and make a copy
+                            formatInfoMap.remove(pair(parserRule, alternative));
+                            Alternative copy = new Alternative(alternative);
+                            copy.elements.clear();
+                            current.quantity = Quantity.ANY;
+                            copy.elements.add(current);
+
+                            FormatInfo currentFormatInfo = ruleReferenceIndex < ruleFormatInfo.formatInfoList.size() ? ruleFormatInfo.formatInfoList.get(ruleReferenceIndex) : new FormatInfo(current.rule, false, false, false, false);
                             ruleFormatInfo.formatInfoList.clear();
                             ruleFormatInfo.formatInfoList.add(
                                     new FormatInfo(currentFormatInfo.rule,
@@ -53,6 +61,10 @@ public class DetectListWithSeparatorsAlgorithm implements MpsSpecificGrammarTran
                                             currentFormatInfo.childrenIndented,
                                             separator)
                             );
+
+                            // update references
+                            formatInfoMap.put(pair(parserRule, copy), ruleFormatInfo);
+                            parserRule.alternatives.set(alternativeIndex, copy);
                         }
                     }
                 }
