@@ -53,12 +53,12 @@ public class FirstAndSecondSerializationTest {
         GrammarParser grammarParser = new GrammarParser();
         grammarParser.parseString(grammar);
 
-        String serialized = GrammarSerializer.serializeGrammar(grammarParser.resolveGrammar());
+        String serialized = IngridModelToAntlrSerializer.serializeGrammar(grammarParser.resolveGrammar());
 
         grammarParser = new GrammarParser();
         grammarParser.parseString(serialized);
 
-        String doublySerialized = GrammarSerializer.serializeGrammar(grammarParser.resolveGrammar());
+        String doublySerialized = IngridModelToAntlrSerializer.serializeGrammar(grammarParser.resolveGrammar());
 
 
         System.out.println("\n\n =====ORIGINAL====\n\n");

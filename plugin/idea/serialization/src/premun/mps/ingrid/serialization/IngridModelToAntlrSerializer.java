@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.joining;
  *
  * @author dkozak
  */
-public class GrammarSerializer {
+public class IngridModelToAntlrSerializer {
 
     // TODO remember which lexer rules should be skipped instead of hardcoding it
     private static Set<String> skipLexerRules = new HashSet<>(Arrays.asList("WS", "COMMENT", "LINE_COMMENT"));
@@ -37,7 +37,7 @@ public class GrammarSerializer {
         stringBuilder.append(copy.values()
                                  .stream()
                                  .filter(rule -> !rule.name.contains("_block_"))
-                                 .map(GrammarSerializer::serializeRule)
+                                 .map(IngridModelToAntlrSerializer::serializeRule)
                                  .collect(joining("\n")));
 
         return stringBuilder.toString();
@@ -70,20 +70,20 @@ public class GrammarSerializer {
 
     private static String serializeParserRule(ParserRule rule) {
         return rule.alternatives.stream()
-                                .map(GrammarSerializer::serializeAlternative)
+                                .map(IngridModelToAntlrSerializer::serializeAlternative)
                                 .collect(Collectors.joining("\n\t | "));
     }
 
     private static String serializeAlternative(Alternative alternative) {
         return alternative.elements.stream()
-                                   .map(GrammarSerializer::serializeRuleReference)
+                                   .map(IngridModelToAntlrSerializer::serializeRuleReference)
                                    .collect(joining(" "));
     }
 
     private static String serializeRuleReference(RuleReference ruleReference) {
         if (ruleReference.rule.name.contains("_block_")) {
             String alternatives = ((ParserRule) ruleReference.rule).alternatives.stream()
-                                                                                .map(GrammarSerializer::serializeAlternative)
+                                                                                .map(IngridModelToAntlrSerializer::serializeAlternative)
                                                                                 .collect(Collectors.joining("|"));
             return "(" + alternatives + ")" + ruleReference.quantity;
         }

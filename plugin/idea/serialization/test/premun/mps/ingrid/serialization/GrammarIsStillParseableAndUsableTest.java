@@ -156,7 +156,7 @@ public class GrammarIsStillParseableAndUsableTest {
         GrammarParser grammarParser = new GrammarParser(rootRule);
         grammarParser.parseString(grammar);
 
-        String serialized = GrammarSerializer.serializeGrammar(grammarParser.resolveGrammar());
+        String serialized = IngridModelToAntlrSerializer.serializeGrammar(grammarParser.resolveGrammar());
 
         System.out.println(serialized);
 

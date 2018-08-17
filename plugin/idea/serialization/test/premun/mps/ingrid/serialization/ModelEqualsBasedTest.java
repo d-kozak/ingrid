@@ -57,7 +57,7 @@ public class ModelEqualsBasedTest {
         grammarParser.parseString(grammar);
         GrammarInfo infoOne = grammarParser.resolveGrammar();
 
-        String serialized = GrammarSerializer.serializeGrammar(infoOne);
+        String serialized = IngridModelToAntlrSerializer.serializeGrammar(infoOne);
 
         grammarParser = new GrammarParser();
         grammarParser.parseString(serialized);
@@ -65,6 +65,6 @@ public class ModelEqualsBasedTest {
         GrammarInfo infoTwo = grammarParser.resolveGrammar();
 
         assertEquals(infoOne, infoTwo);
-        assertEquals(serialized, GrammarSerializer.serializeGrammar(infoTwo));
+        assertEquals(serialized, IngridModelToAntlrSerializer.serializeGrammar(infoTwo));
     }
 }

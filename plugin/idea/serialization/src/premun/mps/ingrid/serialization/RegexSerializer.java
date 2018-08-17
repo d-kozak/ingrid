@@ -5,7 +5,7 @@ package premun.mps.ingrid.serialization;
  *
  * @author dkozak
  */
-public class RegexSerializer {
+class RegexSerializer {
 
 
     /**
@@ -46,7 +46,7 @@ public class RegexSerializer {
      * @param regex regex to be modified
      * @return antlr4 version of the input regex
      */
-    public static String serializeRegex(String regex) {
+    static String serializeRegex(String regex) {
         regex = removeOuterDoubleBackSlash(regex);
 
         // rewrite the syntax for negation

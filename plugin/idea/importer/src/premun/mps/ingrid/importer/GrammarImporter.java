@@ -11,7 +11,7 @@ import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.parser.GrammarParser;
-import premun.mps.ingrid.serialization.GrammarSerializer;
+import premun.mps.ingrid.serialization.IngridModelToAntlrSerializer;
 import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
 
 import java.io.File;
@@ -94,7 +94,7 @@ public class GrammarImporter {
         InlineRulesAlgorithm inlineRulesAlgorithm = new InlineRulesAlgorithm(rulesToInline);
 
         inlineRulesAlgorithm.transform(grammarInfo);
-        String serialized = GrammarSerializer.serializeGrammar(grammarInfo);
+        String serialized = IngridModelToAntlrSerializer.serializeGrammar(grammarInfo);
 
         Map<Pair<ParserRule, Alternative>, RuleFormatInfo> pairRuleFormatInfoMap = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, serialized, inputFiles);
         return pair(grammarInfo, pairRuleFormatInfoMap);
