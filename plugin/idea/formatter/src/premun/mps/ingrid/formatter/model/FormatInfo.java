@@ -37,12 +37,27 @@ public class FormatInfo {
      */
     public final boolean childrenIndented;
 
+    /**
+     * Are children separated by some char?
+     */
+    public final String childrenSepator;
+
     public FormatInfo(Rule rule, boolean appendNewLine, boolean appendSpace, boolean childrenOnNewLine, boolean childrenIndented) {
         this.rule = rule;
         this.appendNewLine = appendNewLine;
         this.appendSpace = appendSpace;
         this.childrenOnNewLine = childrenOnNewLine;
         this.childrenIndented = childrenIndented;
+        this.childrenSepator = null;
+    }
+
+    public FormatInfo(Rule rule, boolean appendNewLine, boolean appendSpace, boolean childrenOnNewLine, boolean childrenIndented, String childrenSeparator) {
+        this.rule = rule;
+        this.appendNewLine = appendNewLine;
+        this.appendSpace = appendSpace;
+        this.childrenOnNewLine = childrenOnNewLine;
+        this.childrenIndented = childrenIndented;
+        this.childrenSepator = childrenSeparator;
     }
 
     /**
@@ -55,12 +70,20 @@ public class FormatInfo {
         if (this instanceof UnknownFormatInfo && other instanceof UnknownFormatInfo)
             return this;
         Rule rule = (this instanceof UnknownFormatInfo) ? other.rule : this.rule;
+        String separator = this.childrenSepator;
+        if (other.childrenSepator != null) {
+            if (this.childrenSepator != null && !this.childrenSepator.equals(other.childrenSepator)) {
+                throw new IllegalArgumentException("Cannot merge formatInfo rules with different children separators: " + this + " vs " + other);
+            }
+            separator = other.childrenSepator;
+        }
         return new FormatInfo(
                 rule,
                 this.appendNewLine || other.appendNewLine,
                 this.appendSpace || other.appendSpace,
                 this.childrenOnNewLine || other.childrenOnNewLine,
-                this.childrenIndented || other.childrenIndented
+                this.childrenIndented || other.childrenIndented,
+                separator
         );
 
     }

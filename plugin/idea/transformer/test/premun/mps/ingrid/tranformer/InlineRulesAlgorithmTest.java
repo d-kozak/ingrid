@@ -8,13 +8,12 @@ import premun.mps.ingrid.serialization.IngridModelToAntlrSerializer;
 import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static premun.mps.ingrid.tranformer.GrammarAsserts.assertGrammarEquals;
+import static premun.mps.ingrid.tranformer.Utils.loadFileContent;
 
 /**
  * Tests of the rule inline algorithm
@@ -537,12 +536,5 @@ public class InlineRulesAlgorithmTest {
         System.out.println(result);
 
         assertGrammarEquals(expected, result);
-    }
-
-
-    private String loadFileContent(String filename) throws IOException {
-        String path = InlineRulesAlgorithmTest.class.getResource(filename)
-                                                    .getPath();
-        return new String(Files.readAllBytes(Paths.get(path)));
     }
 }

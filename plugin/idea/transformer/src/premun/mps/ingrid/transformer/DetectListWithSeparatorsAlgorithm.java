@@ -33,6 +33,8 @@ public class DetectListWithSeparatorsAlgorithm implements MpsSpecificGrammarTran
                         Alternative nextAlternative = ((ParserRule) next.rule).alternatives.get(0);
                         if (nextAlternative.elements.size() == 2 && nextAlternative.elements.get(0).rule instanceof LiteralRule && current.rule.equals(nextAlternative.elements.get(1).rule)) {
                             System.out.println("found list of " + current.rule.name + " with separator " + ((LiteralRule) nextAlternative.elements.get(0).rule).value);
+                            alternative.elements.clear();
+                            alternative.elements.add(current);
                         }
                     }
                 }
