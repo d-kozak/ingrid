@@ -16,6 +16,13 @@ public class Alternative {
 
     public String alias = null;
 
+    public Alternative() {
+    }
+
+    public Alternative(List<RuleReference> elements) {
+        this.elements = elements;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
