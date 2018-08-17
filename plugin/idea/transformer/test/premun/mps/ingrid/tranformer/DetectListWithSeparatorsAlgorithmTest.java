@@ -5,10 +5,7 @@ import premun.mps.ingrid.formatter.boundary.FormatExtractor;
 import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
-import premun.mps.ingrid.model.Alternative;
-import premun.mps.ingrid.model.GrammarInfo;
-import premun.mps.ingrid.model.ParserRule;
-import premun.mps.ingrid.model.RuleReference;
+import premun.mps.ingrid.model.*;
 import premun.mps.ingrid.parser.GrammarParser;
 import premun.mps.ingrid.transformer.DetectListWithSeparatorsAlgorithm;
 
@@ -54,6 +51,7 @@ public class DetectListWithSeparatorsAlgorithmTest {
             assertEquals(1, elements.size());
             RuleReference ruleReference = elements.get(0);
             assertEquals(referencedRuleName, ruleReference.rule.name);
+            assertEquals(Quantity.ANY, ruleReference.quantity);
         } catch (AssertionError ex) {
             throw new AssertionError("When checking '" + checkedRuleName + "' and looking for reference to '" + referencedRuleName + "' in grammar " + grammarInfo, ex);
         }

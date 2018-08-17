@@ -40,6 +40,7 @@ public class DetectListWithSeparatorsAlgorithm implements MpsSpecificGrammarTran
                             String separator = ((LiteralRule) nextAlternative.elements.get(0).rule).value;
                             System.out.println("found list of " + current.rule.name + " with separator " + separator);
                             alternative.elements.clear();
+                            current.quantity = Quantity.ANY;
                             alternative.elements.add(current);
 
                             FormatInfo currentFormatInfo = i < ruleFormatInfo.formatInfoList.size() ? ruleFormatInfo.formatInfoList.get(i) : new FormatInfo(current.rule, false, false, false, false);

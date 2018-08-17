@@ -89,7 +89,7 @@ public class InlineRulesAlgorithm implements GenericGrammarTransformation {
             if (((ParserRule) ruleToInline).alternatives.size() == 1) {
                 return ((ParserRule) ruleToInline).alternatives.get(0).elements;
             } else {
-                throw new IllegalArgumentException("Cannot inline rule with more than one alternative. Afterwars Ingrid will create special block rule for it anyway...");
+                throw new IllegalArgumentException("Cannot inline rule with more than one alternative. Afterwards Ingrid will create special block rule for it anyway...");
             }
         } else {
             throw new IllegalArgumentException("Only ParserRules can be inlined, " + ruleToInline.getClass()
