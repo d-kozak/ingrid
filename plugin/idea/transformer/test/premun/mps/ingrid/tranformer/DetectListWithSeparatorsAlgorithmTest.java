@@ -1,6 +1,9 @@
 package premun.mps.ingrid.tranformer;
 
 import org.junit.Test;
+import premun.mps.ingrid.formatter.boundary.FormatExtractor;
+import premun.mps.ingrid.formatter.model.RuleFormatInfo;
+import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
@@ -12,8 +15,12 @@ import premun.mps.ingrid.transformer.DetectListWithSeparatorsAlgorithm;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static premun.mps.ingrid.formatter.utils.FormatInfoAsserts.verifyFormatInfoMap;
+import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.AppliedRule.rule;
+import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.*;
 import static premun.mps.ingrid.tranformer.Utils.loadFileContent;
 
 public class DetectListWithSeparatorsAlgorithmTest {
@@ -62,5 +69,120 @@ public class DetectListWithSeparatorsAlgorithmTest {
         return grammarInfo;
     }
 
+    @Test
+    public void args__shouldFindArgsAndParameters__checkingTheFormatInfomap() throws IOException {
+        String grammar = loadFileContent("/Args.g4");
+        String input = "foo(a,b,c) bar(a,b)";
+
+        GrammarParser grammarParser = new GrammarParser();
+        grammarParser.parseString(grammar);
+        GrammarInfo grammarInfo = grammarParser.resolveGrammar();
+
+        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> complexFormatInfoMap = FormatExtractor.merge(FormatExtractor.extract(grammarInfo, grammar, input));
+        Map<Pair<String, Integer>, RuleFormatInfo> simplifiedFormatInfoMap = FormatExtractor.asRuleNameAlternativeIndexMap(complexFormatInfoMap);
+
+        // BEFORE
+        verifyFormatInfoMap(
+                simplifiedFormatInfoMap,
+                rules(
+                        rule("arg", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("args_block_1_1", 0,
+                                handle(
+                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("arg", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("args", 0,
+                                handle(
+                                        elem("arg", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("args_block_1_1_alt_0", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("statement", 0,
+                                handle(
+                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("functionCall", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("args", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("statements", 0,
+                                handle(
+                                        elem("statement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        )
+                )
+        );
+
+        DetectListWithSeparatorsAlgorithm detectListWithSeparatorsAlgorithm = new DetectListWithSeparatorsAlgorithm();
+        detectListWithSeparatorsAlgorithm.transform(grammarInfo, complexFormatInfoMap);
+
+        simplifiedFormatInfoMap = FormatExtractor.asRuleNameAlternativeIndexMap(complexFormatInfoMap);
+
+        // AFTER
+        verifyFormatInfoMap(
+                simplifiedFormatInfoMap,
+                rules(
+                        rule("arg", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("args_block_1_1", 0,
+                                handle(
+                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("arg", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("args", 0,
+                                handle(
+                                        elem("arg", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
+                                )
+                        ),
+                        rule("statement", 0,
+                                handle(
+                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("functionCall", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("args", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("statements", 0,
+                                handle(
+                                        elem("statement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+
+                        // get "magically" added :)
+                        rule("idList", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
+                                )
+                        ),
+                        rule("idList_block_1_1", 0,
+                                handle()
+                        ),
+                        rule("statement", 1,
+                                handle()
+                        )
+
+                )
+        );
+
+    }
 
 }

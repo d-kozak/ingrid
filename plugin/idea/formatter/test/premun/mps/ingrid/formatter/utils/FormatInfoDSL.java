@@ -8,6 +8,12 @@ import java.util.List;
 
 public final class FormatInfoDSL {
 
+    public static AppliedRuleReference elem(String ruleName, AppendNewLine appendNewLine, AppendSpace appendSpace, ChildrenOnNewLine childrenOnNewLine, ChildrenIndented childrenIndented, ChildrenSeparator childrenSeparator) {
+        Rule dummy = new Rule(ruleName) {
+        };
+        return new AppliedRuleReference(ruleName, new FormatInfo(dummy, appendNewLine.value, appendSpace.value, childrenOnNewLine.value, childrenIndented.value, childrenSeparator.value));
+    }
+
     public static AppliedRuleReference elem(String ruleName, AppendNewLine appendNewLine, AppendSpace appendSpace, ChildrenOnNewLine childrenOnNewLine, ChildrenIndented childrenIndented) {
         Rule dummy = new Rule(ruleName) {
         };
@@ -36,6 +42,10 @@ public final class FormatInfoDSL {
 
     public static ChildrenIndented childrenIndented(boolean value) {
         return new ChildrenIndented(value);
+    }
+
+    public static ChildrenSeparator childrenSeparator(String value) {
+        return new ChildrenSeparator(value);
     }
 
     public static class AppliedRule {
@@ -123,6 +133,19 @@ public final class FormatInfoDSL {
         @Override
         public String toString() {
             return "childrenIndented:" + value;
+        }
+    }
+
+    private static class ChildrenSeparator {
+        private final String value;
+
+        private ChildrenSeparator(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return "childrenSeparator:" + value;
         }
     }
 

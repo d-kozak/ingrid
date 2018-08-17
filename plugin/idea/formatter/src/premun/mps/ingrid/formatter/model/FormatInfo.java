@@ -40,7 +40,7 @@ public class FormatInfo {
     /**
      * Are children separated by some char?
      */
-    public final String childrenSepator;
+    public final String childrenSeparator;
 
     public FormatInfo(Rule rule, boolean appendNewLine, boolean appendSpace, boolean childrenOnNewLine, boolean childrenIndented) {
         this.rule = rule;
@@ -48,7 +48,7 @@ public class FormatInfo {
         this.appendSpace = appendSpace;
         this.childrenOnNewLine = childrenOnNewLine;
         this.childrenIndented = childrenIndented;
-        this.childrenSepator = null;
+        this.childrenSeparator = null;
     }
 
     public FormatInfo(Rule rule, boolean appendNewLine, boolean appendSpace, boolean childrenOnNewLine, boolean childrenIndented, String childrenSeparator) {
@@ -57,7 +57,7 @@ public class FormatInfo {
         this.appendSpace = appendSpace;
         this.childrenOnNewLine = childrenOnNewLine;
         this.childrenIndented = childrenIndented;
-        this.childrenSepator = childrenSeparator;
+        this.childrenSeparator = childrenSeparator;
     }
 
     /**
@@ -70,12 +70,12 @@ public class FormatInfo {
         if (this instanceof UnknownFormatInfo && other instanceof UnknownFormatInfo)
             return this;
         Rule rule = (this instanceof UnknownFormatInfo) ? other.rule : this.rule;
-        String separator = this.childrenSepator;
-        if (other.childrenSepator != null) {
-            if (this.childrenSepator != null && !this.childrenSepator.equals(other.childrenSepator)) {
+        String separator = this.childrenSeparator;
+        if (other.childrenSeparator != null) {
+            if (this.childrenSeparator != null && !this.childrenSeparator.equals(other.childrenSeparator)) {
                 throw new IllegalArgumentException("Cannot merge formatInfo rules with different children separators: " + this + " vs " + other);
             }
-            separator = other.childrenSepator;
+            separator = other.childrenSeparator;
         }
         return new FormatInfo(
                 rule,
@@ -114,7 +114,7 @@ public class FormatInfo {
         } else {
             ruleName = rule.name;
         }
-        return "'" + ruleName + "' => { 'newline': " + appendNewLine + ", 'space': " + appendSpace + ", childrenOnNewLine:" + childrenOnNewLine + ", childrenIndented: " + childrenIndented + " }";
+        return "'" + ruleName + "' => { 'newline': " + appendNewLine + ", 'space': " + appendSpace + ", childrenOnNewLine:" + childrenOnNewLine + ", childrenIndented: " + childrenIndented + ", childrenSeparator: '" + childrenSeparator + "'}";
     }
 
     public static class UnknownFormatInfo extends FormatInfo {

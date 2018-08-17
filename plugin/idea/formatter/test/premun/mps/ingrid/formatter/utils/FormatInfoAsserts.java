@@ -4,10 +4,7 @@ import premun.mps.ingrid.formatter.model.FormatInfo;
 import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.model.LiteralRule;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -74,6 +71,7 @@ public class FormatInfoAsserts {
         assertEqualsWithBetterMessage(expected.formatInfo.appendSpace, actual.appendSpace, expected, "space");
         assertEqualsWithBetterMessage(expected.formatInfo.childrenOnNewLine, actual.childrenOnNewLine, expected, "childrenOnNewLine");
         assertEqualsWithBetterMessage(expected.formatInfo.childrenIndented, actual.childrenIndented, expected, "childrenIndented");
+        assertEqualsWithBetterMessage(expected.formatInfo.childrenSeparator, actual.childrenSeparator, expected, "childrenSeparator");
     }
 
     private static void assertEqualsRuleName(String expected, String actual) {
@@ -82,9 +80,9 @@ public class FormatInfoAsserts {
         }
     }
 
-    private static void assertEqualsWithBetterMessage(boolean expected, boolean actual, FormatInfoDSL.AppliedRuleReference appliedRuleReference, String fieldName) {
-        if (expected != actual) {
-            throw new AssertionError("Expected: " + expected + ", actual: " + actual + " in rule '" + appliedRuleReference.ruleName + "' on field " + fieldName);
+    private static void assertEqualsWithBetterMessage(Object expected, Object actual, FormatInfoDSL.AppliedRuleReference appliedRuleReference, String fieldName) {
+        if (!Objects.equals(expected, actual)) {
+            throw new AssertionError("Expected: '" + expected + "' vs actual: '" + actual + "' in rule '" + appliedRuleReference.ruleName + "' on field " + fieldName);
         }
     }
 }
