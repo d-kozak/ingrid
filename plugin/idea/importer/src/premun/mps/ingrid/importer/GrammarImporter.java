@@ -15,8 +15,11 @@ import premun.mps.ingrid.serialization.IngridModelToAntlrSerializer;
 import premun.mps.ingrid.transformer.DetectListWithSeparatorsAlgorithm;
 import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
 
+import java.util.List;
 import java.util.Map;
 
+import static java.util.stream.Collectors.toList;
+import static premun.mps.ingrid.formatter.model.FormatInfo.UnknownFormatInfo.UNKNOWN_FORMAT_INFO;
 import static premun.mps.ingrid.formatter.utils.Pair.pair;
 
 public class GrammarImporter {
@@ -54,6 +57,26 @@ public class GrammarImporter {
                 .forEach(SNodeOperations::deleteNode);
     }
 
+    // TODO move this code somewhere else
+    public static void fillTheMap(GrammarInfo grammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap) {
+        List<ParserRule> parserRules = grammarInfo.rules.values()
+                                                        .stream()
+                                                        .filter(rule -> rule instanceof ParserRule)
+                                                        .map(rule -> (ParserRule) rule)
+                                                        .collect(toList());
+
+        for (ParserRule parserRule : parserRules) {
+            for (Alternative alternative : parserRule.alternatives) {
+                formatInfoMap.computeIfAbsent(pair(parserRule, alternative), pair ->
+                        new RuleFormatInfo(
+                                alternative.elements.stream()
+                                                    .map(reference -> UNKNOWN_FORMAT_INFO)
+                                                    .collect(toList())
+                        ));
+            }
+        }
+    }
+
     /**
      * Processes a list of grammar files and a list of source files to extract formatting.
      * This method is static for easier testing.
@@ -75,6 +98,8 @@ public class GrammarImporter {
 
         Map<Pair<ParserRule, Alternative>, RuleFormatInfo> pairRuleFormatInfoMap = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, serialized, ingridConfiguration.getSourceFiles());
 
+        fillTheMap(grammarInfo, pairRuleFormatInfoMap);
+
         if (ingridConfiguration.isSimplifyListsWithSeparators()) {
             DetectListWithSeparatorsAlgorithm detectListWithSeparatorsAlgorithm = new DetectListWithSeparatorsAlgorithm();
             detectListWithSeparatorsAlgorithm.transform(grammarInfo, pairRuleFormatInfoMap);
@@ -85,6 +110,7 @@ public class GrammarImporter {
 
     /**
      * Main method of the import process.
+     *
      * @param ingridConfiguration configuration from the ImportForm
      */
     public void importGrammars(IngridConfiguration ingridConfiguration) {

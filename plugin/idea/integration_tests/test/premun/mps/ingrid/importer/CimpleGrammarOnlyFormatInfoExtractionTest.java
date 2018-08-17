@@ -43,17 +43,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("forLoop", 0,
+                        rule("expression", 13,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 14,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 11,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 12,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
@@ -69,22 +83,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("variableAssignment", 0,
+                        rule("expression", 10,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 7,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 8,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("program", 0,
-                                handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
@@ -110,6 +133,13 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 15,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 16,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
@@ -126,22 +156,18 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("block", 0,
+                        rule("ifStatement", 0,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
                                         elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("parameters", 0,
-                                handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -162,6 +188,12 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("statement", 5,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 6,
                                 handle(
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
@@ -175,9 +207,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 3,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 4,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("statement", 3,
                                 handle(
                                         elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
@@ -186,17 +240,86 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 2,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("statement", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 0,
+                                handle(
+                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("forLoop", 0,
+                                handle(
+                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("arguments_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("variableAssignment", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("program", 0,
+                                handle(
+                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                )
+                        ),
+                        rule("inputStatement", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("block", 0,
+                                handle(
+                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("functionCall", 0,
                                 handle(
                                         elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("expression", 0,
-                                handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -215,20 +338,35 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
 
         dumpSimplifiedMap(formatInfoMap);
 
+
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("forLoop", 0,
+                        rule("expression", 13,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 14,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 11,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 12,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
@@ -244,22 +382,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("variableAssignment", 0,
+                        rule("expression", 10,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 7,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 8,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("program", 0,
-                                handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
@@ -285,6 +432,13 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 15,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 16,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
@@ -301,22 +455,18 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("block", 0,
+                        rule("ifStatement", 0,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
                                         elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("parameters", 0,
-                                handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -337,6 +487,12 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("statement", 5,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 6,
                                 handle(
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
@@ -350,9 +506,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 3,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 4,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("statement", 3,
                                 handle(
                                         elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
@@ -361,17 +539,86 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 2,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("statement", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 0,
+                                handle(
+                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("forLoop", 0,
+                                handle(
+                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("arguments_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("variableAssignment", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("program", 0,
+                                handle(
+                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                )
+                        ),
+                        rule("inputStatement", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("block", 0,
+                                handle(
+                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("statement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("functionCall", 0,
                                 handle(
                                         elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("expression", 0,
-                                handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -405,17 +652,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("forLoop", 0,
+                        rule("expression", 13,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 14,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 11,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 12,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
@@ -431,22 +692,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("variableAssignment", 0,
+                        rule("expression", 10,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 7,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 8,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("program", 0,
-                                handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
@@ -472,6 +742,13 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 15,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 16,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
@@ -488,22 +765,18 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("block", 0,
+                        rule("ifStatement", 0,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
                                         elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("parameters", 0,
-                                handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -524,6 +797,12 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("statement", 5,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 6,
                                 handle(
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
@@ -537,9 +816,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 3,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 4,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("statement", 3,
                                 handle(
                                         elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
@@ -548,17 +849,86 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 2,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("statement", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 0,
+                                handle(
+                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("forLoop", 0,
+                                handle(
+                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("arguments_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("variableAssignment", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("program", 0,
+                                handle(
+                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                )
+                        ),
+                        rule("inputStatement", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("block", 0,
+                                handle(
+                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("functionCall", 0,
                                 handle(
                                         elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("expression", 0,
-                                handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -592,17 +962,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("forLoop", 0,
+                        rule("expression", 13,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 14,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 11,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 12,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
@@ -618,22 +1002,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("variableAssignment", 0,
+                        rule("expression", 10,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 7,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 8,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("program", 0,
-                                handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
@@ -659,6 +1052,13 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 15,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 16,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
@@ -675,22 +1075,18 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("block", 0,
+                        rule("ifStatement", 0,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
                                         elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("parameters", 0,
-                                handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -711,6 +1107,12 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("statement", 5,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 6,
                                 handle(
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
@@ -724,9 +1126,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 3,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 4,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("statement", 3,
                                 handle(
                                         elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
@@ -735,17 +1159,86 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 2,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("statement", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 0,
+                                handle(
+                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("forLoop", 0,
+                                handle(
+                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("arguments_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("variableAssignment", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("program", 0,
+                                handle(
+                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                )
+                        ),
+                        rule("inputStatement", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("block", 0,
+                                handle(
+                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("functionCall", 0,
                                 handle(
                                         elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("expression", 0,
-                                handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -766,17 +1259,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("forLoop", 0,
+                        rule("expression", 13,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 14,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 11,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 12,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
@@ -786,28 +1293,37 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 10,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("returnStatement", 0,
                                 handle(
                                         elem("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("variableAssignment", 0,
+                        rule("expression", 7,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 8,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("program", 0,
-                                handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
@@ -833,6 +1349,13 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 15,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 16,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
@@ -849,22 +1372,18 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("block", 0,
+                        rule("ifStatement", 0,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
                                         elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("parameters", 0,
-                                handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -885,11 +1404,24 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("statement", 5,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 6,
                                 handle(
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 3,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 2,
@@ -903,10 +1435,99 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 4,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("statement", 0,
                                 handle(
                                         elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("statement", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 2,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 0,
+                                handle(
+                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("arguments_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("forLoop", 0,
+                                handle(
+                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("variableAssignment", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("program", 0,
+                                handle(
+                                        elem("statement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("inputStatement", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("block", 0,
+                                handle(
+                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("statement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionCall", 0,
@@ -915,11 +1536,6 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("expression", 0,
-                                handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -952,17 +1568,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("forLoop", 0,
+                        rule("expression", 13,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 14,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 11,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 12,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
@@ -978,22 +1608,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("variableAssignment", 0,
+                        rule("expression", 10,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 7,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 8,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("program", 0,
-                                handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
@@ -1019,6 +1658,13 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 15,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 16,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
@@ -1035,22 +1681,18 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("block", 0,
+                        rule("ifStatement", 0,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
                                         elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("parameters", 0,
-                                handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -1071,6 +1713,12 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("statement", 5,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 6,
                                 handle(
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
@@ -1084,9 +1732,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 3,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 4,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("statement", 3,
                                 handle(
                                         elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
@@ -1095,17 +1765,86 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 2,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("statement", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 0,
+                                handle(
+                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("forLoop", 0,
+                                handle(
+                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("arguments_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("variableAssignment", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("program", 0,
+                                handle(
+                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                )
+                        ),
+                        rule("inputStatement", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("block", 0,
+                                handle(
+                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("functionCall", 0,
                                 handle(
                                         elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("expression", 0,
-                                handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -1138,17 +1877,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("forLoop", 0,
+                        rule("expression", 13,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 14,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 11,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 12,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
@@ -1164,22 +1917,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("variableAssignment", 0,
+                        rule("expression", 10,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 7,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 8,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("program", 0,
-                                handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
@@ -1205,6 +1967,13 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 15,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 16,
                                 handle(
                                         elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
@@ -1221,22 +1990,18 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("block", 0,
+                        rule("ifStatement", 0,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
                                         elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("parameters", 0,
-                                handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
@@ -1257,6 +2022,12 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("statement", 5,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("expression", 6,
                                 handle(
                                         elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
@@ -1270,9 +2041,31 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 3,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 4,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("statement", 3,
                                 handle(
                                         elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
@@ -1281,17 +2074,86 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                                         elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
+                        rule("expression", 2,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("statement", 1,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("expression", 0,
+                                handle(
+                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("forLoop", 0,
+                                handle(
+                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("arguments_block_1_1", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("variableAssignment", 0,
+                                handle(
+                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("program", 0,
+                                handle(
+                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                )
+                        ),
+                        rule("inputStatement", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("block", 0,
+                                handle(
+                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
+                        rule("parameters", 0,
+                                handle(
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                )
+                        ),
                         rule("functionCall", 0,
                                 handle(
                                         elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
                                         elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("expression", 0,
-                                handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
