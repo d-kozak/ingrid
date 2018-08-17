@@ -1,7 +1,10 @@
 package premun.mps.ingrid.model;
 
-import org.jetbrains.mps.openapi.model.*;
+import org.jetbrains.mps.openapi.model.SNode;
 
+/**
+ * Warning: Regex equals method compares the NAME of the rule!
+ */
 public class RegexRule extends FlatLexerRule {
     public String regexp;
 
@@ -24,10 +27,10 @@ public class RegexRule extends FlatLexerRule {
     @Override
     public String toString() {
         return this.name
-            + ":\t"
-            + this.regexp
-            + System.lineSeparator()
-            + "\t\t;"
-            + System.lineSeparator();
+                + ":\t"
+                + this.regexp
+                + System.lineSeparator()
+                + "\t\t;"
+                + System.lineSeparator();
     }
 }

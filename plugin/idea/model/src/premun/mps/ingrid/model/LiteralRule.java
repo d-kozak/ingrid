@@ -1,5 +1,7 @@
 package premun.mps.ingrid.model;
 
+import java.util.Objects;
+
 public class LiteralRule extends FlatLexerRule {
     public String value;
 
@@ -15,6 +17,19 @@ public class LiteralRule extends FlatLexerRule {
 
     public LiteralRule(String value) {
         this(java.util.UUID.randomUUID().toString(), value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LiteralRule that = (LiteralRule) o;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), value);
     }
 
     @Override
