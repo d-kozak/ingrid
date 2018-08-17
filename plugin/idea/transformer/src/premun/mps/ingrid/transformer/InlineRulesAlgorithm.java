@@ -24,12 +24,15 @@ public class InlineRulesAlgorithm implements GenericGrammarTransformation {
     /**
      * Inlines specified rules
      *
-     * @param input         ParserResult whose rules should be inlined
+     * @param input ParserResult whose rules should be inlined
      * @return new instance of ParserResult containing specified rules
      */
     @Override
     public void transform(GrammarInfo input) {
-        checkForUnresolvedRules(input, rulesToInline);
+        checkForInvalidRuleNames(input, rulesToInline);
+
+        UniqueRuleNameGenerator nameGenerator = new UniqueRuleNameGenerator(input.rules.keySet());
+
         List<ParserRule> parseRules = input.rules.values()
                                                  .stream()
                                                  .filter(it -> it instanceof ParserRule)
@@ -47,8 +50,18 @@ public class InlineRulesAlgorithm implements GenericGrammarTransformation {
                             alternative.elements.remove(i);
                             Rule ruleToInline = input.rules.get(element.rule.name);
                             List<RuleReference> inlined = inlineRule(ruleToInline);
-                            alternative.elements.addAll(i, inlined);
-                            i += inlined.size();
+
+                            if (element.quantity != Quantity.EXACTLY_ONE) {
+                                ParserRule newBlockRule = new ParserRule("_block_" + nameGenerator.newUniqueName());
+                                Alternative newAlternative = new Alternative();
+                                newAlternative.elements.addAll(inlined);
+                                newBlockRule.alternatives.add(newAlternative);
+                                input.rules.put(newBlockRule.name, newBlockRule);
+                                alternative.elements.add(i, new RuleReference(newBlockRule, element.quantity));
+                            } else {
+                                alternative.elements.addAll(i, inlined);
+                                i += inlined.size();
+                            }
                             changed = true;
                         }
                     }
@@ -62,7 +75,7 @@ public class InlineRulesAlgorithm implements GenericGrammarTransformation {
         }
     }
 
-    private void checkForUnresolvedRules(GrammarInfo input, List<String> rulesToInline) {
+    private void checkForInvalidRuleNames(GrammarInfo input, List<String> rulesToInline) {
         List<String> unresolvedRules = rulesToInline.stream()
                                                     .filter(it -> input.rules.get(it) == null)
                                                     .collect(Collectors.toList());

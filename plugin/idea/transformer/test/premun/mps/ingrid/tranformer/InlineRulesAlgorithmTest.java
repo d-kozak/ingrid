@@ -4,9 +4,13 @@ import org.junit.Test;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.parser.GrammarParser;
-import premun.mps.ingrid.serialization.GrammarSerializer;
+import premun.mps.ingrid.serialization.IngridModelToAntlrSerializer;
 import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,6 +22,344 @@ import static premun.mps.ingrid.tranformer.GrammarAsserts.assertGrammarEquals;
  * @author dkozak
  */
 public class InlineRulesAlgorithmTest {
+
+    @Test
+    public void bookGrammar__inlineNothing() throws IOException {
+
+        String grammar = loadFileContent("/Book.g4");
+        List<String> toInline = Collections.emptyList();
+
+        String expected = "grammar Book;\n" +
+                "\n" +
+                "book : people NEWLINE shops;\n" +
+                "\n" +
+                "people : person+ ;\n" +
+                "\n" +
+                "shops : shop+ ;\n" +
+                "\n" +
+                "person : firstName ',' lastName ;\n" +
+                "\n" +
+                "firstName : NAME ;\n" +
+                "\n" +
+                "lastName : NAME ;\n" +
+                "\n" +
+                "shop : NAME ;\n" +
+                "\n" +
+                "NAME : [a-zA-Z_]+ ;\n" +
+                "\n" +
+                "\n" +
+                "NEWLINE : '\\n';\n" +
+                "\n" +
+                "WS : [\\r ] -> skip;";
+
+        inlineAndCompareWith(grammar, toInline, expected);
+
+    }
+
+    @Test
+    public void bookGrammar__inlinePerson() throws IOException {
+
+        String grammar = loadFileContent("/Book.g4");
+        List<String> toInline = Collections.singletonList("person");
+
+        String expected = "grammar Book;\n" +
+                "\n" +
+                "book : people NEWLINE shops;\n" +
+                "\n" +
+                "people : (firstName ',' lastName)+ ;\n" +
+                "\n" +
+                "shops : shop+ ;\n" +
+                "\n" +
+                "firstName : NAME ;\n" +
+                "\n" +
+                "lastName : NAME ;\n" +
+                "\n" +
+                "shop : NAME ;\n" +
+                "\n" +
+                "NAME : [a-zA-Z_]+ ;\n" +
+                "\n" +
+                "\n" +
+                "NEWLINE : '\\n';\n" +
+                "\n" +
+                "WS : [\\r ] -> skip;";
+
+        inlineAndCompareWith(grammar, toInline, expected);
+
+    }
+
+    @Test
+    public void bookGrammar__inlinePersonAndPeople() throws IOException {
+
+        String grammar = loadFileContent("/Book.g4");
+        List<String> toInline = Arrays.asList("person", "people");
+
+        String expected = "grammar Book;\n" +
+                "\n" +
+                "book : (firstName ',' lastName)+ NEWLINE shops;\n" +
+                "\n" +
+                "shops : shop+ ;\n" +
+                "\n" +
+                "firstName : NAME ;\n" +
+                "\n" +
+                "lastName : NAME ;\n" +
+                "\n" +
+                "shop : NAME ;\n" +
+                "\n" +
+                "NAME : [a-zA-Z_]+ ;\n" +
+                "\n" +
+                "\n" +
+                "NEWLINE : '\\n';\n" +
+                "\n" +
+                "WS : [\\r ] -> skip;";
+
+        inlineAndCompareWith(grammar, toInline, expected);
+
+    }
+
+
+    @Test
+    public void bookGrammar__inlinePersonAndPeopleAndShop() throws IOException {
+
+        String grammar = loadFileContent("/Book.g4");
+        List<String> toInline = Arrays.asList("person", "people", "shop");
+
+        String expected = "grammar Book;\n" +
+                "\n" +
+                "book : (firstName ',' lastName)+ NEWLINE shops;\n" +
+                "\n" +
+                "shops : (NAME)+ ;\n" +
+                "\n" +
+                "firstName : NAME ;\n" +
+                "\n" +
+                "lastName : NAME ;\n" +
+                "\n" +
+                "NAME : [a-zA-Z_]+ ;\n" +
+                "\n" +
+                "\n" +
+                "NEWLINE : '\\n';\n" +
+                "\n" +
+                "WS : [\\r ] -> skip;";
+
+        inlineAndCompareWith(grammar, toInline, expected);
+
+    }
+
+    @Test
+    public void bookGrammar__inlinePersonAndPeopleAndShopAndShops() throws IOException {
+
+        String grammar = loadFileContent("/Book.g4");
+        List<String> toInline = Arrays.asList("person", "people", "shop", "shops");
+
+        String expected = "grammar Book;\n" +
+                "\n" +
+                "book : (firstName ',' lastName)+ NEWLINE (NAME)+;\n" +
+                "\n" +
+                "firstName : NAME ;\n" +
+                "\n" +
+                "lastName : NAME ;\n" +
+                "\n" +
+                "NAME : [a-zA-Z_]+ ;\n" +
+                "\n" +
+                "\n" +
+                "NEWLINE : '\\n';\n" +
+                "\n" +
+                "WS : [\\r ] -> skip;";
+
+        inlineAndCompareWith(grammar, toInline, expected);
+
+    }
+
+    @Test
+    public void bookGrammar__inlineFirstNameAndLastName() throws IOException {
+
+        String grammar = loadFileContent("/Book.g4");
+        List<String> toInline = Arrays.asList("firstName", "lastName");
+
+        String expected = "grammar Book;\n" +
+                "\n" +
+                "book : people NEWLINE shops;\n" +
+                "\n" +
+                "people : person+ ;\n" +
+                "\n" +
+                "shops : shop+ ;\n" +
+                "\n" +
+                "person : NAME ',' NAME ;\n" +
+                "\n" +
+                "shop : NAME ;\n" +
+                "\n" +
+                "NAME : [a-zA-Z_]+ ;\n" +
+                "\n" +
+                "\n" +
+                "NEWLINE : '\\n';\n" +
+                "\n" +
+                "WS : [\\r ] -> skip;";
+
+        inlineAndCompareWith(grammar, toInline, expected);
+
+    }
+
+
+    @Test
+    public void bookGrammar__inlinePeople() throws IOException {
+
+        String grammar = loadFileContent("/Book.g4");
+        List<String> toInline = Collections.singletonList("people");
+
+        String expected = "grammar Book;\n" +
+                "\n" +
+                "book : person+ NEWLINE shops;\n" +
+                "\n" +
+                "shops : shop+ ;\n" +
+                "\n" +
+                "person : firstName ',' lastName ;\n" +
+                "\n" +
+                "firstName : NAME ;\n" +
+                "\n" +
+                "lastName : NAME ;\n" +
+                "\n" +
+                "shop : NAME ;\n" +
+                "\n" +
+                "NAME : [a-zA-Z_]+ ;\n" +
+                "\n" +
+                "\n" +
+                "NEWLINE : '\\n';\n" +
+                "\n" +
+                "WS : [\\r ] -> skip;";
+
+        inlineAndCompareWith(grammar, toInline, expected);
+
+    }
+
+    @Test
+    public void bookGrammar__inlinePeopleAndShops() throws IOException {
+
+        String grammar = loadFileContent("/Book.g4");
+        List<String> toInline = Arrays.asList("people", "shops");
+
+        String expected = "grammar Book;\n" +
+                "\n" +
+                "book : person+ NEWLINE shop+;\n" +
+                "\n" +
+                "person : firstName ',' lastName ;\n" +
+                "\n" +
+                "firstName : NAME ;\n" +
+                "\n" +
+                "lastName : NAME ;\n" +
+                "\n" +
+                "shop : NAME ;\n" +
+                "\n" +
+                "NAME : [a-zA-Z_]+ ;\n" +
+                "\n" +
+                "\n" +
+                "NEWLINE : '\\n';\n" +
+                "\n" +
+                "WS : [\\r ] -> skip;";
+
+        inlineAndCompareWith(grammar, toInline, expected);
+
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void bookGrammar__tryingToInlineRuleThatDoesNotExist() throws IOException {
+
+        String grammar = loadFileContent("/Book.g4");
+        List<String> toInline = Collections.singletonList("foo");
+
+        String expected = "grammar Book;\n" +
+                "\n" +
+                "book : people NEWLINE shops;\n" +
+                "\n" +
+                "people : person+ ;\n" +
+                "\n" +
+                "shops : shop+ ;\n" +
+                "\n" +
+                "person : firstName ',' lastName ;\n" +
+                "\n" +
+                "firstName : NAME ;\n" +
+                "\n" +
+                "lastName : NAME ;\n" +
+                "\n" +
+                "shop : NAME ;\n" +
+                "\n" +
+                "NAME : [a-zA-Z_]+ ;\n" +
+                "\n" +
+                "\n" +
+                "NEWLINE : '\\n';\n" +
+                "\n" +
+                "WS : [\\r ] -> skip;";
+
+        inlineAndCompareWith(grammar, toInline, expected);
+
+    }
+
+    /**
+     * The difference compared to the previous one is that this time there are other rules which exists
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void bookGrammar__tryingToInlineRuleThatDoesNotExist2() throws IOException {
+
+        String grammar = loadFileContent("/Book.g4");
+        List<String> toInline = Arrays.asList("person", "foo");
+
+        String expected = "grammar Book;\n" +
+                "\n" +
+                "book : people NEWLINE shops;\n" +
+                "\n" +
+                "people : person+ ;\n" +
+                "\n" +
+                "shops : shop+ ;\n" +
+                "\n" +
+                "person : firstName ',' lastName ;\n" +
+                "\n" +
+                "firstName : NAME ;\n" +
+                "\n" +
+                "lastName : NAME ;\n" +
+                "\n" +
+                "shop : NAME ;\n" +
+                "\n" +
+                "NAME : [a-zA-Z_]+ ;\n" +
+                "\n" +
+                "\n" +
+                "NEWLINE : '\\n';\n" +
+                "\n" +
+                "WS : [\\r ] -> skip;";
+
+        inlineAndCompareWith(grammar, toInline, expected);
+
+    }
+
+    @Test
+    public void bookGrammar__inlineShops() throws IOException {
+
+        String grammar = loadFileContent("/Book.g4");
+        List<String> toInline = Collections.singletonList("shops");
+
+        String expected = "grammar Book;\n" +
+                "\n" +
+                "book : people NEWLINE shop+ ;\n" +
+                "\n" +
+                "people : person+ ;\n" +
+                "\n" +
+                "person : firstName ',' lastName ;\n" +
+                "\n" +
+                "firstName : NAME ;\n" +
+                "\n" +
+                "lastName : NAME ;\n" +
+                "\n" +
+                "shop : NAME ;\n" +
+                "\n" +
+                "NAME : [a-zA-Z_]+ ;\n" +
+                "\n" +
+                "\n" +
+                "NEWLINE : '\\n';\n" +
+                "\n" +
+                "WS : [\\r ] -> skip;";
+
+        inlineAndCompareWith(grammar, toInline, expected);
+
+    }
+
 
     @Test
     public void bookGrammar__inlineBookName() {
@@ -190,11 +532,17 @@ public class InlineRulesAlgorithmTest {
 
         inlineRulesAlgorithm.transform(grammarInfo);
 
-        String result = GrammarSerializer.serializeGrammar(grammarInfo);
+        String result = IngridModelToAntlrSerializer.serializeGrammar(grammarInfo);
 
         System.out.println(result);
 
         assertGrammarEquals(expected, result);
     }
 
+
+    private String loadFileContent(String filename) throws IOException {
+        String path = InlineRulesAlgorithmTest.class.getResource(filename)
+                                                    .getPath();
+        return new String(Files.readAllBytes(Paths.get(path)));
+    }
 }
