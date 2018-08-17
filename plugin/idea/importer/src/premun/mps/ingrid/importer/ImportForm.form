@@ -210,7 +210,9 @@
                       </grid>
                       <gridbag top="8" left="0" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <background color="-4144960"/>
+                    </properties>
                   </component>
                   <component id="1a746" class="javax.swing.JCheckBox" binding="enableRuleInliningCheckBox" default-binding="true">
                     <constraints>

@@ -116,15 +116,30 @@ public class ImportForm {
         return this.language;
     }
 
-    public File[] getFiles() {
+
+    /**
+     * @return a DTO containing all important imformation specified in form.
+     * @see IngridConfiguration
+     */
+    public IngridConfiguration getIngridConfiguration() {
+        return new IngridConfiguration(
+                getFiles(),
+                getRootRule(),
+                getRulesToInline(),
+                simplifyListsWithSeparators()
+        );
+    }
+
+
+    private File[] getFiles() {
         return this.files.toArray(new File[0]);
     }
 
-    public String getRootRule() {
+    private String getRootRule() {
         return this.rootRuleTextField.getText();
     }
 
-    public List<String> rulesToInline() {
+    private List<String> getRulesToInline() {
         if (!enableRuleInliningCheckBox.isSelected())
             return Collections.emptyList();
         return Arrays.stream(inlineRulesTextArea.getText()
@@ -133,7 +148,7 @@ public class ImportForm {
                      .collect(toList());
     }
 
-    public boolean simplifyListsWithSeparators() {
+    private boolean simplifyListsWithSeparators() {
         return simplifyListsWithSeparatorsCheckBox.isSelected();
     }
 
@@ -439,6 +454,7 @@ public class ImportForm {
         gbc.insets = new Insets(8, 8, 8, 8);
         panel5.add(inlineRulesPanel, gbc);
         inlineRulesTextArea = new JTextArea();
+        inlineRulesTextArea.setBackground(new Color(-4144960));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;

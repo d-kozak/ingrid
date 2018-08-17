@@ -767,21 +767,13 @@
                             <ref role="3cqZAo" node="5_E18HdnRYU" resolve="grammarImporter" />
                           </node>
                           <node concept="liA8E" id="5_E18HdnRZ4" role="2OqNvi">
-                            <ref role="37wK5l" to="zkjw:~GrammarImporter.importGrammars(File[],String)" resolve="importGrammars" />
-                            <node concept="2OqwBi" id="33RGotrJtgc" role="37wK5m">
-                              <node concept="37vLTw" id="33RGotrJtbu" role="2Oq$k0">
+                            <ref role="37wK5l" to="zkjw:~GrammarImporter.importGrammars(IngridConfiguration)" resolve="importGrammars" />
+                            <node concept="2OqwBi" id="4uUIZDnOv3f" role="37wK5m">
+                              <node concept="37vLTw" id="4uUIZDnOuQ5" role="2Oq$k0">
                                 <ref role="3cqZAo" node="33RGotrJ8Bd" resolve="form" />
                               </node>
-                              <node concept="liA8E" id="33RGotrJt$T" role="2OqNvi">
-                                <ref role="37wK5l" to="zkjw:~ImportForm.getFiles()" resolve="getFiles" />
-                              </node>
-                            </node>
-                            <node concept="2OqwBi" id="7TFQFl0O8$e" role="37wK5m">
-                              <node concept="37vLTw" id="7TFQFl0O832" role="2Oq$k0">
-                                <ref role="3cqZAo" node="33RGotrJ8Bd" resolve="form" />
-                              </node>
-                              <node concept="liA8E" id="7TFQFl0Oadu" role="2OqNvi">
-                                <ref role="37wK5l" to="zkjw:~ImportForm.getRootRule()" resolve="getRootRule" />
+                              <node concept="liA8E" id="4uUIZDnOvFP" role="2OqNvi">
+                                <ref role="37wK5l" to="zkjw:~ImportForm.getIngridConfiguration()" resolve="getIngridConfiguration" />
                               </node>
                             </node>
                           </node>

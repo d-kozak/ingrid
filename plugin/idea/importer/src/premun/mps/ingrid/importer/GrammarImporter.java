@@ -12,18 +12,11 @@ import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.parser.GrammarParser;
 import premun.mps.ingrid.serialization.IngridModelToAntlrSerializer;
+import premun.mps.ingrid.transformer.DetectListWithSeparatorsAlgorithm;
 import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.toList;
 import static premun.mps.ingrid.formatter.utils.Pair.pair;
 
 public class GrammarImporter {
@@ -61,70 +54,43 @@ public class GrammarImporter {
                 .forEach(SNodeOperations::deleteNode);
     }
 
-
-    static String readFile(String path) {
-        try {
-            byte[] encoded = Files.readAllBytes(Paths.get(path));
-            return new String(encoded);
-        } catch (IOException ex) {
-            throw new IllegalArgumentException(ex);
-        }
-    }
-
-    static Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> fullIngridPipeline(List<String> grammarFiles, List<String> inputFiles, List<String> rulesToInline) {
-        return fullIngridPipeline(grammarFiles, inputFiles, rulesToInline, null);
-    }
-
     /**
      * Processes a list of grammar files and a list of source files to extract formatting.
      * This method is static for easier testing.
      *
-     * @param grammarFiles  grammar files to load
-     * @param inputFiles    source files to extract formatting from
-     * @param rulesToInline rules from the grammar to be inlined
-     * @return grammar info of the processed grammar and format info map
+     * @param ingridConfiguration configuration from the ImportForm
+     * @return grammar info of the processed grammar AND format info map
      */
-    static Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> fullIngridPipeline(List<String> grammarFiles, List<String> inputFiles, List<String> rulesToInline, String startRule) {
-        GrammarParser parser = new GrammarParser(startRule);
-        for (String grammarFile : grammarFiles) {
+    static Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> fullIngridPipeline(IngridConfiguration ingridConfiguration) {
+        GrammarParser parser = new GrammarParser(ingridConfiguration.getRootRule());
+        for (String grammarFile : ingridConfiguration.getGrammarFiles()) {
             parser.parseString(grammarFile);
         }
         GrammarInfo grammarInfo = parser.resolveGrammar();
 
-        InlineRulesAlgorithm inlineRulesAlgorithm = new InlineRulesAlgorithm(rulesToInline);
-
+        InlineRulesAlgorithm inlineRulesAlgorithm = new InlineRulesAlgorithm(ingridConfiguration.getRulesToInline());
         inlineRulesAlgorithm.transform(grammarInfo);
+
         String serialized = IngridModelToAntlrSerializer.serializeGrammar(grammarInfo);
 
-        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> pairRuleFormatInfoMap = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, serialized, inputFiles);
+        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> pairRuleFormatInfoMap = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, serialized, ingridConfiguration.getSourceFiles());
+
+        if (ingridConfiguration.isSimplifyListsWithSeparators()) {
+            DetectListWithSeparatorsAlgorithm detectListWithSeparatorsAlgorithm = new DetectListWithSeparatorsAlgorithm();
+            detectListWithSeparatorsAlgorithm.transform(grammarInfo, pairRuleFormatInfoMap);
+        }
+
         return pair(grammarInfo, pairRuleFormatInfoMap);
     }
 
     /**
      * Main method of the import process.
-     *
-     * @param files List of ANTLR grammar files to be imported.
+     * @param ingridConfiguration configuration from the ImportForm
      */
-    public void importGrammars(File[] files, String startRule) {
+    public void importGrammars(IngridConfiguration ingridConfiguration) {
         initializeLanguage();
 
-
-        List<String> grammarFiles = Arrays.stream(files)
-                                          .filter(file -> file.getName()
-                                                              .endsWith(".g4"))
-                                          .map(File::getPath)
-                                          .map(GrammarImporter::readFile)
-                                          .collect(toList());
-        List<String> sourceFiles = Arrays.stream(files)
-                                         .filter(file -> !file.getName()
-                                                              .endsWith(".g4"))
-                                         .map(File::getPath)
-                                         .map(GrammarImporter::readFile)
-                                         .collect(toList());
-
-
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(grammarFiles, sourceFiles, Collections.emptyList(), startRule);
-
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
 
         this.grammar = grammarInfoMapPair.first;
         this.importInfo = new ImportInfo(this.grammar.rootRule.name);

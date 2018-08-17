@@ -27,7 +27,8 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
 
     @Test
     public void setGrammarEmptySet() {
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{}"), Collections.emptyList());
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{}"), Collections.emptyList(), false, null);
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(grammarInfoMapPair.second);
 
         dumpSimplifiedMap(formatInfoMap);
@@ -54,7 +55,8 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
     public void setGrammarEmptySet__withNewline() {
         String input = "{\n" +
                 "}";
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList(input), Collections.emptyList());
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList(input), Collections.emptyList(), false, null);
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(grammarInfoMapPair.second);
 
         dumpSimplifiedMap(formatInfoMap);
@@ -79,7 +81,8 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
 
     @Test
     public void setGrammarSimpleInput() {
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1,2,3}"), Collections.emptyList());
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1,2,3}"), Collections.emptyList(), false, null);
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(grammarInfoMapPair.second);
 
         dumpSimplifiedMap(formatInfoMap);
@@ -126,7 +129,8 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
 
     @Test
     public void setGrammarSimpleInput__spaceAfterCommas() {
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1, 2, 3}"), Collections.emptyList());
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1, 2, 3}"), Collections.emptyList(), false, null);
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(grammarInfoMapPair.second);
 
         dumpSimplifiedMap(formatInfoMap);
@@ -172,7 +176,8 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
 
     @Test
     public void setGrammarSimpleInput__newlineAfterSetBlockRule() {
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1,2,3\n}"), Collections.emptyList());
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1,2,3\n}"), Collections.emptyList(), false, null);
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(grammarInfoMapPair.second);
 
         dumpSimplifiedMap(formatInfoMap);
@@ -218,7 +223,8 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
 
     @Test
     public void setGrammarSimpleInput__newlineAfterOpeningBracket() {
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{\n1,2,3}"), Collections.emptyList());
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{\n1,2,3}"), Collections.emptyList(), false, null);
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(grammarInfoMapPair.second);
 
         dumpSimplifiedMap(formatInfoMap);
@@ -263,55 +269,9 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
     }
 
     @Test
-    public void setGrammarSimpleInput__spaceAfterComma() {
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1, 2, 3}"), Collections.emptyList());
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(grammarInfoMapPair.second);
-
-        dumpSimplifiedMap(formatInfoMap);
-
-        verifyFormatInfoMap(
-                formatInfoMap,
-                rules(
-                        rule("simpleElement", 0,
-                                handle(
-                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "elem", 0,
-                                handle(
-                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("set", 1,
-                                handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "compilationUnit", 0,
-                                handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "set_block_2_1", 0,
-                                handle(
-                                        elem(",", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        )
-                )
-        );
-    }
-
-
-    @Test
     public void setGrammarNestedInput() {
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1,{a,b,c},3}"), Collections.emptyList());
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1,{a,b,c},3}"), Collections.emptyList(), false, null);
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(grammarInfoMapPair.second);
 
         dumpSimplifiedMap(formatInfoMap);
@@ -362,7 +322,8 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
 
     @Test
     public void setGrammarNestedInputMoreComplex() {
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1,{a,b,c},{{},{a,b,c}}}"), Collections.emptyList());
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1,{a,b,c},{{},{a,b,c}}}"), Collections.emptyList(), false, null);
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(grammarInfoMapPair.second);
 
         dumpSimplifiedMap(formatInfoMap);
@@ -425,7 +386,8 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
                 "\t{a,b,c},\n" +
                 "\tc\n" +
                 "}\n";
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList(input), Collections.emptyList());
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList(input), Collections.emptyList(), false, null);
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(grammarInfoMapPair.second);
 
         dumpSimplifiedMap(formatInfoMap);
@@ -482,7 +444,8 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
                 "  c\n" +
                 "}\n" +
                 "\n";
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList(input), Collections.emptyList());
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList(input), Collections.emptyList(), false, null);
+        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
         Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(grammarInfoMapPair.second);
         dumpSimplifiedMap(formatInfoMap);
 

@@ -733,7 +733,7 @@
     </javac>
   </target>
   
-  <target name="java.compile.premun.mps.ingrid.transformer" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.model, java.compile.premun.mps.ingrid.parser, fetchDependencies">
+  <target name="java.compile.premun.mps.ingrid.transformer" depends="java.compile.org.antlr, java.compile.premun.mps.ingrid.formatter, java.compile.premun.mps.ingrid.model, java.compile.premun.mps.ingrid.parser, fetchDependencies">
     <mkdir dir="${INGRID_HOME}/plugin/idea/transformer/src" />
     <mkdir dir="${INGRID_HOME}/plugin/mps/solutions/transformer/source_gen" />
     <mkdir dir="${build.tmp}/java/out/premun.mps.ingrid.transformer" />
@@ -747,6 +747,7 @@
         <pathelement path="${build.tmp}/java/out/org.antlr" />
         <fileset file="${artifacts.mps}/lib/mps-annotations.jar" />
         <fileset file="${artifacts.mps}/lib/mps-openapi.jar" />
+        <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.formatter" />
         <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.model" />
         <pathelement path="${build.tmp}/java/out/premun.mps.ingrid.parser" />
         <fileset file="${artifacts.mps}/lib/mps-core.jar" />

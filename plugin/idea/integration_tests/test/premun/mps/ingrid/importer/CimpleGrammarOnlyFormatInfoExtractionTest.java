@@ -35,7 +35,8 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 "}\n";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList()).second);
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList(), false, null);
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(ingridConfiguration).second);
 
         dumpSimplifiedMap(formatInfoMap);
 
@@ -209,7 +210,8 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 "for(j = 0; j < i ; j = j+1){res = fib(j);print res;}";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList()).second);
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList(), false, null);
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(ingridConfiguration).second);
 
         dumpSimplifiedMap(formatInfoMap);
 
@@ -395,7 +397,8 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 "}\n";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList()).second);
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList(), false, null);
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(ingridConfiguration).second);
 
         dumpSimplifiedMap(formatInfoMap);
 
@@ -581,7 +584,8 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 "}\n";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList()).second);
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList(), false, null);
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(ingridConfiguration).second);
 
         dumpSimplifiedMap(formatInfoMap);
 
@@ -754,7 +758,8 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
         String input = "fn fib(i){if(i < 2){return 1;}else{return fib(i - 1) + fib(i - 2);}} i = 10; for(j = 0; j < i ; j = j+1){res = fib(j);print res;}";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList()).second);
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList(), false, null);
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(ingridConfiguration).second);
 
         dumpSimplifiedMap(formatInfoMap);
 
@@ -939,7 +944,8 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 "}\n";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList()).second);
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList(), false, null);
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(ingridConfiguration).second);
 
         dumpSimplifiedMap(formatInfoMap);
 
@@ -1124,7 +1130,8 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 "}\n";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList()).second);
+        IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(cimple), Collections.singletonList(input), Collections.emptyList(), false, null);
+        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = asRuleNameAlternativeIndexMap(fullIngridPipeline(ingridConfiguration).second);
 
         dumpSimplifiedMap(formatInfoMap);
 
