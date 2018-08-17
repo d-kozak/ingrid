@@ -186,9 +186,11 @@ public class InlineRulesAlgorithmTest {
         grammarParser.parseString(grammar);
         GrammarInfo grammarInfo = grammarParser.resolveGrammar();
 
-        GrammarInfo simplified = InlineRulesAlgorithm.inlineRules(grammarInfo, toInline);
+        InlineRulesAlgorithm inlineRulesAlgorithm = new InlineRulesAlgorithm(toInline);
 
-        String result = GrammarSerializer.serializeGrammar(simplified);
+        inlineRulesAlgorithm.transform(grammarInfo);
+
+        String result = GrammarSerializer.serializeGrammar(grammarInfo);
 
         System.out.println(result);
 

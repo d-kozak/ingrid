@@ -90,11 +90,14 @@ public class GrammarImporter {
             parser.parseString(grammarFile);
         }
         GrammarInfo grammarInfo = parser.resolveGrammar();
-        GrammarInfo withInlinedRules = InlineRulesAlgorithm.inlineRules(grammarInfo, rulesToInline);
+
+        InlineRulesAlgorithm inlineRulesAlgorithm = new InlineRulesAlgorithm(rulesToInline);
+
+        inlineRulesAlgorithm.transform(grammarInfo);
         String serialized = GrammarSerializer.serializeGrammar(grammarInfo);
 
-        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> pairRuleFormatInfoMap = FormatExtractor.fullyProcessMultipleFiles(withInlinedRules, serialized, inputFiles);
-        return pair(withInlinedRules, pairRuleFormatInfoMap);
+        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> pairRuleFormatInfoMap = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, serialized, inputFiles);
+        return pair(grammarInfo, pairRuleFormatInfoMap);
     }
 
     /**

@@ -1,16 +1,22 @@
 package premun.mps.ingrid.transformer;
 
+import premun.mps.ingrid.formatter.model.RuleFormatInfo;
+import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * Detects statements like arg (',' arg)* and turns them into arg* with separator ','
+ *
+ * @author dkozak
  */
-public class DetectListWithSeparatorsAlgorithm {
+public class DetectListWithSeparatorsAlgorithm implements MpsSpecificGrammarTransformation {
 
-    public static GrammarInfo detectListsWithSeparators(GrammarInfo grammarInfo) {
+    @Override
+    public void transform(GrammarInfo grammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap) {
         List<ParserRule> parserRules = grammarInfo.rules.values()
                                                         .stream()
                                                         .filter(it -> it instanceof ParserRule)
@@ -32,6 +38,5 @@ public class DetectListWithSeparatorsAlgorithm {
                 }
             }
         }
-        return grammarInfo;
     }
 }
