@@ -8,9 +8,9 @@ import org.antlr.v4.tool.Grammar;
 import premun.mps.ingrid.formatter.InterpretingParser;
 import premun.mps.ingrid.formatter.RuleEnterParseTreeListener;
 import premun.mps.ingrid.formatter.model.CollectionFormatInfo;
-import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.RuleReference;
+import premun.mps.ingrid.model.utils.Pair;
 
 import java.util.List;
 

@@ -5,16 +5,16 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import premun.mps.ingrid.formatter.model.MatchInfo;
-import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.*;
 import premun.mps.ingrid.model.format.SimpleFormatInfo;
+import premun.mps.ingrid.model.utils.Pair;
 import premun.mps.ingrid.parser.GrammarWalker;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
-import static premun.mps.ingrid.formatter.utils.Pair.pair;
+import static premun.mps.ingrid.model.utils.Pair.pair;
 
 /**
  * Computes how the parse tree passed in corresponds to the Ingrid rule that matched it.

@@ -12,7 +12,7 @@ import static premun.mps.ingrid.formatter.utils.FormatExtraction.extractFormat;
 import static premun.mps.ingrid.formatter.utils.FormatInfoAsserts.verifyFormatInfoMap;
 import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.AppliedRule.rule;
 import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.*;
-import static premun.mps.ingrid.formatter.utils.FormatInfoMapDump.dumpSimplifiedMap;
+import static premun.mps.ingrid.formatter.utils.FormatInfoDump.dumpSimplifiedMap;
 
 /**
  * A set of tests of format extraction for Expression language

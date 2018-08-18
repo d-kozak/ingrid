@@ -6,12 +6,12 @@ import org.antlr.v4.tool.Grammar;
 import org.antlr.v4.tool.Rule;
 import premun.mps.ingrid.formatter.model.CollectionFormatInfo;
 import premun.mps.ingrid.formatter.model.MatchInfo;
-import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.model.RuleReference;
 import premun.mps.ingrid.model.format.SimpleFormatInfo;
+import premun.mps.ingrid.model.utils.Pair;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package premun.mps.ingrid.formatter.utils;
+package premun.mps.ingrid.model.utils;
 
 import java.util.Objects;
 
@@ -53,3 +53,4 @@ public final class Pair<T, U> {
                 '}';
     }
 }
+

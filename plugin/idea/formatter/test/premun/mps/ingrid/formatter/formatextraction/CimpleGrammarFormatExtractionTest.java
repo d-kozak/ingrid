@@ -2,17 +2,14 @@ package premun.mps.ingrid.formatter.formatextraction;
 
 import org.junit.Test;
 import premun.mps.ingrid.formatter.boundary.FormatExtractor;
-import premun.mps.ingrid.formatter.model.RuleFormatInfo;
-import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
-
-import java.util.Map;
+import premun.mps.ingrid.model.GrammarInfo;
 
 import static premun.mps.ingrid.formatter.utils.FormatExtraction.extractFormat;
-import static premun.mps.ingrid.formatter.utils.FormatInfoAsserts.verifyFormatInfoMap;
+import static premun.mps.ingrid.formatter.utils.FormatInfoAsserts.verifyFormatInfo;
 import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.AppliedRule.rule;
 import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.*;
-import static premun.mps.ingrid.formatter.utils.FormatInfoMapDump.dumpSimplifiedMap;
+import static premun.mps.ingrid.formatter.utils.FormatInfoDump.dumpFormatting;
 
 /**
  * A set of tests of format extraction for Cimple language
@@ -41,12 +38,12 @@ public class CimpleGrammarFormatExtractionTest {
                 "}\n";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, cimple);
+        GrammarInfo grammarInfo = extractFormat(input, cimple);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
                         rule("forLoop", 0,
                                 handle(
@@ -215,12 +212,12 @@ public class CimpleGrammarFormatExtractionTest {
                 "for(j = 0; j < i ; j = j+1){res = fib(j);print res;}";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, cimple);
+        GrammarInfo grammarInfo = extractFormat(input, cimple);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
                         rule("forLoop", 0,
                                 handle(
@@ -401,12 +398,12 @@ public class CimpleGrammarFormatExtractionTest {
                 "}\n";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, cimple);
+        GrammarInfo grammarInfo = extractFormat(input, cimple);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
                         rule("forLoop", 0,
                                 handle(
@@ -587,12 +584,12 @@ public class CimpleGrammarFormatExtractionTest {
                 "}\n";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, cimple);
+        GrammarInfo grammarInfo = extractFormat(input, cimple);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
                         rule("forLoop", 0,
                                 handle(
@@ -761,12 +758,12 @@ public class CimpleGrammarFormatExtractionTest {
         String input = "fn fib(i){if(i < 2){return 1;}else{return fib(i - 1) + fib(i - 2);}} i = 10; for(j = 0; j < i ; j = j+1){res = fib(j);print res;}";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, cimple);
+        GrammarInfo grammarInfo = extractFormat(input, cimple);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
                         rule("forLoop", 0,
                                 handle(
@@ -946,12 +943,12 @@ public class CimpleGrammarFormatExtractionTest {
                 "}\n";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, cimple);
+        GrammarInfo grammarInfo = extractFormat(input, cimple);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
                         rule("forLoop", 0,
                                 handle(
@@ -1131,12 +1128,12 @@ public class CimpleGrammarFormatExtractionTest {
                 "}\n";
 
         String cimple = TestGrammars.loadCimple();
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, cimple);
+        GrammarInfo grammarInfo = extractFormat(input, cimple);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
                         rule("forLoop", 0,
                                 handle(

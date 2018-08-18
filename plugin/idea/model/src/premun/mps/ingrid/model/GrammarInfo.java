@@ -1,9 +1,12 @@
 package premun.mps.ingrid.model;
 
+import premun.mps.ingrid.model.utils.Pair;
+
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static premun.mps.ingrid.model.utils.Pair.pair;
 
 public class GrammarInfo {
     public String name;
@@ -74,6 +77,16 @@ public class GrammarInfo {
             throw new IllegalArgumentException("Index " + alternativeIndex + " is outside of bounds of the list of alternatives in rule " + parserRule);
         }
         return parserRule.alternatives.get(alternativeIndex);
+    }
+
+    public List<Pair<ParserRule, Alternative>> getParserRulesWithAlternatives() {
+        return rules.values()
+                    .stream()
+                    .filter(rule -> rule instanceof ParserRule)
+                    .map(rule -> (ParserRule) rule)
+                    .flatMap(rule -> rule.alternatives.stream()
+                                                      .map(alternative -> pair(rule, alternative)))
+                    .collect(toList());
     }
 
     public List<ParserRule> getParserRules() {

@@ -8,7 +8,7 @@ import premun.mps.ingrid.formatter.utils.TestGrammars;
 import java.util.Map;
 
 import static premun.mps.ingrid.formatter.utils.FormatExtraction.extractFormat;
-import static premun.mps.ingrid.formatter.utils.FormatInfoMapDump.dumpSimplifiedMap;
+import static premun.mps.ingrid.formatter.utils.FormatInfoDump.dumpSimplifiedMap;
 
 public class Java9GrammarFormatExtractionTest {
 
