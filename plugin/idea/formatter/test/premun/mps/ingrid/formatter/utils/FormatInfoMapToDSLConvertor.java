@@ -2,11 +2,13 @@ package premun.mps.ingrid.formatter.utils;
 
 import premun.mps.ingrid.model.*;
 import premun.mps.ingrid.model.format.FormatInfo;
+import premun.mps.ingrid.model.format.SimpleFormatInfo;
+import premun.mps.ingrid.model.utils.Pair;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.joining;
-import static premun.mps.ingrid.formatter.utils.Pair.pair;
+import static premun.mps.ingrid.model.utils.Pair.pair;
 
 /**
  * Helper class to convert grammar info into FormatInfoDSL used in testing so that it is not necessary to do this rewrite manually
@@ -35,6 +37,8 @@ public class FormatInfoMapToDSLConvertor {
                           .stream()
                           .flatMap(parserRule -> parserRule.alternatives.stream()
                                                                         .map(alternative -> pair(parserRule, alternative)))
+                          .filter(pair -> pair.second.elements.stream()
+                                                              .noneMatch(ruleReference -> ((SimpleFormatInfo) ruleReference.formatInfo).isUnknown()))
                           .map(FormatInfoMapToDSLConvertor::convertParserRules)
                           .collect(joining(",\n"));
     }

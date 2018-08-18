@@ -1,7 +1,6 @@
 package premun.mps.ingrid.importer.steps;
 
 import org.jetbrains.mps.openapi.model.SNode;
-import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.library.EditorHelper;
 import premun.mps.ingrid.model.Alternative;

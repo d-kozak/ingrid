@@ -1,7 +1,5 @@
 package premun.mps.ingrid.transformer;
 
-import premun.mps.ingrid.formatter.model.FormatInfo;
-import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.*;
 

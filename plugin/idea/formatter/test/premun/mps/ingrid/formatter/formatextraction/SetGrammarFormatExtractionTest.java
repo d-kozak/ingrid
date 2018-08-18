@@ -2,17 +2,14 @@ package premun.mps.ingrid.formatter.formatextraction;
 
 import org.junit.Test;
 import premun.mps.ingrid.formatter.boundary.FormatExtractor;
-import premun.mps.ingrid.formatter.model.RuleFormatInfo;
-import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
+import premun.mps.ingrid.model.GrammarInfo;
 
-import java.util.Map;
-
-import static premun.mps.ingrid.formatter.utils.FormatExtraction.extractFormat;
-import static premun.mps.ingrid.formatter.utils.FormatInfoAsserts.verifyFormatInfoMap;
+import static premun.mps.ingrid.formatter.utils.FormatInfoAsserts.verifyFormatInfo;
 import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.AppliedRule.rule;
 import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.*;
-import static premun.mps.ingrid.formatter.utils.FormatInfoDump.dumpSimplifiedMap;
+import static premun.mps.ingrid.formatter.utils.FormatInfoDump.dumpFormatting;
+import static premun.mps.ingrid.formatter.utils.Parser.extractFormat;
 
 /**
  * A set of tests of format extraction for Set language
@@ -25,22 +22,37 @@ public class SetGrammarFormatExtractionTest {
 
     @Test
     public void setGrammarEmptySet() {
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{}", TestGrammars.setGrammar);
+        GrammarInfo grammarInfo = extractFormat("{}", TestGrammars.setGrammar);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
-                        rule("set", 0,
-                                handle(
-                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
                         rule("compilationUnit", 0,
                                 handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set", 0,
+                                handle(
+                                        element("{", newLine(false), space(false)),
+                                        element("}", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 0,
+                                handle(
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
                                 )
                         )
                 )
@@ -51,67 +63,85 @@ public class SetGrammarFormatExtractionTest {
     public void setGrammarEmptySet__withNewline() {
         String input = "{\n" +
                 "}";
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
+        GrammarInfo grammarInfo = extractFormat(input, TestGrammars.setGrammar);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
-                        rule("set", 0,
-                                handle(
-                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
                         rule("compilationUnit", 0,
                                 handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set", 0,
+                                handle(
+                                        element("{", newLine(true), space(false)),
+                                        element("}", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 0,
+                                handle(
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
                                 )
                         )
                 )
         );
+
     }
 
     @Test
     public void setGrammarSimpleInput() {
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1,2,3}", TestGrammars.setGrammar);
+        GrammarInfo grammarInfo = extractFormat("{1,2,3}", TestGrammars.setGrammar);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
-                        rule("element", 0,
+                        rule("compilationUnit", 0,
                                 handle(
-                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "collection", 0,
-                                handle(
-                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("set", newLine(false), space(true))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("{", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "compilationUnit", 0,
+                        rule("set_block_2_1", 0,
                                 handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element(",", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "set_block_2_1", 0,
+                        rule("collection", 0,
                                 handle(
-                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
                                 )
                         )
                 )
@@ -121,88 +151,93 @@ public class SetGrammarFormatExtractionTest {
 
     @Test
     public void setGrammarSimpleInput__spaceAfterCommas() {
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1, 2, 3}", TestGrammars.setGrammar);
+        GrammarInfo grammarInfo = extractFormat("{1, 2, 3}", TestGrammars.setGrammar);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
-                        rule("element", 0,
+                        rule("compilationUnit", 0,
                                 handle(
-                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "collection", 0,
-                                handle(
-                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("set", newLine(false), space(true))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("{", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "compilationUnit", 0,
+                        rule("set_block_2_1", 0,
                                 handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element(",", newLine(false), space(true)),
+                                        element("collection", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "set_block_2_1", 0,
+                        rule("collection", 0,
                                 handle(
-                                        collection(",", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
                                 )
                         )
                 )
         );
+
     }
 
     @Test
     public void setGrammarSimpleInput__newlineAfterSetBlockRule() {
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1,2,3\n}", TestGrammars.setGrammar);
+        GrammarInfo grammarInfo = extractFormat("{1,2,3\n}", TestGrammars.setGrammar);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
-                        rule("element", 0,
+                        rule("compilationUnit", 0,
                                 handle(
-                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "collection", 0,
-                                handle(
-                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("set", newLine(false), space(true))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("{", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "compilationUnit", 0,
+                        rule("set_block_2_1", 0,
                                 handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element(",", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "set_block_2_1", 0,
+                        rule("collection", 0,
                                 handle(
-                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
                                 )
                         )
                 )
@@ -211,88 +246,45 @@ public class SetGrammarFormatExtractionTest {
 
     @Test
     public void setGrammarSimpleInput__newlineAfterOpeningBracket() {
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{\n1,2,3}", TestGrammars.setGrammar);
+        GrammarInfo grammarInfo = extractFormat("{\n1,2,3}", TestGrammars.setGrammar);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
-                        rule("element", 0,
+                        rule("compilationUnit", 0,
                                 handle(
-                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "collection", 0,
-                                handle(
-                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("set", newLine(false), space(true))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("{", newLine(true), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "compilationUnit", 0,
+                        rule("set_block_2_1", 0,
                                 handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element(",", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "set_block_2_1", 0,
+                        rule("collection", 0,
                                 handle(
-                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("element", newLine(false), space(true))
                                 )
-                        )
-                )
-        );
-    }
-
-    @Test
-    public void setGrammarSimpleInput__spaceAfterComma() {
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1, 2, 3}", TestGrammars.setGrammar);
-
-        dumpSimplifiedMap(formatInfoMap);
-
-        verifyFormatInfoMap(
-                formatInfoMap,
-                rules(
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
                         rule("element", 0,
                                 handle(
-                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "collection", 0,
-                                handle(
-                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("set", 1,
-                                handle(
-                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "compilationUnit", 0,
-                                handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "set_block_2_1", 0,
-                                handle(
-                                        collection(",", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("ELEM", newLine(false), space(true))
                                 )
                         )
                 )
@@ -302,48 +294,45 @@ public class SetGrammarFormatExtractionTest {
 
     @Test
     public void setGrammarNestedInput() {
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1,{a,b,c},3}", TestGrammars.setGrammar);
+        GrammarInfo grammarInfo = extractFormat("{1,{a,b,c},3}", TestGrammars.setGrammar);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
-                        rule("element", 0,
+                        rule("compilationUnit", 0,
                                 handle(
-                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "collection", 0,
-                                handle(
-                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("collection", 1,
-                                handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("set", newLine(false), space(true))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("{", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "compilationUnit", 0,
+                        rule("set_block_2_1", 0,
                                 handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element(",", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "set_block_2_1", 0,
+                        rule("collection", 0,
                                 handle(
-                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
                                 )
                         )
                 )
@@ -352,55 +341,51 @@ public class SetGrammarFormatExtractionTest {
 
     @Test
     public void setGrammarNestedInputMoreComplex() {
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat("{1,{a,b,c},{{},{a,b,c}}}", TestGrammars.setGrammar);
+        GrammarInfo grammarInfo = extractFormat("{1,{a,b,c},{{},{a,b,c}}}", TestGrammars.setGrammar);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
-                        rule("element", 0,
+                        rule("compilationUnit", 0,
                                 handle(
-                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("set", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "collection", 0,
+                        rule("set", 0,
                                 handle(
-                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("collection", 1,
-                                handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "set", 0,
-                                handle(
-                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("{", newLine(false), space(false)),
+                                        element("}", newLine(false), space(true))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("{", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "compilationUnit", 0,
+                        rule("set_block_2_1", 0,
                                 handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element(",", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "set_block_2_1", 0,
+                        rule("collection", 0,
                                 handle(
-                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
                                 )
                         )
                 )
@@ -414,48 +399,45 @@ public class SetGrammarFormatExtractionTest {
                 "\t{a,b,c},\n" +
                 "\tc\n" +
                 "}\n";
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
+        GrammarInfo grammarInfo = extractFormat(input, TestGrammars.setGrammar);
 
-        dumpSimplifiedMap(formatInfoMap);
+        dumpFormatting(grammarInfo);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
-                        rule("element", 0,
+                        rule("compilationUnit", 0,
                                 handle(
-                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "collection", 0,
-                                handle(
-                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule("collection", 1,
-                                handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("set", newLine(false), space(true))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("{", newLine(true), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "compilationUnit", 0,
+                        rule("set_block_2_1", 0,
                                 handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element(",", newLine(true), space(false)),
+                                        element("collection", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "set_block_2_1", 0,
+                        rule("collection", 0,
                                 handle(
-                                        collection(",", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
                                 )
                         )
                 )
@@ -470,42 +452,45 @@ public class SetGrammarFormatExtractionTest {
                 "  c\n" +
                 "}\n" +
                 "\n";
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, TestGrammars.setGrammar);
-        dumpSimplifiedMap(formatInfoMap);
+        GrammarInfo grammarInfo = extractFormat(input, TestGrammars.setGrammar);
 
-        verifyFormatInfoMap(
-                formatInfoMap,
+        dumpFormatting(grammarInfo);
+
+        verifyFormatInfo(
+                grammarInfo,
                 rules(
-                        rule("element", 0,
+                        rule("compilationUnit", 0,
                                 handle(
-                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
-                                )
-                        ),
-                        rule(
-                                "collection", 0,
-                                handle(
-                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("set", newLine(false), space(true))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("{", newLine(true), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "compilationUnit", 0,
+                        rule("set_block_2_1", 0,
                                 handle(
-                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element(",", newLine(true), space(false)),
+                                        element("collection", newLine(false), space(true))
                                 )
                         ),
-                        rule(
-                                "set_block_2_1", 0,
+                        rule("collection", 0,
                                 handle(
-                                        collection(",", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
                                 )
                         )
                 )

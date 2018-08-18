@@ -3,6 +3,7 @@ package premun.mps.ingrid.formatter.utils;
 import org.junit.Assert;
 import premun.mps.ingrid.model.*;
 import premun.mps.ingrid.model.format.FormatInfo;
+import premun.mps.ingrid.model.utils.Pair;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,9 +27,9 @@ public class FormatInfoAsserts {
      * @param expectedRules expectations
      */
     public static void verifyFormatInfo(GrammarInfo grammarInfo, List<FormatInfoDSL.AppliedRule> expectedRules) {
-        List<ParserRule> parserRules = grammarInfo.getParserRules();
-        if (expectedRules.size() > parserRules.size()) {
-            failBecauseNotEnoughInformation(parserRules, expectedRules);
+        List<Pair<ParserRule, Alternative>> parserRulesWithAlternatives = grammarInfo.getParserRulesWithAlternatives();
+        if (expectedRules.size() > parserRulesWithAlternatives.size()) {
+            failBecauseNotEnoughInformation(parserRulesWithAlternatives, expectedRules);
         }
         for (FormatInfoDSL.AppliedRule expectedRule : expectedRules) {
             Alternative alternative = grammarInfo.getAlternative(expectedRule.ruleName, expectedRule.alternativeIndex);
@@ -40,12 +41,12 @@ public class FormatInfoAsserts {
         }
     }
 
-    private static void failBecauseNotEnoughInformation(List<ParserRule> parserRules, List<FormatInfoDSL.AppliedRule> expectedRules) {
-        Set<String> parserRuleNames = parserRules.stream()
-                                                 .map(rule -> rule.name)
-                                                 .collect(toSet());
+    private static void failBecauseNotEnoughInformation(List<Pair<ParserRule, Alternative>> parserRulesWithAlternatives, List<FormatInfoDSL.AppliedRule> expectedRules) {
+        Set<String> parserRuleNames = parserRulesWithAlternatives.stream()
+                                                                 .map(rule -> rule.first.name + ":" + rule.first.alternatives.indexOf(rule.second))
+                                                                 .collect(toSet());
         String extraRules = expectedRules.stream()
-                                         .map(appliedRule -> appliedRule.ruleName)
+                                         .map(appliedRule -> appliedRule.ruleName + ":" + appliedRule.alternativeIndex)
                                          .filter(ruleName -> !parserRuleNames.contains(ruleName))
                                          .collect(joining(","));
 
@@ -66,11 +67,11 @@ public class FormatInfoAsserts {
             assertEqualsRuleName(expected.ruleName, ((LiteralRule) actual.rule).value);
         else
             assertEqualsRuleName(expected.ruleName, actual.rule.name);
-        assertEqualsWithBetterMessage(expected.formatInfo.appendNewLine, formatInfo.appendNewLine(), expected, "newLine");
-        assertEqualsWithBetterMessage(expected.formatInfo.appendSpace, formatInfo.appendSpace(), expected, "space");
-        assertEqualsWithBetterMessage(expected.formatInfo.childrenOnNewLine, formatInfo.areChildrenOnNewLine(), expected, "childrenOnNewLine");
-        assertEqualsWithBetterMessage(expected.formatInfo.childrenIndented, formatInfo.areChildrenIndented(), expected, "childrenIndented");
-        assertEqualsWithBetterMessage(expected.formatInfo.childrenSeparator, formatInfo.getChildrenSeparator(), expected, "childrenSeparator");
+        assertEqualsWithBetterMessage(expected.formatInfo.appendNewLine(), formatInfo.appendNewLine(), expected, "newLine");
+        assertEqualsWithBetterMessage(expected.formatInfo.appendSpace(), formatInfo.appendSpace(), expected, "space");
+        assertEqualsWithBetterMessage(expected.formatInfo.areChildrenOnNewLine(), formatInfo.areChildrenOnNewLine(), expected, "childrenOnNewLine");
+        assertEqualsWithBetterMessage(expected.formatInfo.areChildrenIndented(), formatInfo.areChildrenIndented(), expected, "childrenIndented");
+        assertEqualsWithBetterMessage(expected.formatInfo.getChildrenSeparator(), formatInfo.getChildrenSeparator(), expected, "childrenSeparator");
     }
 
     private static void assertEqualsRuleName(String expected, String actual) {

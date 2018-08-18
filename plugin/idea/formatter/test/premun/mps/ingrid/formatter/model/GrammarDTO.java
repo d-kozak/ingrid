@@ -6,9 +6,9 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.tool.Grammar;
 import premun.mps.ingrid.formatter.InterpretingParser;
-import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.GrammarInfo;
+import premun.mps.ingrid.model.utils.Pair;
 
 /**
  * Simple DTO used in tests to group together three most common objects that usually need verification and sometimes are used to verify each other
@@ -31,6 +31,7 @@ public class GrammarDTO {
 
     /**
      * Parses the inputGrammar, inputText and checks that the start rule exists. Used during the setup phase of most tests.
+     *
      * @param inputGrammar
      * @param startRule
      * @param inputText

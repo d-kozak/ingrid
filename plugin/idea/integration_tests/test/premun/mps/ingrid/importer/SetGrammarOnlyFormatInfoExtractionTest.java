@@ -1,7 +1,6 @@
 package premun.mps.ingrid.importer;
 
 import org.junit.Test;
-import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.Alternative;

@@ -8,11 +8,16 @@ import org.antlr.v4.tool.Grammar;
 import premun.mps.ingrid.formatter.InterpretingParser;
 import premun.mps.ingrid.formatter.RuleEnterParseTreeListener;
 import premun.mps.ingrid.formatter.model.CollectionFormatInfo;
+import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
+import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.model.RuleReference;
+import premun.mps.ingrid.model.format.FormatInfo;
+import premun.mps.ingrid.model.format.SimpleFormatInfo;
 import premun.mps.ingrid.model.utils.Pair;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Interface of the module
@@ -21,9 +26,13 @@ import java.util.List;
  */
 public class FormatExtractor {
 
-
     /**
-     * Extracts formatting from multiple files and merges it into single formatInfoMap
+     * Processes sourceFiles and extracts formatting from them. The formatting is saved directly into the rule references in the grammarInfo object.
+     *
+     * @param grammarInfo  grammar to be processed
+     * @param inputGrammar antlr4 representation of the grammar, used to create the InterpretedParser
+     * @param sourceFiles  list of source files to extract formatting from
+     * @return
      */
     public static GrammarInfo fullyProcessMultipleFiles(GrammarInfo grammarInfo, String inputGrammar, List<String> sourceFiles) {
         try {
@@ -37,11 +46,50 @@ public class FormatExtractor {
                 RuleEnterParseTreeListener listener = new RuleEnterParseTreeListener(grammar, grammarInfo, tokens);
                 walker.walk(listener, ast);
             }
-            return grammarInfo;
+            return addSpaceAfterLastRuleReferences(mergeFormatInformation(grammarInfo, MergeFormatInfoOperation::merge));
         } catch (RecognitionException ex) {
             throw new IllegalArgumentException(ex);
         }
 
+    }
+
+    /**
+     * In MPS setting punctuation-right on the last element in the editor causes problems with jumping cursor when typing.
+     *
+     * @return updated version of grammar info
+     */
+    public static GrammarInfo addSpaceAfterLastRuleReferences(GrammarInfo grammarInfo) {
+        for (Pair<ParserRule, Alternative> parserRulesWithAlternative : grammarInfo.getParserRulesWithAlternatives()) {
+            Alternative alternative = parserRulesWithAlternative.second;
+            if (!alternative.elements.isEmpty()) {
+                RuleReference lastRuleReference = alternative.elements.get(alternative.elements.size() - 1);
+                FormatInfo formatInfo = lastRuleReference.formatInfo;
+                lastRuleReference.formatInfo =
+                        new SimpleFormatInfo(formatInfo.appendNewLine(), true, formatInfo.areChildrenOnNewLine(), formatInfo.areChildrenIndented(), formatInfo.getChildrenSeparator());
+            } else {
+                String message = "Alternative has an empty list of rule references, rule " + parserRulesWithAlternative.first.name + (":" + parserRulesWithAlternative.first.alternatives.indexOf(parserRulesWithAlternative.second));
+                System.err.println(message);
+
+            }
+        }
+
+        return grammarInfo;
+    }
+
+    /**
+     * Traverses all rule references in the grammar and merges their CollectionFormatInfo into a single FormatInfo to be used outside
+     * of this module.
+     *
+     * @param grammarInfo grammar to be processed
+     * @param operation   describes how to merge the CollectionFormatInfo into FormatInfo
+     * @return Updated version of the grammar without any collectionFormatInfo objects.
+     */
+    private static GrammarInfo mergeFormatInformation(GrammarInfo grammarInfo, Function<CollectionFormatInfo, FormatInfo> operation) {
+        for (RuleReference ruleReference : grammarInfo.getRuleReferences()) {
+            CollectionFormatInfo collectionFormatInfo = (CollectionFormatInfo) ruleReference.formatInfo;
+            ruleReference.formatInfo = operation.apply(collectionFormatInfo);
+        }
+        return grammarInfo;
     }
 
     /**

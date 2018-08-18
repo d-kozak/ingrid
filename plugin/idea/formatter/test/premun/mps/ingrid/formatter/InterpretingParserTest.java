@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class InterpretingParserTest {
 
     /**
-     * Checks whether sentences in set language was parsed correctly
+     * Checks whether sentences in set language were parsed correctly
      */
     @Test
     public void parsingSetLanguage() throws RecognitionException {

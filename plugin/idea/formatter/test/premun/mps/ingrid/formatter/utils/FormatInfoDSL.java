@@ -1,7 +1,6 @@
 package premun.mps.ingrid.formatter.utils;
 
-import premun.mps.ingrid.formatter.model.FormatInfo;
-import premun.mps.ingrid.model.Rule;
+import premun.mps.ingrid.model.format.SimpleFormatInfo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,21 +8,15 @@ import java.util.List;
 public final class FormatInfoDSL {
 
     public static AppliedRuleReference element(String ruleName, AppendNewLine appendNewLine, AppendSpace appendSpace) {
-        Rule dummy = new Rule(ruleName) {
-        };
-        return new AppliedRuleReference(ruleName, new FormatInfo(dummy, appendNewLine.value, appendSpace.value, false, false, null));
+        return new AppliedRuleReference(ruleName, new SimpleFormatInfo(appendNewLine.value, appendSpace.value, false, false, null));
     }
 
     public static AppliedRuleReference collection(String ruleName, AppendNewLine appendNewLine, AppendSpace appendSpace, ChildrenOnNewLine childrenOnNewLine, ChildrenIndented childrenIndented, ChildrenSeparator childrenSeparator) {
-        Rule dummy = new Rule(ruleName) {
-        };
-        return new AppliedRuleReference(ruleName, new FormatInfo(dummy, appendNewLine.value, appendSpace.value, childrenOnNewLine.value, childrenIndented.value, childrenSeparator.value));
+        return new AppliedRuleReference(ruleName, new SimpleFormatInfo(appendNewLine.value, appendSpace.value, childrenOnNewLine.value, childrenIndented.value, childrenSeparator.value));
     }
 
     public static AppliedRuleReference collection(String ruleName, AppendNewLine appendNewLine, AppendSpace appendSpace, ChildrenOnNewLine childrenOnNewLine, ChildrenIndented childrenIndented) {
-        Rule dummy = new Rule(ruleName) {
-        };
-        return new AppliedRuleReference(ruleName, new FormatInfo(dummy, appendNewLine.value, appendSpace.value, childrenOnNewLine.value, childrenIndented.value));
+        return new AppliedRuleReference(ruleName, new SimpleFormatInfo(appendNewLine.value, appendSpace.value, childrenOnNewLine.value, childrenIndented.value));
     }
 
     public static List<AppliedRuleReference> handle(AppliedRuleReference... input) {
@@ -77,9 +70,9 @@ public final class FormatInfoDSL {
 
     public static class AppliedRuleReference {
         public final String ruleName;
-        public final FormatInfo formatInfo;
+        public final SimpleFormatInfo formatInfo;
 
-        public AppliedRuleReference(String ruleName, FormatInfo formatInfo) {
+        public AppliedRuleReference(String ruleName, SimpleFormatInfo formatInfo) {
             this.ruleName = ruleName;
             this.formatInfo = formatInfo;
         }

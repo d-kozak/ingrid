@@ -1,6 +1,7 @@
 package premun.mps.ingrid.formatter.model;
 
 
+import premun.mps.ingrid.model.format.FormatInfo;
 import premun.mps.ingrid.model.format.SimpleFormatInfo;
 
 import java.util.ArrayList;
@@ -14,12 +15,14 @@ import java.util.List;
  * This class is never meant to be queried for formatting.
  * In fact it's instances should never escape the formatter module.
  * escape the formatter module.
+ * <p>
+ * TODO refactor to work with FormatInfo interface
  *
  * @author dkozak
  * @see FormatInfo
  * @see SimpleFormatInfo
  */
-public class CollectionFormatInfo implements premun.mps.ingrid.model.format.FormatInfo {
+public class CollectionFormatInfo implements FormatInfo {
 
     /**
      * List into which format information is collected during format extraction.
@@ -47,7 +50,6 @@ public class CollectionFormatInfo implements premun.mps.ingrid.model.format.Form
     public List<SimpleFormatInfo> getAllFormatInfo() {
         return Collections.unmodifiableList(collectedInformation);
     }
-
 
     @Override
     public boolean appendNewLine() {

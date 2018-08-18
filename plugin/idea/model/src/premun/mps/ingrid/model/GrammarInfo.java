@@ -103,7 +103,7 @@ public class GrammarInfo {
                     .filter(rule -> rule instanceof ParserRule)
                     .map(rule -> (ParserRule) rule)
                     .flatMap(rule -> rule.alternatives.stream())
-                    .flatMap(alternative -> alternative.elements.stream()o)
+                    .flatMap(alternative -> alternative.elements.stream())
                     .collect(toList());
     }
 

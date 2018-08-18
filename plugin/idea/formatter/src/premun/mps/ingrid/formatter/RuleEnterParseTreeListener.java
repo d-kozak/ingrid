@@ -72,7 +72,6 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
         Alternative appropriateAlternative = pair.first;
         List<SimpleFormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(pair.second, tokens);
 
-
         addFormatInfoToAlternative(appropriateAlternative, formatInfos);
     }
 

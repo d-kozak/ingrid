@@ -2,7 +2,6 @@ package premun.mps.ingrid.tranformer;
 
 import org.junit.Test;
 import premun.mps.ingrid.formatter.boundary.FormatExtractor;
-import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.*;

@@ -77,6 +77,7 @@ public class ParseTreeToIngridRuleMapper {
     static List<Alternative> expandRules(List<Alternative> input) {
         List<Alternative> result = new ArrayList<>();
 
+        // TODO this could probably be simplified
         for (Alternative alternative : input) {
             List<List<RuleReference>> expandedAlternative = new ArrayList<>();
             for (RuleReference element : alternative.elements) {
@@ -91,13 +92,17 @@ public class ParseTreeToIngridRuleMapper {
                             expandedAlternative.add(tmp);
                         }
                     } else {
+                        ArrayList<List<RuleReference>> copy = new ArrayList<>();
                         for (int i = 0; i < inner.size(); i++) {
                             String name = element.rule.name + "_alt_" + i;
                             SerializedParserRule serializedParserRule = new SerializedParserRule(name, ((ParserRule) element.rule), inner.get(i));
                             for (List<RuleReference> ruleReferences : expandedAlternative) {
-                                ruleReferences.add(new RuleReference(serializedParserRule, element.quantity));
+                                List<RuleReference> tmp = new ArrayList<>(ruleReferences);
+                                tmp.add(new RuleReference(serializedParserRule, element.quantity));
+                                copy.add(tmp);
                             }
                         }
+                        expandedAlternative = copy;
                     }
                 } else {
                     if (expandedAlternative.isEmpty()) {
@@ -172,30 +177,6 @@ public class ParseTreeToIngridRuleMapper {
     }
 
     /**
-     * Figures out which alternative can parse the ast and returns how the ast can be parsed
-     *
-     * @param alternatives list of alternatives, one of them has to match
-     * @param ast          input which should be parsed by one of the alternative
-     * @return Which Alternative matched the ast and how
-     */
-    public Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>>> resolve(List<Alternative> alternatives, List<ParseTree> ast) {
-        blockRules = new HashMap<>();
-        alternatives = expandRules(alternatives);
-        for (Alternative alternative : alternatives) {
-            List<MatchInfo> matchInfoList = match(alternative.elements, new ArrayList<>(ast), true);
-            if (matchInfoList != null) {
-                return pair(pair(((AlternativeDTO) alternative).original, matchInfoList), blockRules);
-            }
-        }
-
-        ast.forEach(GrammarWalker::debugPrintANTLRTree);
-
-        throw new IllegalArgumentException("Did not match tree: \n" + ast + "\n\n with alternatives " + alternatives.stream()
-                                                                                                                    .map(Object::toString)
-                                                                                                                    .collect(Collectors.joining("\n\n")));
-    }
-
-    /**
      * Tries to match first element(s) of ParseTree to the given rule.
      *
      * @param rule      rule which should match the parse tree
@@ -241,6 +222,34 @@ public class ParseTreeToIngridRuleMapper {
                              .collect(Collectors.toList());
             } else return Collections.emptyList();
         } else return Collections.emptyList();
+    }
+
+    /**
+     * Figures out which alternative can parse the ast and returns how the ast can be parsed
+     *
+     * @param alternatives list of alternatives, one of them has to match
+     * @param ast          input which should be parsed by one of the alternative
+     * @return Which Alternative matched the ast and how
+     */
+    public Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>>> resolve(List<Alternative> alternatives, List<ParseTree> ast) {
+        blockRules = new HashMap<>();
+        alternatives = expandRules(alternatives);
+        for (Alternative alternative : alternatives) {
+            List<MatchInfo> matchInfoList = match(alternative.elements, new ArrayList<>(ast), true);
+            if (matchInfoList != null) {
+                Alternative originalAlternative = ((AlternativeDTO) alternative).original;
+                if (matchInfoList.size() != originalAlternative.elements.size()) {
+                    throw new IllegalStateException("Invalid match, the number of matchInfos is not the same as the number of rule references");
+                }
+                return pair(pair(originalAlternative, matchInfoList), blockRules);
+            }
+        }
+
+        ast.forEach(GrammarWalker::debugPrintANTLRTree);
+
+        throw new IllegalArgumentException("Did not match tree: \n" + ast + "\n\n with alternatives " + alternatives.stream()
+                                                                                                                    .map(Object::toString)
+                                                                                                                    .collect(Collectors.joining("\n\n")));
     }
 
     /**

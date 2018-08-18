@@ -1,14 +1,11 @@
 package premun.mps.ingrid.formatter.formatextraction;
 
 import org.junit.Test;
-import premun.mps.ingrid.formatter.model.RuleFormatInfo;
-import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
+import premun.mps.ingrid.model.GrammarInfo;
 
-import java.util.Map;
-
-import static premun.mps.ingrid.formatter.utils.FormatExtraction.extractFormat;
-import static premun.mps.ingrid.formatter.utils.FormatInfoDump.dumpSimplifiedMap;
+import static premun.mps.ingrid.formatter.utils.FormatInfoDump.dumpFormatting;
+import static premun.mps.ingrid.formatter.utils.Parser.extractFormat;
 
 public class Java9GrammarFormatExtractionTest {
 
@@ -76,7 +73,7 @@ public class Java9GrammarFormatExtractionTest {
                 "    }\n" +
                 "}\n";
 
-        Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap = extractFormat(input, TestGrammars.loadJava9(), "compilationUnit");
-        dumpSimplifiedMap(formatInfoMap);
+        GrammarInfo grammarInfo = extractFormat(input, TestGrammars.loadJava9(), "compilationUnit");
+        dumpFormatting(grammarInfo);
     }
 }
