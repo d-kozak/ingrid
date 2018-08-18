@@ -1,11 +1,6 @@
 package premun.mps.ingrid.transformer;
 
-import premun.mps.ingrid.formatter.utils.Pair;
-import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
-import premun.mps.ingrid.model.ParserRule;
-
-import java.util.Map;
 
 /**
  * Represents a transformation that produces a version of GrammarInfo that can no longer be fully
@@ -21,8 +16,7 @@ public interface MpsSpecificGrammarTransformation {
      * Therefore the GrammarInfo can no longer be serialized.
      * The transformation is done on the input as a side effect.
      *
-     * @param grammarInfo   grammar to be transformed
-     * @param formatInfoMap information about formatting, it might have to be tweaked as well
+     * @param grammarInfo grammar to be transformed
      */
-    void transform(GrammarInfo grammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap);
+    GrammarInfo transform(GrammarInfo grammarInfo);
 }

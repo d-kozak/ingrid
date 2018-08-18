@@ -29,7 +29,7 @@ public class InlineRulesAlgorithm implements GenericGrammarTransformation {
      * @return new instance of ParserResult containing specified rules
      */
     @Override
-    public void transform(GrammarInfo input) {
+    public GrammarInfo transform(GrammarInfo input) {
         checkForInvalidRuleNames(input, rulesToInline);
 
         UniqueRuleNameGenerator nameGenerator = new UniqueRuleNameGenerator(input.rules.keySet());
@@ -74,6 +74,8 @@ public class InlineRulesAlgorithm implements GenericGrammarTransformation {
         for (String ruleName : rulesToInline) {
             input.rules.remove(ruleName);
         }
+
+        return input;
     }
 
     private void checkForInvalidRuleNames(GrammarInfo input, List<String> rulesToInline) {

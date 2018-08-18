@@ -6,18 +6,16 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.tool.Grammar;
 import org.junit.Test;
 import premun.mps.ingrid.formatter.boundary.FormatExtractor;
-import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
-import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
-import premun.mps.ingrid.model.ParserRule;
+import premun.mps.ingrid.model.utils.Pair;
 import premun.mps.ingrid.parser.GrammarParser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import static premun.mps.ingrid.formatter.utils.Pair.pair;
+import static premun.mps.ingrid.model.utils.Pair.pair;
 
 /**
  * Tests that verify that the grammar is still parseable by antlr even after serialization.
@@ -175,7 +173,7 @@ public class GrammarIsStillParseableAndUsableTest {
 
             GrammarInfo grammarInfo = grammarParser.resolveGrammar();
 
-            Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap = FormatExtractor.merge(FormatExtractor.extract(grammarInfo, serialized, input));
+            GrammarInfo result = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, serialized, Collections.singletonList(input));
 
         } catch (RecognitionException e) {
             e.printStackTrace();

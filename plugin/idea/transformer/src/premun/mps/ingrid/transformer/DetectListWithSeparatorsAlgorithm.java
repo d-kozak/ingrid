@@ -1,14 +1,8 @@
 package premun.mps.ingrid.transformer;
 
-import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static premun.mps.ingrid.formatter.utils.Pair.pair;
+import premun.mps.ingrid.model.format.FormatInfo;
+import premun.mps.ingrid.model.format.SimpleFormatInfo;
 
 /**
  * Detects statements like arg (',' arg)* and turns them into arg* with separator ','
@@ -18,55 +12,43 @@ import static premun.mps.ingrid.formatter.utils.Pair.pair;
 public class DetectListWithSeparatorsAlgorithm implements MpsSpecificGrammarTransformation {
 
     @Override
-    public void transform(GrammarInfo grammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap) {
-        List<ParserRule> parserRules = grammarInfo.rules.values()
-                                                        .stream()
-                                                        .filter(it -> it instanceof ParserRule)
-                                                        .map(it -> (ParserRule) it)
-                                                        .collect(Collectors.toList());
-
-        // TODO add more tests and refactor this mess :)
-
-        for (ParserRule parserRule : parserRules) {
-            for (int alternativeIndex = 0; alternativeIndex < parserRule.alternatives.size(); alternativeIndex++) {
-                Alternative alternative = parserRule.alternatives.get(alternativeIndex);
-                // TODO the map should be filled, therefore this can be replaces with simple get, once the tests are updated
-                RuleFormatInfo ruleFormatInfo = formatInfoMap.computeIfAbsent(pair(parserRule, alternative), __ -> new RuleFormatInfo(new ArrayList<>()));
+    public GrammarInfo transform(GrammarInfo grammarInfo) {
+        for (ParserRule parserRule : grammarInfo.getParserRules()) {
+            for (Alternative alternative : parserRule.alternatives) {
                 for (int ruleReferenceIndex = 0; ruleReferenceIndex < alternative.elements.size() - 1; ruleReferenceIndex++) {
                     RuleReference current = alternative.elements.get(ruleReferenceIndex);
                     RuleReference next = alternative.elements.get(ruleReferenceIndex + 1);
                     boolean mightBeNextElements = next.quantity == Quantity.ANY && next.rule instanceof ParserRule && ((ParserRule) next.rule).alternatives.size() == 1;
                     if (mightBeNextElements) {
                         Alternative nextAlternative = ((ParserRule) next.rule).alternatives.get(0);
-                        if (nextAlternative.elements.size() == 2 && nextAlternative.elements.get(0).rule instanceof LiteralRule && current.rule.equals(nextAlternative.elements.get(1).rule)) {
-                            String separator = ((LiteralRule) nextAlternative.elements.get(0).rule).value;
+                        RuleReference afterSeparatorRuleReference = nextAlternative.elements.get(1);
+                        RuleReference separatorRuleReference = nextAlternative.elements.get(0);
+                        if (nextAlternative.elements.size() == 2 && separatorRuleReference.rule instanceof LiteralRule && current.rule.equals(afterSeparatorRuleReference.rule)) {
+                            String separator = ((LiteralRule) separatorRuleReference.rule).value;
                             System.out.println("found list of " + current.rule.name + " with separator " + separator);
 
-                            // clear the map and make a copy
-                            formatInfoMap.remove(pair(parserRule, alternative));
-                            Alternative copy = new Alternative(alternative);
-                            copy.elements.clear();
-                            current.quantity = Quantity.ANY;
-                            copy.elements.add(current);
+                            FormatInfo beforeSeparatorFormatInfo = current.formatInfo;
+                            FormatInfo separatorFormatInfo = separatorRuleReference.formatInfo;
+                            FormatInfo afterSeparatorFormatInfo = afterSeparatorRuleReference.formatInfo;
 
-                            FormatInfo currentFormatInfo = ruleReferenceIndex < ruleFormatInfo.formatInfoList.size() ? ruleFormatInfo.formatInfoList.get(ruleReferenceIndex) : new FormatInfo(current.rule, false, false, false, false);
-                            ruleFormatInfo.formatInfoList.clear();
-                            ruleFormatInfo.formatInfoList.add(
-                                    new FormatInfo(currentFormatInfo.rule,
-                                            currentFormatInfo.appendNewLine,
-                                            currentFormatInfo.appendSpace,
-                                            currentFormatInfo.childrenOnNewLine,
-                                            currentFormatInfo.childrenIndented,
-                                            separator)
+
+                            alternative.elements.clear();
+                            RuleReference ruleReference = new RuleReference(current.rule, Quantity.ANY);
+
+                            ruleReference.formatInfo = new SimpleFormatInfo(
+                                    false, // the only element - no need for new line
+                                    true,  // the only element - space is necessary for MPS editor to work
+                                    separatorFormatInfo.appendNewLine(),  // if there is space after separator, then element should be on new lines
+                                    afterSeparatorFormatInfo.areChildrenIndented(), // children identation is just passed from afterSeparatorFormatInfo
+                                    separator
                             );
 
-                            // update references
-                            formatInfoMap.put(pair(parserRule, copy), ruleFormatInfo);
-                            parserRule.alternatives.set(alternativeIndex, copy);
+                            alternative.elements.add(ruleReference);
                         }
                     }
                 }
             }
         }
+        return grammarInfo;
     }
 }

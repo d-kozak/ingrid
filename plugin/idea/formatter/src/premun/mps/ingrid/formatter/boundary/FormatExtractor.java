@@ -58,7 +58,7 @@ public class FormatExtractor {
      *
      * @return updated version of grammar info
      */
-    public static GrammarInfo addSpaceAfterLastRuleReferences(GrammarInfo grammarInfo) {
+    private static GrammarInfo addSpaceAfterLastRuleReferences(GrammarInfo grammarInfo) {
         for (Pair<ParserRule, Alternative> parserRulesWithAlternative : grammarInfo.getParserRulesWithAlternatives()) {
             Alternative alternative = parserRulesWithAlternative.second;
             if (!alternative.elements.isEmpty()) {

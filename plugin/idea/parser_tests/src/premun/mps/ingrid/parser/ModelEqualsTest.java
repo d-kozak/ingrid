@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static premun.mps.ingrid.formatter.utils.Pair.pair;
+import static premun.mps.ingrid.model.utils.Pair.pair;
 
 /**
  * Tests whether equals method on the Ingrid model works as expected

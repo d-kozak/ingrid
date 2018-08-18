@@ -17,5 +17,5 @@ public interface GenericGrammarTransformation {
      *
      * @param input grammar to be transformed
      */
-    void transform(GrammarInfo input);
+    GrammarInfo transform(GrammarInfo input);
 }

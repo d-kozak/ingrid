@@ -18,12 +18,22 @@ import static premun.mps.ingrid.model.utils.Pair.pair;
 public class FormatInfoMapToDSLConvertor {
 
     /**
+     * Converts the formatting saved in grammar info into FormatInfoDSL used in testing so that it is not necessary to do this rewrite manually
+     * and prints it to stdout
+     *
+     * @param grammarInfo source of the formatting info
+     */
+    public static void print(GrammarInfo grammarInfo) {
+        System.out.println(convert(grammarInfo));
+    }
+
+    /**
      * Convert the formatting saved in grammar info into FormatInfoDSL used in testing so that it is not necessary to do this rewrite manually
      *
      * @param grammarInfo source of the formatting info
      * @return string with code in the FormatInfoDSL
      */
-    public static String covert(GrammarInfo grammarInfo) {
+    public static String convert(GrammarInfo grammarInfo) {
         return "verifyFormatInfo(\n" +
                 "\tgrammarInfo,\n" +
                 "\trules(\n" +
