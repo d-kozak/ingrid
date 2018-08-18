@@ -7,9 +7,9 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
-import premun.mps.ingrid.formatter.model.FormatInfo;
 import premun.mps.ingrid.formatter.model.MatchInfo;
 import premun.mps.ingrid.model.Quantity;
+import premun.mps.ingrid.model.format.SimpleFormatInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +27,7 @@ class FormatInfoExtractor {
     /**
      * Extracts format information from the list of MatchInfo objects
      */
-    static List<FormatInfo> extractFormatInfo(List<MatchInfo> matchInfos, CommonTokenStream allTokens) {
+    static List<SimpleFormatInfo> extractFormatInfo(List<MatchInfo> matchInfos, CommonTokenStream allTokens) {
         if (matchInfos.isEmpty())
             return new ArrayList<>();
 
@@ -35,7 +35,7 @@ class FormatInfoExtractor {
         matchInfos = new ArrayList<>(matchInfos);
         matchInfos.add(createDummyNextTokenMatchInfo(matchInfos, allTokens));
 
-        List<FormatInfo> result = new ArrayList<>();
+        List<SimpleFormatInfo> result = new ArrayList<>();
 
         for (int i = 0; i < originalMatchInfoSize; i++) {
             MatchInfo currentMatchInfo = matchInfos.get(i);
@@ -43,7 +43,7 @@ class FormatInfoExtractor {
             if (currentMatchInfo.isNotEmpty() && nextMatchInfo.isNotEmpty()) {
                 result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo, allTokens));
             } else {
-                result.add(FormatInfo.UnknownFormatInfo.UNKNOWN_FORMAT_INFO);
+                result.add(SimpleFormatInfo.UNKNOWN);
             }
         }
 
@@ -55,7 +55,7 @@ class FormatInfoExtractor {
      * @param nextMatchInfo    next match info
      * @return formatInfo extracted from the input
      */
-    private static FormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo, CommonTokenStream tokens) {
+    private static SimpleFormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo, CommonTokenStream tokens) {
         ParseTree rightmostNode = currentMatchInfo.getRightMostParseTree();
         ParseTree leftmostNode = nextMatchInfo.getLeftmostParseTree();
         Token currentToken = extractRightmostToken(rightmostNode);
@@ -75,7 +75,7 @@ class FormatInfoExtractor {
 
             childrenIndented = checkIfChildrenAreIndented(currentMatchInfo, childrenOnNewLine, tokens);
         }
-        return new FormatInfo(currentMatchInfo.rule, appendedNewLine, appendSpace, childrenOnNewLine, childrenIndented);
+        return new SimpleFormatInfo(appendedNewLine, appendSpace, childrenOnNewLine, childrenIndented);
 
     }
 

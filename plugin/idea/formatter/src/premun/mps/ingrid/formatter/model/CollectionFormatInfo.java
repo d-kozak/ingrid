@@ -4,6 +4,7 @@ package premun.mps.ingrid.formatter.model;
 import premun.mps.ingrid.model.format.SimpleFormatInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +24,13 @@ public class CollectionFormatInfo implements premun.mps.ingrid.model.format.Form
     /**
      * List into which format information is collected during format extraction.
      */
-    private final List<SimpleFormatInfo> collectedInformation = new ArrayList<>();
+    private final List<SimpleFormatInfo> collectedInformation;
+
+
+    public CollectionFormatInfo() {
+        collectedInformation = new ArrayList<>();
+    }
+
 
     /**
      * Adds new format info to the underlying list
@@ -35,10 +42,10 @@ public class CollectionFormatInfo implements premun.mps.ingrid.model.format.Form
     }
 
     /**
-     * @return all collected informatin about formatting
+     * @return all collected information about formatting in an immutable list
      */
     public List<SimpleFormatInfo> getAllFormatInfo() {
-        return collectedInformation;
+        return Collections.unmodifiableList(collectedInformation);
     }
 
 

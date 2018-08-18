@@ -4,30 +4,29 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.tool.Grammar;
 import org.antlr.v4.tool.Rule;
-import premun.mps.ingrid.formatter.model.FormatInfo;
+import premun.mps.ingrid.formatter.model.CollectionFormatInfo;
 import premun.mps.ingrid.formatter.model.MatchInfo;
-import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.ParserRule;
+import premun.mps.ingrid.model.RuleReference;
+import premun.mps.ingrid.model.format.SimpleFormatInfo;
 
-import java.util.*;
-
-import static premun.mps.ingrid.formatter.utils.Pair.pair;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Handles extracting information about formatting. Uses BaseParseTreeListener method enterEveryRule,
  * so that it is agnostic to the underlying grammar and can be used to extract information from any antlr4 grammar.
+ * <p>
+ * The information about formatting is stored directly to the GrammarInfo passed in.
  *
  * @author dkozak
  */
 public class RuleEnterParseTreeListener extends BaseParseTreeListener {
-
-    /**
-     * Contains the extracted formatting information
-     */
-    private final Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> formatInfo = new HashMap<>();
 
     /**
      * Stream of all tokens, used during formatting extraction
@@ -64,14 +63,17 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
         Rule antlrRule = grammar.getRule(parserRuleContext.getRuleIndex());
         ParserRule parserRule = (ParserRule) grammarInfo.rules.get(antlrRule.name);
 
-        Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>>> resolved = parseTreeToIngridRuleMapper.resolve(parserRule.alternatives, parserRuleContext.children);
+        Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>>> resolved = parseTreeToIngridRuleMapper.resolve(parserRule.alternatives, parserRuleContext.children);
         Pair<Alternative, List<MatchInfo>> pair = resolved.first;
-        Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules = resolved.second;
+        Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>> blockRules = resolved.second;
+
         addBlockRules(blockRules);
+
         Alternative appropriateAlternative = pair.first;
-        List<FormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(pair.second, tokens);
-        List<RuleFormatInfo> ruleFormatInfos = this.formatInfo.computeIfAbsent(pair(parserRule, appropriateAlternative), __ -> new ArrayList<>());
-        ruleFormatInfos.add(new RuleFormatInfo(formatInfos));
+        List<SimpleFormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(pair.second, tokens);
+
+
+        addFormatInfoToAlternative(appropriateAlternative, formatInfos);
     }
 
     /**
@@ -79,14 +81,34 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
      *
      * @param blockRules to be saved in the formatInfoMap
      */
-    private void addBlockRules(Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules) {
-        for (Map.Entry<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> entry : blockRules.entrySet()) {
-            List<RuleFormatInfo> ruleFormatInfos = formatInfo.computeIfAbsent(entry.getKey(), __ -> new ArrayList<>());
-            ruleFormatInfos.addAll(entry.getValue());
+    private void addBlockRules(Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>> blockRules) {
+        for (Map.Entry<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>> entry : blockRules.entrySet()) {
+            // We could theoretically insert the information directly, but we perform the lookup just to be sure nothing is broken
+            String ruleName = entry.getKey().first.name;
+            List<List<SimpleFormatInfo>> collectedFormatInfo = entry.getValue();
+
+            ParserRule parserRule = (ParserRule) Objects.requireNonNull(grammarInfo.rules.get(ruleName), () -> "Rule with name " + ruleName + "not found in " + grammarInfo);
+            int i = parserRule.alternatives.indexOf(entry.getKey().second);
+            if (i == -1) {
+                throw new IllegalStateException("Could not found alternative " + entry.getKey().second + " in rule " + parserRule);
+            }
+            Alternative alternative = parserRule.alternatives.get(i);
+
+            for (List<SimpleFormatInfo> simpleFormatInfos : collectedFormatInfo) {
+                addFormatInfoToAlternative(alternative, simpleFormatInfos);
+            }
         }
     }
 
-    public Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> getFormatInfo() {
-        return formatInfo;
+    private void addFormatInfoToAlternative(Alternative appropriateAlternative, List<SimpleFormatInfo> formatInfos) {
+        if (formatInfos.size() != appropriateAlternative.elements.size()) {
+            throw new IllegalStateException("The size of formatInfos should be the same as rule references, otherwise we cannot merge them, alternative:  " + appropriateAlternative + ", formatInfos: " + formatInfos);
+        }
+
+        for (int i = 0; i < formatInfos.size(); i++) {
+            RuleReference ruleReference = appropriateAlternative.elements.get(i);
+            SimpleFormatInfo formatInfo = formatInfos.get(i);
+            ((CollectionFormatInfo) ruleReference.formatInfo).addFormatInfo(formatInfo);
+        }
     }
 }

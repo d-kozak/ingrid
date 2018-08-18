@@ -12,6 +12,11 @@ package premun.mps.ingrid.model.format;
 public class SimpleFormatInfo implements FormatInfo {
 
     /**
+     * To be used when no formatting can be extracted
+     */
+    public static final SimpleFormatInfo UNKNOWN = new SimpleFormatInfo(false, false, false, false);
+
+    /**
      * Are children separated by some char?
      */
     public final String childrenSeparator;

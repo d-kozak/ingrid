@@ -5,9 +5,9 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import premun.mps.ingrid.formatter.model.MatchInfo;
-import premun.mps.ingrid.formatter.model.RuleFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.*;
+import premun.mps.ingrid.model.format.SimpleFormatInfo;
 import premun.mps.ingrid.parser.GrammarWalker;
 
 import java.util.*;
@@ -56,7 +56,7 @@ public class ParseTreeToIngridRuleMapper {
     /**
      * Block rules processed as a side effect of the mapping algorithm
      */
-    private Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>> blockRules;
+    private Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>> blockRules;
 
     /**
      * @param tokens    Antlr4 stream of all tokens, it is necessary when processing the block rules, because FormatInfoExtractorRequires them
@@ -67,29 +67,56 @@ public class ParseTreeToIngridRuleMapper {
         this.ruleNames = ruleNames;
     }
 
-
     /**
-     * Figures out which alternative can parse the ast and returns how the ast can be parsed
+     * Expands each alternative from the input into multiple alternatives to get rid of inner blocks with alternatives.
+     * This step enables a linear algorithm for ast to input matching.
      *
-     * @param alternatives list of alternatives, one of them has to match
-     * @param ast          input which should be parsed by one of the alternative
-     * @return Which Alternative matched the ast and how
+     * @param input list of alternatives to expand
+     * @return expanded list of alternatives that do not contain any inner blocks with alternatives
      */
-    public Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<RuleFormatInfo>>> resolve(List<Alternative> alternatives, List<ParseTree> ast) {
-        blockRules = new HashMap<>();
-        alternatives = expandRules(alternatives);
-        for (Alternative alternative : alternatives) {
-            List<MatchInfo> matchInfoList = match(alternative.elements, new ArrayList<>(ast), true);
-            if (matchInfoList != null) {
-                return pair(pair(((AlternativeDTO) alternative).original, matchInfoList), blockRules);
+    static List<Alternative> expandRules(List<Alternative> input) {
+        List<Alternative> result = new ArrayList<>();
+
+        for (Alternative alternative : input) {
+            List<List<RuleReference>> expandedAlternative = new ArrayList<>();
+            for (RuleReference element : alternative.elements) {
+                if (element.rule instanceof ParserRule && element.rule.name.contains("_block_")) {
+                    List<Alternative> inner = expandRules(((ParserRule) element.rule).alternatives);
+                    if (expandedAlternative.isEmpty()) {
+                        for (int i = 0; i < inner.size(); i++) {
+                            String name = element.rule.name + "_alt_" + i;
+                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, ((ParserRule) element.rule), inner.get(i));
+                            List<RuleReference> tmp = new ArrayList<>();
+                            tmp.add(new RuleReference(serializedParserRule, element.quantity));
+                            expandedAlternative.add(tmp);
+                        }
+                    } else {
+                        for (int i = 0; i < inner.size(); i++) {
+                            String name = element.rule.name + "_alt_" + i;
+                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, ((ParserRule) element.rule), inner.get(i));
+                            for (List<RuleReference> ruleReferences : expandedAlternative) {
+                                ruleReferences.add(new RuleReference(serializedParserRule, element.quantity));
+                            }
+                        }
+                    }
+                } else {
+                    if (expandedAlternative.isEmpty()) {
+                        ArrayList<RuleReference> tmp = new ArrayList<>();
+                        tmp.add(element);
+                        expandedAlternative.add(tmp);
+                    } else {
+                        for (List<RuleReference> ruleReferences : expandedAlternative) {
+                            ruleReferences.add(element);
+                        }
+                    }
+                }
             }
+            result.addAll(expandedAlternative.stream()
+                                             .map(references -> new AlternativeDTO(alternative, references))
+                                             .collect(Collectors.toList()));
         }
 
-        ast.forEach(GrammarWalker::debugPrintANTLRTree);
-
-        throw new IllegalArgumentException("Did not match tree: \n" + ast + "\n\n with alternatives " + alternatives.stream()
-                                                                                                                    .map(Object::toString)
-                                                                                                                    .collect(Collectors.joining("\n\n")));
+        return flatten(result);
     }
 
     /**
@@ -145,6 +172,30 @@ public class ParseTreeToIngridRuleMapper {
     }
 
     /**
+     * Figures out which alternative can parse the ast and returns how the ast can be parsed
+     *
+     * @param alternatives list of alternatives, one of them has to match
+     * @param ast          input which should be parsed by one of the alternative
+     * @return Which Alternative matched the ast and how
+     */
+    public Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>>> resolve(List<Alternative> alternatives, List<ParseTree> ast) {
+        blockRules = new HashMap<>();
+        alternatives = expandRules(alternatives);
+        for (Alternative alternative : alternatives) {
+            List<MatchInfo> matchInfoList = match(alternative.elements, new ArrayList<>(ast), true);
+            if (matchInfoList != null) {
+                return pair(pair(((AlternativeDTO) alternative).original, matchInfoList), blockRules);
+            }
+        }
+
+        ast.forEach(GrammarWalker::debugPrintANTLRTree);
+
+        throw new IllegalArgumentException("Did not match tree: \n" + ast + "\n\n with alternatives " + alternatives.stream()
+                                                                                                                    .map(Object::toString)
+                                                                                                                    .collect(Collectors.joining("\n\n")));
+    }
+
+    /**
      * Tries to match first element(s) of ParseTree to the given rule.
      *
      * @param rule      rule which should match the parse tree
@@ -182,66 +233,14 @@ public class ParseTreeToIngridRuleMapper {
             SerializedParserRule parserRule = (SerializedParserRule) rule;
             List<MatchInfo> result = match((parserRule).alternative.elements, parseTree, false);
             if (result != null) {
-                List<RuleFormatInfo> formatInfoList = blockRules.computeIfAbsent(pair(parserRule.rule, ((AlternativeDTO) parserRule.alternative).original), __ -> new ArrayList<>());
-                formatInfoList.add(new RuleFormatInfo(FormatInfoExtractor.extractFormatInfo(result, tokens)));
+                List<List<SimpleFormatInfo>> blockRuleInfo = blockRules.computeIfAbsent(pair(parserRule.rule, ((AlternativeDTO) parserRule.alternative).original), __ -> new ArrayList<>());
+                blockRuleInfo.add(FormatInfoExtractor.extractFormatInfo(result, tokens));
                 return result.stream()
                              .flatMap(matchInfo -> matchInfo.matched.stream()
                                                                     .flatMap(Collection::stream))
                              .collect(Collectors.toList());
             } else return Collections.emptyList();
         } else return Collections.emptyList();
-    }
-
-    /**
-     * Expands each alternative from the input into multiple alternatives to get rid of inner blocks with alternatives.
-     * This step enables a linear algorithm for ast to input matching.
-     *
-     * @param input
-     * @return expanded list of alternatives that do not contain any inner blocks with alternatives
-     */
-    static List<Alternative> expandRules(List<Alternative> input) {
-        List<Alternative> result = new ArrayList<>();
-
-        for (Alternative alternative : input) {
-            List<List<RuleReference>> expandedAlternative = new ArrayList<>();
-            for (RuleReference element : alternative.elements) {
-                if (element.rule instanceof ParserRule && element.rule.name.contains("_block_")) {
-                    List<Alternative> inner = expandRules(((ParserRule) element.rule).alternatives);
-                    if (expandedAlternative.isEmpty()) {
-                        for (int i = 0; i < inner.size(); i++) {
-                            String name = element.rule.name + "_alt_" + i;
-                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, ((ParserRule) element.rule), inner.get(i));
-                            List<RuleReference> tmp = new ArrayList<>();
-                            tmp.add(new RuleReference(serializedParserRule, element.quantity));
-                            expandedAlternative.add(tmp);
-                        }
-                    } else {
-                        for (int i = 0; i < inner.size(); i++) {
-                            String name = element.rule.name + "_alt_" + i;
-                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, ((ParserRule) element.rule), inner.get(i));
-                            for (List<RuleReference> ruleReferences : expandedAlternative) {
-                                ruleReferences.add(new RuleReference(serializedParserRule, element.quantity));
-                            }
-                        }
-                    }
-                } else {
-                    if (expandedAlternative.isEmpty()) {
-                        ArrayList<RuleReference> tmp = new ArrayList<>();
-                        tmp.add(element);
-                        expandedAlternative.add(tmp);
-                    } else {
-                        for (List<RuleReference> ruleReferences : expandedAlternative) {
-                            ruleReferences.add(element);
-                        }
-                    }
-                }
-            }
-            result.addAll(expandedAlternative.stream()
-                                             .map(references -> new AlternativeDTO(alternative, references))
-                                             .collect(Collectors.toList()));
-        }
-
-        return flatten(result);
     }
 
     /**
