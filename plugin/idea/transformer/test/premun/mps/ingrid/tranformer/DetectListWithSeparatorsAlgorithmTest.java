@@ -85,37 +85,37 @@ public class DetectListWithSeparatorsAlgorithmTest {
                 rules(
                         rule("arg", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("args_block_1_1", 0,
                                 handle(
-                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("arg", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("arg", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("args", 0,
                                 handle(
-                                        elem("arg", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("args_block_1_1_alt_0", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("arg", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("args_block_1_1_alt_0", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
                                 handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionCall", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("args", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("args", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statements", 0,
                                 handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("statement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -132,43 +132,43 @@ public class DetectListWithSeparatorsAlgorithmTest {
                 rules(
                         rule("arg", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("args_block_1_1", 0,
                                 handle(
-                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("arg", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("arg", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("args", 0,
                                 handle(
-                                        elem("arg", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
+                                        collection("arg", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
                                 )
                         ),
                         rule("statement", 0,
                                 handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionCall", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("args", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("args", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statements", 0,
                                 handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("statement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
 
                         // get "magically" added :)
                         rule("idList", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
                                 )
                         ),
                         rule("idList_block_1_1", 0,

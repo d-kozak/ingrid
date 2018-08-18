@@ -35,14 +35,14 @@ public class InterpretingParserTest {
                                                           .getText());
 
         assertTrue(set.getChild(1) instanceof ParserRuleContext);
-        assertEquals(2, ((ParserRuleContext) set.getChild(1)).getRuleIndex()); // 2 == index of elem rule
+        assertEquals(2, ((ParserRuleContext) set.getChild(1)).getRuleIndex()); // 2 == index of collection rule
 
         assertTrue(set.getChild(2) instanceof TerminalNode);
         assertEquals(",", (((TerminalNode) set.getChild(2)).getSymbol()
                                                            .getText()));
 
         assertTrue(set.getChild(3) instanceof ParserRuleContext);
-        assertEquals(2, ((ParserRuleContext) set.getChild(3)).getRuleIndex());// 2 == index of elem rule
+        assertEquals(2, ((ParserRuleContext) set.getChild(3)).getRuleIndex());// 2 == index of collection rule
 
         assertTrue(set.getChild(4) instanceof TerminalNode);
         assertEquals(",", ((TerminalNode) set.getChild(4)).getSymbol()
@@ -51,8 +51,8 @@ public class InterpretingParserTest {
         assertTrue(set.getChild(5) instanceof ParserRuleContext);
         assertEquals(2, ((ParserRuleContext) set.getChild(5)).getRuleIndex());// 2 == index of set rule
 
-        ParseTree elemAsSetWrapper = set.getChild(5); // elem
-        assertEquals(1, elemAsSetWrapper.getChildCount()); // elem should have one child, the inner set
+        ParseTree elemAsSetWrapper = set.getChild(5); // collection
+        assertEquals(1, elemAsSetWrapper.getChildCount()); // collection should have one child, the inner set
         ParseTree innerSet = elemAsSetWrapper.getChild(0);
         assertTrue(innerSet instanceof ParserRuleContext);
         assertEquals(2, innerSet.getChildCount()); // inner set has just two children, the curly brackets { }

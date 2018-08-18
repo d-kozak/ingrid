@@ -10,7 +10,7 @@ import premun.mps.ingrid.formatter.RuleEnterParseTreeListener;
 import premun.mps.ingrid.formatter.model.CollectionFormatInfo;
 import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.model.GrammarInfo;
-import premun.mps.ingrid.model.ParserRule;
+import premun.mps.ingrid.model.RuleReference;
 
 import java.util.List;
 
@@ -50,19 +50,11 @@ public class FormatExtractor {
      * @param grammarInfo grammar to be processed
      */
     private static void addCollectionFormatInfoToAllRuleReferences(GrammarInfo grammarInfo) {
-        grammarInfo.rules.values()
-                         .stream()
-                         .filter(rule -> rule instanceof ParserRule)
-                         .map(rule -> (ParserRule) rule)
-                         .flatMap(parserRule -> parserRule.alternatives.stream())
-                         .flatMap(alternative -> alternative.elements.stream())
-                         .forEach(ruleReference -> {
-                             if (ruleReference.formatInfo != null) {
-                                 throw new IllegalStateException("All formatInfo references in RuleReferences shouls be null, this one is not: " + ruleReference);
-                             }
-                             ruleReference.formatInfo = new CollectionFormatInfo();
-                         });
+        for (RuleReference ruleReference : grammarInfo.getRuleReferences()) {
+            if (ruleReference.formatInfo != null) {
+                throw new IllegalStateException("All formatInfo references in RuleReferences should be null, this one is not: " + ruleReference);
+            }
+            ruleReference.formatInfo = new CollectionFormatInfo();
+        }
     }
-
-
 }

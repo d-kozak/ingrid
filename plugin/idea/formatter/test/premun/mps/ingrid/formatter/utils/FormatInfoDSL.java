@@ -8,13 +8,19 @@ import java.util.List;
 
 public final class FormatInfoDSL {
 
-    public static AppliedRuleReference elem(String ruleName, AppendNewLine appendNewLine, AppendSpace appendSpace, ChildrenOnNewLine childrenOnNewLine, ChildrenIndented childrenIndented, ChildrenSeparator childrenSeparator) {
+    public static AppliedRuleReference element(String ruleName, AppendNewLine appendNewLine, AppendSpace appendSpace) {
+        Rule dummy = new Rule(ruleName) {
+        };
+        return new AppliedRuleReference(ruleName, new FormatInfo(dummy, appendNewLine.value, appendSpace.value, false, false, null));
+    }
+
+    public static AppliedRuleReference collection(String ruleName, AppendNewLine appendNewLine, AppendSpace appendSpace, ChildrenOnNewLine childrenOnNewLine, ChildrenIndented childrenIndented, ChildrenSeparator childrenSeparator) {
         Rule dummy = new Rule(ruleName) {
         };
         return new AppliedRuleReference(ruleName, new FormatInfo(dummy, appendNewLine.value, appendSpace.value, childrenOnNewLine.value, childrenIndented.value, childrenSeparator.value));
     }
 
-    public static AppliedRuleReference elem(String ruleName, AppendNewLine appendNewLine, AppendSpace appendSpace, ChildrenOnNewLine childrenOnNewLine, ChildrenIndented childrenIndented) {
+    public static AppliedRuleReference collection(String ruleName, AppendNewLine appendNewLine, AppendSpace appendSpace, ChildrenOnNewLine childrenOnNewLine, ChildrenIndented childrenIndented) {
         Rule dummy = new Rule(ruleName) {
         };
         return new AppliedRuleReference(ruleName, new FormatInfo(dummy, appendNewLine.value, appendSpace.value, childrenOnNewLine.value, childrenIndented.value));

@@ -29,15 +29,15 @@ public final class TestGrammars {
             "\n" +
             "set\n" +
             "    : '{' '}' # emptySet\n" +
-            "    | '{' elem (',' elem)* '}' # nonEmptySet\n" +
+            "    | '{' collection (',' collection)* '}' # nonEmptySet\n" +
             "    ;\n" +
             "\n" +
-            "elem\n" +
-            "    : simpleElement\n" +
+            "collection\n" +
+            "    : element\n" +
             "    | set\n" +
             "    ;\n" +
             "\n" +
-            "simpleElement : ELEM;\n" +
+            "element : ELEM;\n" +
             "\n" +
             "ELEM\n" +
             "    : ('A'..'Z' | 'a'..'z' | '0'..'9' |  '_')+\n" +

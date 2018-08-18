@@ -11,22 +11,22 @@ public interface FormatInfo {
     /**
      * Is there a newline after this element?
      */
-    boolean isAppendNewLine();
+    boolean appendNewLine();
 
     /**
      * Is there a space after this element?
      */
-    boolean isAppendSpace();
+    boolean appendSpace();
 
     /**
      * Are children of this element on new lines?
      */
-    boolean isChildrenOnNewLine();
+    boolean areChildrenOnNewLine();
 
     /**
      * Are children of this element indented?
      */
-    boolean isChildrenIndented();
+    boolean areChildrenIndented();
 
     /**
      * Are children separated by some char?

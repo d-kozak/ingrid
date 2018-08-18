@@ -73,14 +73,14 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         Pair<Alternative, List<MatchInfo>> selectedAlternative = parseTreeToIngridRuleMapper.resolve(examinedRule.alternatives, setSubtree.children).first;
         List<MatchInfo> matchInfoList = selectedAlternative.second;
 
-        // four elements - lbracket elem blk rbracket
+        // four elements - lbracket collection blk rbracket
         assertEquals(4, matchInfoList.size());
 
         // lbracket matched only once
         assertEquals(1, matchInfoList.get(0)
                                      .times());
 
-        // elem matched only once
+        // collection matched only once
         assertEquals(1, matchInfoList.get(1)
                                      .times());
 
@@ -154,21 +154,21 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         MatchInfo innerSetMatchInfo = matchInfoList.get(2);
         assertTrue(innerSetMatchInfo.rule instanceof ParseTreeToIngridRuleMapper.SerializedParserRule); // our own abstraction for handling block rules
 
-        // (',' elem) should be there twice
+        // (',' collection) should be there twice
         assertEquals(2, innerSetMatchInfo.matched.size());
 
         List<ParseTree> blk = innerSetMatchInfo.matched.stream()
                                                        .flatMap(Collection::stream)
                                                        .collect(Collectors.toList());
 
-        // blk should match: ',' elem ',' elem
+        // blk should match: ',' collection ',' collection
         assertEquals(4, blk.size());
         assertEquals(",", blk.get(0)
                              .getText());
-        assertEquals("elem", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) blk.get(1)).getRuleIndex()]);
+        assertEquals("collection", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) blk.get(1)).getRuleIndex()]);
         assertEquals(",", blk.get(2)
                              .getText());
-        assertEquals("elem", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) blk.get(3)).getRuleIndex()]);
+        assertEquals("collection", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) blk.get(3)).getRuleIndex()]);
 
     }
 
@@ -193,22 +193,22 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         MatchInfo innerSetMatchInfo = matchInfoList.get(2);
         assertTrue(innerSetMatchInfo.rule instanceof ParseTreeToIngridRuleMapper.SerializedParserRule); // our own abstraction for handling block rules
 
-        // (',' elem) should be there twice
+        // (',' collection) should be there twice
         assertEquals(2, innerSetMatchInfo.matched.size());
 
         List<ParseTree> blk = innerSetMatchInfo.matched.stream()
                                                        .flatMap(Collection::stream)
                                                        .collect(Collectors.toList());
 
-        // blk should match: ',' elem ',' elem
+        // blk should match: ',' collection ',' collection
         assertEquals(4, blk.size());
         assertEquals(",", blk.get(0)
                                                    .getText());
-        assertEquals("elem", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) blk.get(1)).getRuleIndex()]);
+        assertEquals("collection", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) blk.get(1)).getRuleIndex()]);
         assertEquals(",", blk.get(2)
                                                    .getText());
         ParserRuleContext mostNestedSetRule = ((ParserRuleContext) blk.get(1));
-        // now elem -> set
+        // now collection -> set
         assertEquals(1, mostNestedSetRule.children.size());
         assertEquals("set", grammarDTO.grammar.getRuleNames()[((ParserRuleContext) mostNestedSetRule.getChild(0)).getRuleIndex()]);
 

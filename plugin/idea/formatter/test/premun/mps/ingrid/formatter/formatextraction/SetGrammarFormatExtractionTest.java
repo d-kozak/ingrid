@@ -34,13 +34,13 @@ public class SetGrammarFormatExtractionTest {
                 rules(
                         rule("set", 0,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("compilationUnit", 0,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -60,13 +60,13 @@ public class SetGrammarFormatExtractionTest {
                 rules(
                         rule("set", 0,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("compilationUnit", 0,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -82,36 +82,36 @@ public class SetGrammarFormatExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("simpleElement", 0,
+                        rule("element", 0,
                                 handle(
-                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
-                                "elem", 0,
+                                "collection", 0,
                                 handle(
-                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "compilationUnit", 0,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "set_block_2_1", 0,
                                 handle(
-                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -128,36 +128,36 @@ public class SetGrammarFormatExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("simpleElement", 0,
+                        rule("element", 0,
                                 handle(
-                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
-                                "elem", 0,
+                                "collection", 0,
                                 handle(
-                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "compilationUnit", 0,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "set_block_2_1", 0,
                                 handle(
-                                        elem(",", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection(",", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -173,36 +173,36 @@ public class SetGrammarFormatExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("simpleElement", 0,
+                        rule("element", 0,
                                 handle(
-                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
-                                "elem", 0,
+                                "collection", 0,
                                 handle(
-                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "compilationUnit", 0,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "set_block_2_1", 0,
                                 handle(
-                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -218,36 +218,36 @@ public class SetGrammarFormatExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("simpleElement", 0,
+                        rule("element", 0,
                                 handle(
-                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
-                                "elem", 0,
+                                "collection", 0,
                                 handle(
-                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "compilationUnit", 0,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "set_block_2_1", 0,
                                 handle(
-                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -263,36 +263,36 @@ public class SetGrammarFormatExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("simpleElement", 0,
+                        rule("element", 0,
                                 handle(
-                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
-                                "elem", 0,
+                                "collection", 0,
                                 handle(
-                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "compilationUnit", 0,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "set_block_2_1", 0,
                                 handle(
-                                        elem(",", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection(",", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -309,41 +309,41 @@ public class SetGrammarFormatExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("simpleElement", 0,
+                        rule("element", 0,
                                 handle(
-                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
-                                "elem", 0,
+                                "collection", 0,
                                 handle(
-                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("elem", 1,
+                        rule("collection", 1,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "compilationUnit", 0,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "set_block_2_1", 0,
                                 handle(
-                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -359,48 +359,48 @@ public class SetGrammarFormatExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("simpleElement", 0,
+                        rule("element", 0,
                                 handle(
-                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
-                                "elem", 0,
+                                "collection", 0,
                                 handle(
-                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("elem", 1,
+                        rule("collection", 1,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "set", 0,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("set_block_2_1_alt_0", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "compilationUnit", 0,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "set_block_2_1", 0,
                                 handle(
-                                        elem(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection(",", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -421,41 +421,41 @@ public class SetGrammarFormatExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("simpleElement", 0,
+                        rule("element", 0,
                                 handle(
-                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
-                                "elem", 0,
+                                "collection", 0,
                                 handle(
-                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
-                        rule("elem", 1,
+                        rule("collection", 1,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "compilationUnit", 0,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "set_block_2_1", 0,
                                 handle(
-                                        elem(",", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection(",", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -476,36 +476,36 @@ public class SetGrammarFormatExtractionTest {
         verifyFormatInfoMap(
                 formatInfoMap,
                 rules(
-                        rule("simpleElement", 0,
+                        rule("element", 0,
                                 handle(
-                                        elem("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ELEM", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
-                                "elem", 0,
+                                "collection", 0,
                                 handle(
-                                        elem("simpleElement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("element", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("set", 1,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("set_block_2_1_alt_0", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "compilationUnit", 0,
                                 handle(
-                                        elem("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("set", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule(
                                 "set_block_2_1", 0,
                                 handle(
-                                        elem(",", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("elem", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection(",", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("collection", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )

@@ -50,22 +50,22 @@ public class CollectionFormatInfo implements premun.mps.ingrid.model.format.Form
 
 
     @Override
-    public boolean isAppendNewLine() {
+    public boolean appendNewLine() {
         throw new UnsupportedOperationException("This class is only used during the format extraction phase. See docs.");
     }
 
     @Override
-    public boolean isAppendSpace() {
+    public boolean appendSpace() {
         throw new UnsupportedOperationException("This class is only used during the format extraction phase. See docs.");
     }
 
     @Override
-    public boolean isChildrenOnNewLine() {
+    public boolean areChildrenOnNewLine() {
         throw new UnsupportedOperationException("This class is only used during the format extraction phase. See docs.");
     }
 
     @Override
-    public boolean isChildrenIndented() {
+    public boolean areChildrenIndented() {
         throw new UnsupportedOperationException("This class is only used during the format extraction phase. See docs.");
     }
 

@@ -1,60 +1,58 @@
 package premun.mps.ingrid.formatter.utils;
 
-import premun.mps.ingrid.formatter.model.FormatInfo;
-import premun.mps.ingrid.formatter.model.RuleFormatInfo;
-import premun.mps.ingrid.model.LiteralRule;
+import org.junit.Assert;
+import premun.mps.ingrid.model.*;
+import premun.mps.ingrid.model.format.FormatInfo;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toSet;
 import static org.junit.Assert.assertEquals;
-import static premun.mps.ingrid.formatter.utils.Pair.pair;
 
+/**
+ * Contains asserts about the formatting informatin saved in grammar info
+ *
+ * @author dkozak
+ */
 public class FormatInfoAsserts {
 
-    public static void verifyFormatInfoMap(Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap, List<FormatInfoDSL.AppliedRule> expectedRules) {
-        if (expectedRules.size() != formatInfoMap.size()) {
-            failBecauseOfInvalidNumberOfRules(formatInfoMap, expectedRules);
+    /**
+     * Verifies that the formatting in grammar info is according to expectedRules
+     *
+     * @param grammarInfo   source of the formatting information
+     * @param expectedRules expectations
+     */
+    public static void verifyFormatInfo(GrammarInfo grammarInfo, List<FormatInfoDSL.AppliedRule> expectedRules) {
+        List<ParserRule> parserRules = grammarInfo.getParserRules();
+        if (expectedRules.size() > parserRules.size()) {
+            failBecauseNotEnoughInformation(parserRules, expectedRules);
         }
         for (FormatInfoDSL.AppliedRule expectedRule : expectedRules) {
-            RuleFormatInfo ruleFormatInfo = formatInfoMap.get(pair(expectedRule.ruleName, expectedRule.alternativeIndex));
-            if (ruleFormatInfo == null) {
-                throw new AssertionError(expectedRule.ruleName + ":" + expectedRule.alternativeIndex + " was not found in " + formatInfoMap);
-            }
+            Alternative alternative = grammarInfo.getAlternative(expectedRule.ruleName, expectedRule.alternativeIndex);
             try {
-                assertFormattingIsEqual(expectedRule.expectedFormatting, ruleFormatInfo.formatInfoList);
+                assertFormattingIsEqual(expectedRule.expectedFormatting, alternative.elements);
             } catch (AssertionError ex) {
-                throw new AssertionError("When verifying\n " + expectedRule + "\n against \n" + ruleFormatInfo + "\n" + ex.getMessage());
+                throw new AssertionError("When verifying\n " + expectedRule + "\n against \n" + alternative.elements + "\n" + ex.getMessage());
             }
         }
     }
 
-    private static void failBecauseOfInvalidNumberOfRules(Map<Pair<String, Integer>, RuleFormatInfo> formatInfoMap, List<FormatInfoDSL.AppliedRule> expectedRules) {
-        if (formatInfoMap.size() > expectedRules.size()) {
-            HashMap<Pair<String, Integer>, RuleFormatInfo> copy = new HashMap<>(formatInfoMap);
-            for (FormatInfoDSL.AppliedRule expectedRule : expectedRules) {
-                copy.remove(pair(expectedRule.ruleName, expectedRule.alternativeIndex));
-            }
-            throw new AssertionError("Some unexpected rules found in the format info map: " + copy.entrySet()
-                                                                                                  .stream()
-                                                                                                  .map(
-                                                                                                          entry -> entry.getKey().first + ":" + entry.getKey().second + " => " + entry.getValue()
-                                                                                                  )
-                                                                                                  .collect(Collectors.joining(",")));
-        } else if (formatInfoMap.size() < expectedRules.size()) {
-            ArrayList<FormatInfoDSL.AppliedRule> copy = new ArrayList<>(expectedRules);
-            for (Pair<String, Integer> pair : formatInfoMap.keySet()) {
-                copy.removeIf(
-                        appliedRule -> appliedRule.ruleName.equals(pair.first) && appliedRule.alternativeIndex == pair.second
-                );
-            }
-            throw new AssertionError("Some of expected rules were not found in the format info map: " + copy);
-        } else {
-            throw new IllegalArgumentException("The size of formatInfoMap and expectedRules should be different");
-        }
+    private static void failBecauseNotEnoughInformation(List<ParserRule> parserRules, List<FormatInfoDSL.AppliedRule> expectedRules) {
+        Set<String> parserRuleNames = parserRules.stream()
+                                                 .map(rule -> rule.name)
+                                                 .collect(toSet());
+        String extraRules = expectedRules.stream()
+                                         .map(appliedRule -> appliedRule.ruleName)
+                                         .filter(ruleName -> !parserRuleNames.contains(ruleName))
+                                         .collect(joining(","));
+
+        Assert.fail("Formatting for rules '" + extraRules + "' was not extracted");
     }
 
-    private static void assertFormattingIsEqual(List<FormatInfoDSL.AppliedRuleReference> expectedFormatting, List<FormatInfo> actual) {
+    private static void assertFormattingIsEqual(List<FormatInfoDSL.AppliedRuleReference> expectedFormatting, List<RuleReference> actual) {
         assertEquals(expectedFormatting.size(), actual.size());
 
         for (int i = 0; i < expectedFormatting.size(); i++) {
@@ -62,16 +60,17 @@ public class FormatInfoAsserts {
         }
     }
 
-    public static void assertFormattingIsEqual(FormatInfoDSL.AppliedRuleReference expected, FormatInfo actual) {
+    public static void assertFormattingIsEqual(FormatInfoDSL.AppliedRuleReference expected, RuleReference actual) {
+        FormatInfo formatInfo = Objects.requireNonNull(actual.formatInfo, () -> "Format info not set in " + actual);
         if (actual.rule instanceof LiteralRule)
             assertEqualsRuleName(expected.ruleName, ((LiteralRule) actual.rule).value);
         else
             assertEqualsRuleName(expected.ruleName, actual.rule.name);
-        assertEqualsWithBetterMessage(expected.formatInfo.appendNewLine, actual.appendNewLine, expected, "newLine");
-        assertEqualsWithBetterMessage(expected.formatInfo.appendSpace, actual.appendSpace, expected, "space");
-        assertEqualsWithBetterMessage(expected.formatInfo.childrenOnNewLine, actual.childrenOnNewLine, expected, "childrenOnNewLine");
-        assertEqualsWithBetterMessage(expected.formatInfo.childrenIndented, actual.childrenIndented, expected, "childrenIndented");
-        assertEqualsWithBetterMessage(expected.formatInfo.childrenSeparator, actual.childrenSeparator, expected, "childrenSeparator");
+        assertEqualsWithBetterMessage(expected.formatInfo.appendNewLine, formatInfo.appendNewLine(), expected, "newLine");
+        assertEqualsWithBetterMessage(expected.formatInfo.appendSpace, formatInfo.appendSpace(), expected, "space");
+        assertEqualsWithBetterMessage(expected.formatInfo.childrenOnNewLine, formatInfo.areChildrenOnNewLine(), expected, "childrenOnNewLine");
+        assertEqualsWithBetterMessage(expected.formatInfo.childrenIndented, formatInfo.areChildrenIndented(), expected, "childrenIndented");
+        assertEqualsWithBetterMessage(expected.formatInfo.childrenSeparator, formatInfo.getChildrenSeparator(), expected, "childrenSeparator");
     }
 
     private static void assertEqualsRuleName(String expected, String actual) {
@@ -82,7 +81,7 @@ public class FormatInfoAsserts {
 
     private static void assertEqualsWithBetterMessage(Object expected, Object actual, FormatInfoDSL.AppliedRuleReference appliedRuleReference, String fieldName) {
         if (!Objects.equals(expected, actual)) {
-            throw new AssertionError("Expected: '" + expected + "' vs actual: '" + actual + "' in rule '" + appliedRuleReference.ruleName + "' on field " + fieldName);
+            Assert.fail("Expected: '" + expected + "' vs actual: '" + actual + "' in rule '" + appliedRuleReference.ruleName + "' on field " + fieldName);
         }
     }
 }

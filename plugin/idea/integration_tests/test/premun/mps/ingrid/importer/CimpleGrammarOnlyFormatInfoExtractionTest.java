@@ -45,281 +45,281 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 rules(
                         rule("expression", 13,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 14,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 11,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 12,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("returnStatement", 0,
                                 handle(
-                                        elem("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 10,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 7,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 8,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
                                 handle(
-                                        elem("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 1,
                                 handle(
-                                        elem("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("else", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("else", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 15,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionDefinition", 0,
                                 handle(
-                                        elem("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
-                                        elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
                                 handle(
-                                        elem("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 4,
                                 handle(
-                                        elem("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 5,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 5,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 6,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 2,
                                 handle(
-                                        elem("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 3,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 4,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 3,
                                 handle(
-                                        elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
                                 handle(
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 2,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 0,
                                 handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("forLoop", 0,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("variableAssignment", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
                                 handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                        collection("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("inputStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("block", 0,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionCall", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -344,281 +344,281 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 rules(
                         rule("expression", 13,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 14,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 11,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 12,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("returnStatement", 0,
                                 handle(
-                                        elem("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 10,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 7,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 8,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
                                 handle(
-                                        elem("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 1,
                                 handle(
-                                        elem("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("else", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("else", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 15,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionDefinition", 0,
                                 handle(
-                                        elem("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
-                                        elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
                                 handle(
-                                        elem("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 4,
                                 handle(
-                                        elem("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 5,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 5,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 6,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 2,
                                 handle(
-                                        elem("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 3,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 4,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 3,
                                 handle(
-                                        elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
                                 handle(
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 2,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 0,
                                 handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("forLoop", 0,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("variableAssignment", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
                                 handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                        collection("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("inputStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("block", 0,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("statement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionCall", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -654,281 +654,281 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 rules(
                         rule("expression", 13,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 14,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 11,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 12,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("returnStatement", 0,
                                 handle(
-                                        elem("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 10,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 7,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 8,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
                                 handle(
-                                        elem("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 1,
                                 handle(
-                                        elem("if", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("else", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("if", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("else", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 15,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionDefinition", 0,
                                 handle(
-                                        elem("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
-                                        elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
                                 handle(
-                                        elem("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 4,
                                 handle(
-                                        elem("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 5,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 5,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 6,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 2,
                                 handle(
-                                        elem("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 3,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 4,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 3,
                                 handle(
-                                        elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
                                 handle(
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 2,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 0,
                                 handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("forLoop", 0,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("variableAssignment", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
                                 handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                        collection("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("inputStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("block", 0,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionCall", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -964,281 +964,281 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 rules(
                         rule("expression", 13,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 14,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 11,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 12,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("returnStatement", 0,
                                 handle(
-                                        elem("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 10,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 7,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 8,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
                                 handle(
-                                        elem("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 1,
                                 handle(
-                                        elem("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("else", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("else", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 15,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionDefinition", 0,
                                 handle(
-                                        elem("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
-                                        elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
                                 handle(
-                                        elem("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 4,
                                 handle(
-                                        elem("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 5,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 5,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 6,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 2,
                                 handle(
-                                        elem("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 3,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 4,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 3,
                                 handle(
-                                        elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
                                 handle(
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 2,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 0,
                                 handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("forLoop", 0,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("variableAssignment", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
                                 handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                        collection("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("inputStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("block", 0,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionCall", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -1261,281 +1261,281 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 rules(
                         rule("expression", 13,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 14,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 11,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 12,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 10,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("returnStatement", 0,
                                 handle(
-                                        elem("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 7,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 8,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
                                 handle(
-                                        elem("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 1,
                                 handle(
-                                        elem("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("else", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("else", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 15,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionDefinition", 0,
                                 handle(
-                                        elem("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
-                                        elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
                                 handle(
-                                        elem("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 4,
                                 handle(
-                                        elem("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 5,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 5,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 6,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 3,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 2,
                                 handle(
-                                        elem("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 3,
                                 handle(
-                                        elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 4,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
                                 handle(
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 2,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 0,
                                 handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("forLoop", 0,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("variableAssignment", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
                                 handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("statement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("inputStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("block", 0,
                                 handle(
-                                        elem("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("statement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionCall", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -1570,281 +1570,281 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 rules(
                         rule("expression", 13,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 14,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 11,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 12,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("returnStatement", 0,
                                 handle(
-                                        elem("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 10,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 7,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 8,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
                                 handle(
-                                        elem("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 1,
                                 handle(
-                                        elem("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("else", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("else", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 15,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionDefinition", 0,
                                 handle(
-                                        elem("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
-                                        elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
                                 handle(
-                                        elem("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 4,
                                 handle(
-                                        elem("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 5,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 5,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 6,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 2,
                                 handle(
-                                        elem("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 3,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 4,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 3,
                                 handle(
-                                        elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
                                 handle(
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 2,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 0,
                                 handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("forLoop", 0,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("variableAssignment", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
                                 handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                        collection("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("inputStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("block", 0,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionCall", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )
@@ -1879,281 +1879,281 @@ public class CimpleGrammarOnlyFormatInfoExtractionTest {
                 rules(
                         rule("expression", 13,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 14,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 11,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 12,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 9,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("<", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("returnStatement", 0,
                                 handle(
-                                        elem("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("return", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 10,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 7,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 8,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("printStatement", 0,
                                 handle(
-                                        elem("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("print", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 1,
                                 handle(
-                                        elem("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("else", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("if", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("else", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 17,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 15,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 16,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("INT", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionDefinition", 0,
                                 handle(
-                                        elem("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("fn", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("parameters", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("ifStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 6,
                                 handle(
-                                        elem("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionDefinition", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 7,
                                 handle(
-                                        elem("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("returnStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 4,
                                 handle(
-                                        elem("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("forLoop", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 5,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("+", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 5,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 6,
                                 handle(
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("-", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 2,
                                 handle(
-                                        elem("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("printStatement", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 3,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 4,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 3,
                                 handle(
-                                        elem("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ifStatement", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 0,
                                 handle(
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 2,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("statement", 1,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("expression", 0,
                                 handle(
-                                        elem("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("functionCall", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("forLoop", 0,
                                 handle(
-                                        elem("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("for", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(";", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("variableAssignment", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("block", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("arguments_block_1_1", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("variableAssignment", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("=", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("expression", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("program", 0,
                                 handle(
-                                        elem("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
+                                        collection("statement", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false))
                                 )
                         ),
                         rule("inputStatement", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("block", 0,
                                 handle(
-                                        elem("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
-                                        elem("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("{", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("statement", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true)),
+                                        collection("}", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("parameters", 0,
                                 handle(
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("UNKNOWN", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         ),
                         rule("functionCall", 0,
                                 handle(
-                                        elem("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
-                                        elem(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
+                                        collection("ID", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("(", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection("arguments", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false)),
+                                        collection(")", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false))
                                 )
                         )
                 )

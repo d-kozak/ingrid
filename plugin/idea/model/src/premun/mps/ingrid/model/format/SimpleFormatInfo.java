@@ -54,22 +54,22 @@ public class SimpleFormatInfo implements FormatInfo {
     }
 
     @Override
-    public boolean isAppendNewLine() {
+    public boolean appendNewLine() {
         return appendNewLine;
     }
 
     @Override
-    public boolean isAppendSpace() {
+    public boolean appendSpace() {
         return appendSpace;
     }
 
     @Override
-    public boolean isChildrenOnNewLine() {
+    public boolean areChildrenOnNewLine() {
         return childrenOnNewLine;
     }
 
     @Override
-    public boolean isChildrenIndented() {
+    public boolean areChildrenIndented() {
         return childrenIndented;
     }
 

@@ -1,11 +1,8 @@
 package premun.mps.ingrid.model;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.*;
 
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 public class GrammarInfo {
@@ -55,7 +52,7 @@ public class GrammarInfo {
                                                                    }
                                                                    return new RuleReference(referencedRule, oldReference.quantity);
                                                                })
-                                                               .collect(Collectors.toList());
+                                                               .collect(toList());
                 }
             }
         }
@@ -64,6 +61,37 @@ public class GrammarInfo {
             throw new IllegalStateException("Could not lookup the copied root rule " + oldGrammarInfo.rootRule.name);
         }
 
+    }
+
+    public Alternative getAlternative(String ruleName, int alternativeIndex) {
+        Rule rule = Objects.requireNonNull(this.rules.get(ruleName), () -> "Rule " + ruleName + " not found");
+        if (!(rule instanceof ParserRule)) {
+            throw new IllegalArgumentException("Specified rule " + rule.name + " is not a parser rule: " + rule);
+        }
+        ParserRule parserRule = (ParserRule) rule;
+        if (alternativeIndex >= parserRule.alternatives.size()) {
+            // custom bounds check for better error message
+            throw new IllegalArgumentException("Index " + alternativeIndex + " is outside of bounds of the list of alternatives in rule " + parserRule);
+        }
+        return parserRule.alternatives.get(alternativeIndex);
+    }
+
+    public List<ParserRule> getParserRules() {
+        return rules.values()
+                    .stream()
+                    .filter(rule -> rule instanceof ParserRule)
+                    .map(rule -> (ParserRule) rule)
+                    .collect(toList());
+    }
+
+    public List<RuleReference> getRuleReferences() {
+        return rules.values()
+                    .stream()
+                    .filter(rule -> rule instanceof ParserRule)
+                    .map(rule -> (ParserRule) rule)
+                    .flatMap(rule -> rule.alternatives.stream())
+                    .flatMap(alternative -> alternative.elements.stream()o)
+                    .collect(toList());
     }
 
     @Override
