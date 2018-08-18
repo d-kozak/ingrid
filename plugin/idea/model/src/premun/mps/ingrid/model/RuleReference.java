@@ -1,6 +1,7 @@
 package premun.mps.ingrid.model;
 
 import org.jetbrains.mps.openapi.model.SNode;
+import premun.mps.ingrid.model.format.FormatInfo;
 
 import java.util.Objects;
 
@@ -17,6 +18,11 @@ public class RuleReference {
      * Cardinality of the element
      */
     public Quantity quantity = Quantity.EXACTLY_ONE;
+
+    /**
+     * All information about formatting of this rule, it is inserted during the execution of the FormatExtraction algorithm.
+     */
+    public FormatInfo formatInfo;
 
     /**
      * Holds the MPS reference - either a PropertyDeclaration or a LinkDeclaration node.
@@ -36,12 +42,13 @@ public class RuleReference {
     /**
      * Copy constructor, makes a shallow copy
      *
-     * @param oldReference
+     * @param oldReference blueprint for the copy
      */
     public RuleReference(RuleReference oldReference) {
         this.rule = oldReference.rule;
         this.quantity = oldReference.quantity;
         this.nodeReference = oldReference.nodeReference;
+        this.formatInfo = oldReference.formatInfo;
     }
 
     @Override
