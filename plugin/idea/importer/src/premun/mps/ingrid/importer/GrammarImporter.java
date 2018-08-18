@@ -4,22 +4,12 @@ import jetbrains.mps.lang.smodel.generator.smodelAdapter.SModelOperations;
 import jetbrains.mps.lang.smodel.generator.smodelAdapter.SNodeOperations;
 import org.jetbrains.mps.openapi.model.SModel;
 import premun.mps.ingrid.formatter.boundary.FormatExtractor;
-import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.importer.steps.*;
-import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
-import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.parser.GrammarParser;
 import premun.mps.ingrid.serialization.IngridModelToAntlrSerializer;
 import premun.mps.ingrid.transformer.DetectListWithSeparatorsAlgorithm;
 import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
-
-import java.util.List;
-import java.util.Map;
-
-import static java.util.stream.Collectors.toList;
-import static premun.mps.ingrid.formatter.model.FormatInfo.UnknownFormatInfo.UNKNOWN_FORMAT_INFO;
-import static premun.mps.ingrid.formatter.utils.Pair.pair;
 
 public class GrammarImporter {
     private SModel editorModel;
@@ -56,26 +46,6 @@ public class GrammarImporter {
                 .forEach(SNodeOperations::deleteNode);
     }
 
-    // TODO move this code somewhere else
-    public static void fillTheMap(GrammarInfo grammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap) {
-        List<ParserRule> parserRules = grammarInfo.rules.values()
-                                                        .stream()
-                                                        .filter(rule -> rule instanceof ParserRule)
-                                                        .map(rule -> (ParserRule) rule)
-                                                        .collect(toList());
-
-        for (ParserRule parserRule : parserRules) {
-            for (Alternative alternative : parserRule.alternatives) {
-                formatInfoMap.computeIfAbsent(pair(parserRule, alternative), pair ->
-                        new RuleFormatInfo(
-                                alternative.elements.stream()
-                                                    .map(reference -> UNKNOWN_FORMAT_INFO)
-                                                    .collect(toList())
-                        ));
-            }
-        }
-    }
-
     /**
      * Processes a list of grammar files and a list of source files to extract formatting.
      * This method is static for easier testing.
@@ -83,7 +53,7 @@ public class GrammarImporter {
      * @param ingridConfiguration configuration from the ImportForm
      * @return grammar info of the processed grammar AND format info map
      */
-    static Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> fullIngridPipeline(IngridConfiguration ingridConfiguration) {
+    static GrammarInfo fullIngridPipeline(IngridConfiguration ingridConfiguration) {
         GrammarParser parser = new GrammarParser(ingridConfiguration.getRootRule());
         for (String grammarFile : ingridConfiguration.getGrammarFiles()) {
             parser.parseString(grammarFile);
@@ -95,16 +65,14 @@ public class GrammarImporter {
 
         String serialized = IngridModelToAntlrSerializer.serializeGrammar(grammarInfo);
 
-        Map<Pair<ParserRule, Alternative>, RuleFormatInfo> pairRuleFormatInfoMap = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, serialized, ingridConfiguration.getSourceFiles());
-
-        fillTheMap(grammarInfo, pairRuleFormatInfoMap);
+        grammarInfo = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, serialized, ingridConfiguration.getSourceFiles());
 
         if (ingridConfiguration.isSimplifyListsWithSeparators()) {
             DetectListWithSeparatorsAlgorithm detectListWithSeparatorsAlgorithm = new DetectListWithSeparatorsAlgorithm();
-            detectListWithSeparatorsAlgorithm.transform(grammarInfo, pairRuleFormatInfoMap);
+            grammarInfo = detectListWithSeparatorsAlgorithm.transform(grammarInfo);
         }
 
-        return pair(grammarInfo, pairRuleFormatInfoMap);
+        return grammarInfo;
     }
 
     /**
@@ -115,9 +83,7 @@ public class GrammarImporter {
     public void importGrammars(IngridConfiguration ingridConfiguration) {
         initializeLanguage();
 
-        Pair<GrammarInfo, Map<Pair<ParserRule, Alternative>, RuleFormatInfo>> grammarInfoMapPair = fullIngridPipeline(ingridConfiguration);
-
-        this.grammar = grammarInfoMapPair.first;
+        this.grammar = fullIngridPipeline(ingridConfiguration);
         this.importInfo = new ImportInfo(this.grammar.rootRule.name);
 
 
@@ -126,7 +92,7 @@ public class GrammarImporter {
                 new ConceptImporter(),
                 new ConceptLinker(),
                 new AliasFinder(),
-                new EditorBuilder(grammarInfoMapPair.second),
+                new EditorBuilder(),
                 new TextGenBuilder()
         };
         this.executeSteps(steps);

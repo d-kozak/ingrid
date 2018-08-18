@@ -1,24 +1,17 @@
 package premun.mps.ingrid.importer.steps;
 
 import org.jetbrains.mps.openapi.model.SNode;
-import premun.mps.ingrid.formatter.utils.Pair;
 import premun.mps.ingrid.library.EditorHelper;
 import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.ParserRule;
-
-import java.util.Map;
-
-import static premun.mps.ingrid.formatter.utils.Pair.pair;
 
 /**
  * Import step that creates projection editors for all concepts.
  */
 public class EditorBuilder extends ImportStep {
-    private final Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap;
     private EditorHelper editorHelper;
 
-    public EditorBuilder(Map<Pair<ParserRule, Alternative>, RuleFormatInfo> formatInfoMap) {
-        this.formatInfoMap = formatInfoMap;
+    public EditorBuilder() {
     }
 
     @Override
@@ -42,7 +35,7 @@ public class EditorBuilder extends ImportStep {
 
         // Interface - we need to find implementors
         for (Alternative alternative : rule.alternatives) {
-            SNode editor = this.editorHelper.createEditor(rule, alternative, formatInfoMap.get(pair(rule, alternative)));
+            SNode editor = this.editorHelper.createEditor(rule, alternative);
             this.editorModel.addRootNode(editor);
         }
     }
