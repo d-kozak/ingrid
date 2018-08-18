@@ -1,7 +1,6 @@
 package premun.mps.ingrid.importer;
 
 import org.junit.Test;
-import premun.mps.ingrid.formatter.utils.FormatInfoMapToDSLConvertor;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.GrammarInfo;
 
@@ -153,7 +152,6 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
         IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1, 2, 3}"), Collections.emptyList(), false, null);
 
         GrammarInfo grammarInfo = fullIngridPipeline(ingridConfiguration);
-        FormatInfoMapToDSLConvertor.print(grammarInfo);
 
         verifyFormatInfo(
                 grammarInfo,
@@ -201,23 +199,197 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
     public void setGrammarSimpleInput__newlineAfterSetBlockRule() {
         IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1,2,3\n}"), Collections.emptyList(), false, null);
 
+        GrammarInfo grammarInfo = fullIngridPipeline(ingridConfiguration);
+
+        verifyFormatInfo(
+                grammarInfo,
+                rules(
+                        rule("compilationUnit", 0,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set", 1,
+                                handle(
+                                        element("{", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set_block_2_1", 0,
+                                handle(
+                                        element(",", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 0,
+                                handle(
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
+                                )
+                        )
+                )
+        );
     }
 
     @Test
     public void setGrammarSimpleInput__newlineAfterOpeningBracket() {
         IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{\n1,2,3}"), Collections.emptyList(), false, null);
 
+        GrammarInfo grammarInfo = fullIngridPipeline(ingridConfiguration);
+
+        verifyFormatInfo(
+                grammarInfo,
+                rules(
+                        rule("compilationUnit", 0,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set", 1,
+                                handle(
+                                        element("{", newLine(true), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set_block_2_1", 0,
+                                handle(
+                                        element(",", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 0,
+                                handle(
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
+                                )
+                        )
+                )
+        );
     }
 
     @Test
     public void setGrammarNestedInput() {
         IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1,{a,b,c},3}"), Collections.emptyList(), false, null);
 
+        GrammarInfo grammarInfo = fullIngridPipeline(ingridConfiguration);
+
+        verifyFormatInfo(
+                grammarInfo,
+                rules(
+                        rule("compilationUnit", 0,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set", 1,
+                                handle(
+                                        element("{", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set_block_2_1", 0,
+                                handle(
+                                        element(",", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 0,
+                                handle(
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
+                                )
+                        )
+                )
+        );
+
+
     }
 
     @Test
     public void setGrammarNestedInputMoreComplex() {
         IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList("{1,{a,b,c},{{},{a,b,c}}}"), Collections.emptyList(), false, null);
+
+        GrammarInfo grammarInfo = fullIngridPipeline(ingridConfiguration);
+
+        verifyFormatInfo(
+                grammarInfo,
+                rules(
+                        rule("compilationUnit", 0,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set", 0,
+                                handle(
+                                        element("{", newLine(false), space(false)),
+                                        element("}", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set", 1,
+                                handle(
+                                        element("{", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set_block_2_1", 0,
+                                handle(
+                                        element(",", newLine(false), space(false)),
+                                        element("collection", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 0,
+                                handle(
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
+                                )
+                        )
+                )
+        );
+
 
     }
 
@@ -230,6 +402,48 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
                 "}\n";
         IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList(input), Collections.emptyList(), false, null);
 
+        GrammarInfo grammarInfo = fullIngridPipeline(ingridConfiguration);
+
+        verifyFormatInfo(
+                grammarInfo,
+                rules(
+                        rule("compilationUnit", 0,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set", 1,
+                                handle(
+                                        element("{", newLine(true), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set_block_2_1", 0,
+                                handle(
+                                        element(",", newLine(true), space(false)),
+                                        element("collection", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 0,
+                                handle(
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
+                                )
+                        )
+                )
+        );
+
     }
 
     @Test
@@ -241,6 +455,48 @@ public class SetGrammarOnlyFormatInfoExtractionTest {
                 "}\n" +
                 "\n";
         IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(TestGrammars.setGrammar), Collections.singletonList(input), Collections.emptyList(), false, null);
+
+        GrammarInfo grammarInfo = fullIngridPipeline(ingridConfiguration);
+
+        verifyFormatInfo(
+                grammarInfo,
+                rules(
+                        rule("compilationUnit", 0,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set", 1,
+                                handle(
+                                        element("{", newLine(true), space(false)),
+                                        element("collection", newLine(false), space(false)),
+                                        collection("set_block_2_1", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("}", newLine(false), space(true))
+                                )
+                        ),
+                        rule("set_block_2_1", 0,
+                                handle(
+                                        element(",", newLine(true), space(false)),
+                                        element("collection", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 0,
+                                handle(
+                                        element("element", newLine(false), space(true))
+                                )
+                        ),
+                        rule("collection", 1,
+                                handle(
+                                        element("set", newLine(false), space(true))
+                                )
+                        ),
+                        rule("element", 0,
+                                handle(
+                                        element("ELEM", newLine(false), space(true))
+                                )
+                        )
+                )
+        );
 
     }
 }

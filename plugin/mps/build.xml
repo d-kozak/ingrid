@@ -3,7 +3,7 @@
   <property name="build.dir" location="build" />
   <property name="build.tmp" location="${build.dir}/tmp/Ingrid" />
   <property name="build.layout" location="${build.dir}/artifacts/Ingrid" />
-  <property name="mps_home" location="${basedir}/../../../../.local/share/JetBrains/Toolbox/apps/MPS/ch-0/181.1469" />
+  <property name="mps_home" location="${basedir}/../../../../.local/share/JetBrains/Toolbox/apps/MPS/ch-0/182.1378" />
   <property name="INGRID_HOME" location="${basedir}/../.." />
   <property name="artifacts.mps" location="${mps_home}" />
   <property file="${artifacts.mps}/build.properties" prefix="import.mps" />
