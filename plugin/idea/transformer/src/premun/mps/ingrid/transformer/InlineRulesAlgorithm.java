@@ -34,11 +34,7 @@ public class InlineRulesAlgorithm implements GenericGrammarTransformation {
 
         UniqueRuleNameGenerator nameGenerator = new UniqueRuleNameGenerator(input.rules.keySet());
 
-        List<ParserRule> parseRules = input.rules.values()
-                                                 .stream()
-                                                 .filter(it -> it instanceof ParserRule)
-                                                 .map(it -> ((ParserRule) it))
-                                                 .collect(toList());
+        List<ParserRule> parseRules = input.getParserRules();
 
         boolean changed = true;
         while (changed) {
