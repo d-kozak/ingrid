@@ -9,6 +9,7 @@ import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.parser.GrammarParser;
 import premun.mps.ingrid.serialization.IngridModelToAntlrSerializer;
 import premun.mps.ingrid.transformer.DetectListWithSeparatorsAlgorithm;
+import premun.mps.ingrid.transformer.FlatReferencesWithQuantifiesAlgorithm;
 import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
 
 public class GrammarImporter {
@@ -61,7 +62,7 @@ public class GrammarImporter {
         GrammarInfo grammarInfo = parser.resolveGrammar();
 
         InlineRulesAlgorithm inlineRulesAlgorithm = new InlineRulesAlgorithm(ingridConfiguration.getRulesToInline());
-        inlineRulesAlgorithm.transform(grammarInfo);
+        grammarInfo = inlineRulesAlgorithm.transform(grammarInfo);
 
         String serialized = IngridModelToAntlrSerializer.serializeGrammar(grammarInfo);
 
@@ -71,6 +72,10 @@ public class GrammarImporter {
             DetectListWithSeparatorsAlgorithm detectListWithSeparatorsAlgorithm = new DetectListWithSeparatorsAlgorithm();
             grammarInfo = detectListWithSeparatorsAlgorithm.transform(grammarInfo);
         }
+
+        FlatReferencesWithQuantifiesAlgorithm flatReferencesWithQuantifiesAlgorithm = new FlatReferencesWithQuantifiesAlgorithm();
+        grammarInfo = flatReferencesWithQuantifiesAlgorithm.transform(grammarInfo);
+
 
         return grammarInfo;
     }

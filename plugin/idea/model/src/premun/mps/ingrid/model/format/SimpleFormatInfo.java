@@ -17,6 +17,11 @@ public class SimpleFormatInfo implements FormatInfo {
     public static final SimpleFormatInfo UNKNOWN = new SimpleFormatInfo();
 
     /**
+     * Default formatting, to be used when no customization is necessary
+     */
+    public static final SimpleFormatInfo DEFAULT = new SimpleFormatInfo(false, true, false, false);
+
+    /**
      * Are children separated by some char?
      */
     public final String childrenSeparator;

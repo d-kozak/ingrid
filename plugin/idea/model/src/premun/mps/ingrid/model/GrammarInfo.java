@@ -89,6 +89,15 @@ public class GrammarInfo {
                     .collect(toList());
     }
 
+    public List<Alternative> getAlternatives() {
+        return rules.values()
+                    .stream()
+                    .filter(rule -> rule instanceof ParserRule)
+                    .map(rule -> (ParserRule) rule)
+                    .flatMap(rule -> rule.alternatives.stream())
+                    .collect(toList());
+    }
+
     public List<ParserRule> getParserRules() {
         return rules.values()
                     .stream()

@@ -39,6 +39,12 @@ public class RuleReference {
         this.quantity = quantity;
     }
 
+    public RuleReference(Rule rule, Quantity quantity, FormatInfo formatInfo) {
+        this.rule = rule;
+        this.quantity = quantity;
+        this.formatInfo = formatInfo;
+    }
+
     /**
      * Copy constructor, makes a shallow copy
      *

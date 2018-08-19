@@ -8,7 +8,6 @@ import premun.mps.ingrid.model.utils.Pair;
 import java.util.List;
 
 import static java.util.stream.Collectors.joining;
-import static premun.mps.ingrid.model.utils.Pair.pair;
 
 /**
  * Helper class to convert grammar info into FormatInfoDSL used in testing so that it is not necessary to do this rewrite manually
@@ -43,10 +42,8 @@ public class FormatInfoMapToDSLConvertor {
     }
 
     private static String convertGrammar(GrammarInfo grammarInfo) {
-        return grammarInfo.getParserRules()
+        return grammarInfo.getParserRulesWithAlternatives()
                           .stream()
-                          .flatMap(parserRule -> parserRule.alternatives.stream()
-                                                                        .map(alternative -> pair(parserRule, alternative)))
                           .filter(pair -> pair.second.elements.stream()
                                                               .noneMatch(ruleReference -> ((SimpleFormatInfo) ruleReference.formatInfo).isUnknown()))
                           .map(FormatInfoMapToDSLConvertor::convertParserRules)
