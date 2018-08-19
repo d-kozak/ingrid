@@ -72,7 +72,7 @@ public class FormatInfoMapToDSLConvertor {
         }
         FormatInfo formatInfo = ruleReference.formatInfo;
         if (ruleReference.quantity == Quantity.ANY || ruleReference.quantity == Quantity.AT_LEAST_ONE)
-            return "\t\t\t\tcollection(\"" + ruleName + "\", newLine(" + formatInfo.appendNewLine() + "),space(" + formatInfo.appendSpace() + "),childrenOnNewLine(" + formatInfo.areChildrenOnNewLine() + "),childrenIndented(" + formatInfo.areChildrenIndented() + "),childrenSeparator(" + formatInfo.getChildrenSeparator() + "))";
+            return "\t\t\t\tcollection(\"" + ruleName + "\", newLine(" + formatInfo.appendNewLine() + "),space(" + formatInfo.appendSpace() + "),childrenOnNewLine(" + formatInfo.areChildrenOnNewLine() + "),childrenIndented(" + formatInfo.areChildrenIndented() + "),childrenSeparator(" + (formatInfo.getChildrenSeparator() != null ? "\"" + formatInfo.getChildrenSeparator() + "\"" : null) + "))";
         else
             return "\t\t\t\telement(\"" + ruleName + "\", newLine(" + formatInfo.appendNewLine() + "),space(" + formatInfo.appendSpace() + "))";
     }
