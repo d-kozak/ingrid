@@ -795,12 +795,14 @@
               </node>
             </node>
           </node>
-          <node concept="2OqwBi" id="1wp2QWmxzOJ" role="3clFbw">
-            <node concept="37vLTw" id="1wp2QWmxzIL" role="2Oq$k0">
-              <ref role="3cqZAo" node="1wp2QWmxyrj" resolve="formatInfo" />
-            </node>
-            <node concept="liA8E" id="1wp2QWmx$2W" role="2OqNvi">
-              <ref role="37wK5l" to="we1i:~FormatInfo.appendSpace()" resolve="appendSpace" />
+          <node concept="3fqX7Q" id="7xK6RUKkJjT" role="3clFbw">
+            <node concept="2OqwBi" id="7xK6RUKkJjV" role="3fr31v">
+              <node concept="37vLTw" id="7xK6RUKkJjW" role="2Oq$k0">
+                <ref role="3cqZAo" node="1wp2QWmxyrj" resolve="formatInfo" />
+              </node>
+              <node concept="liA8E" id="7xK6RUKkJjX" role="2OqNvi">
+                <ref role="37wK5l" to="we1i:~FormatInfo.appendSpace()" resolve="appendSpace" />
+              </node>
             </node>
           </node>
         </node>
