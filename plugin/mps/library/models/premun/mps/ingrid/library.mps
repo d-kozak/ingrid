@@ -4399,15 +4399,56 @@
         </node>
         <node concept="3clFbJ" id="6U9afntV513" role="3cqZAp">
           <node concept="3clFbS" id="6U9afntV515" role="3clFbx">
+            <node concept="3SKdUt" id="7xK6RUKnrb3" role="3cqZAp">
+              <node concept="3SKdUq" id="7xK6RUKnrb5" role="3SKWNk">
+                <property role="3SKdUp" value="punctuation right makes the editor unusable, we cannot edit the next cell properly if we use it" />
+              </node>
+            </node>
+            <node concept="3SKdUt" id="7xK6RUKnrcr" role="3cqZAp">
+              <node concept="3SKdUq" id="7xK6RUKnrct" role="3SKWNk">
+                <property role="3SKdUp" value="therefore padding right with -1 spaces is used instead. It feels hacky, but it works..." />
+              </node>
+            </node>
+            <node concept="3SKdUt" id="7xK6RUKnrdR" role="3cqZAp">
+              <node concept="3SKdUq" id="7xK6RUKnrdT" role="3SKWNk">
+                <property role="3SKdUp" value="TODO find a cleaner way to do this?" />
+              </node>
+            </node>
+            <node concept="3cpWs8" id="7xK6RUKnoV_" role="3cqZAp">
+              <node concept="3cpWsn" id="7xK6RUKnoVA" role="3cpWs9">
+                <property role="TrG5h" value="style" />
+                <node concept="3Tqbb2" id="7xK6RUKnoV$" role="1tU5fm">
+                  <ref role="ehGHo" to="tpc2:hF$7juf" resolve="PaddingRightStyleClassItem" />
+                </node>
+                <node concept="2ShNRf" id="7xK6RUKnoVB" role="33vP2m">
+                  <node concept="3zrR0B" id="7xK6RUKnoVC" role="2ShVmc">
+                    <node concept="3Tqbb2" id="7xK6RUKnoVD" role="3zrR0E">
+                      <ref role="ehGHo" to="tpc2:hF$7juf" resolve="PaddingRightStyleClassItem" />
+                    </node>
+                  </node>
+                </node>
+              </node>
+            </node>
+            <node concept="3clFbF" id="7xK6RUKnoHR" role="3cqZAp">
+              <node concept="37vLTI" id="7xK6RUKnpPO" role="3clFbG">
+                <node concept="Xl_RD" id="7xK6RUKnq9k" role="37vLTx">
+                  <property role="Xl_RC" value="-1" />
+                </node>
+                <node concept="2OqwBi" id="7xK6RUKnp4T" role="37vLTJ">
+                  <node concept="37vLTw" id="7xK6RUKnoVE" role="2Oq$k0">
+                    <ref role="3cqZAo" node="7xK6RUKnoVA" resolve="style" />
+                  </node>
+                  <node concept="3TrcHB" id="7xK6RUKnplH" role="2OqNvi">
+                    <ref role="3TsBF5" to="tpc2:hF$6WaJ" resolve="value" />
+                  </node>
+                </node>
+              </node>
+            </node>
             <node concept="3clFbF" id="6U9afntVSrF" role="3cqZAp">
               <node concept="2OqwBi" id="6U9afntVV5N" role="3clFbG">
                 <node concept="TSZUe" id="6U9afntVYUj" role="2OqNvi">
-                  <node concept="2ShNRf" id="7xK6RUKlA7i" role="25WWJ7">
-                    <node concept="3zrR0B" id="7xK6RUKlA7j" role="2ShVmc">
-                      <node concept="3Tqbb2" id="7xK6RUKlA7k" role="3zrR0E">
-                        <ref role="ehGHo" to="tpc2:hX1LMvx" resolve="PunctuationRightStyleClassItem" />
-                      </node>
-                    </node>
+                  <node concept="37vLTw" id="7xK6RUKnqSn" role="25WWJ7">
+                    <ref role="3cqZAo" node="7xK6RUKnoVA" resolve="style" />
                   </node>
                 </node>
                 <node concept="37vLTw" id="7xK6RUKl_Vo" role="2Oq$k0">
