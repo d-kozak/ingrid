@@ -83,17 +83,14 @@ class FormatInfoExtractor {
         //  one match only is an edge case
         if (matchInfo.matched.size() == 1) {
             List<Token> tokens = extractTokens(matchInfo.getMatchedRegion());
-            boolean allTokensOnOneLine = tokens.stream()
-                                               .map(Token::getLine)
-                                               .collect(Collectors.toSet())
-                                               .size() == 1;
+            // all we can check is whether there in newline before the first element of this region
             boolean newlineBeforeElement = false;
             Token firstToken = tokens.get(0);
             if (firstToken.getTokenIndex() > 0) {
                 Token previousToken = tokenStream.get(firstToken.getTokenIndex() - 1);
                 newlineBeforeElement = previousToken.getLine() < firstToken.getLine();
             }
-            return newlineBeforeElement && allTokensOnOneLine;
+            return newlineBeforeElement;
         }
 
         // skip the last element, the formatting of the last token after the matched region is not a reliable source of information
