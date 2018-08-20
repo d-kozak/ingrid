@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static premun.mps.ingrid.formatter.utils.TestGrammars.parseGrammar;
 
 /**
  * Helper methods used in tests
@@ -17,6 +19,18 @@ import static junit.framework.TestCase.assertNotNull;
  * @author dkozak
  */
 class Utils {
+
+    /**
+     * Parses the grammars and then checks the models for equality
+     *
+     * @param expected
+     * @param actual
+     */
+    public static void assertGrammarEquals(String expected, String actual) {
+        GrammarInfo expectedGrammar = parseGrammar(expected);
+        GrammarInfo actualGrammar = parseGrammar(actual);
+        assertEquals(expectedGrammar, actualGrammar);
+    }
 
     /**
      * Loads the content of given file
@@ -33,7 +47,7 @@ class Utils {
 
 
     /**
-     * verififes that all formatInfo references are set in RuleReference in alternatives of ParserRules
+     * verifies that all formatInfo references are set in RuleReference in alternatives of ParserRules
      *
      * @param grammarInfo
      */

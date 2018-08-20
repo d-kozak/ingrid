@@ -1,7 +1,8 @@
-package premun.mps.ingrid.importer;
+package premun.mps.ingrid.importer.set;
 
 import org.junit.Test;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
+import premun.mps.ingrid.importer.IngridConfiguration;
 import premun.mps.ingrid.model.GrammarInfo;
 
 import java.util.Collections;
@@ -16,7 +17,7 @@ import static premun.mps.ingrid.importer.GrammarImporter.fullIngridPipeline;
  *
  * @author dkozak
  */
-public class SetGrammarOnlyFormatInfoExtractionTest {
+public class OnlyFormatInfoExtractionTest {
 
     @Test
     public void setGrammarEmptySet() {

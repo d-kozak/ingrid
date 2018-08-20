@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static premun.mps.ingrid.tranformer.GrammarAsserts.assertGrammarEquals;
+import static premun.mps.ingrid.tranformer.Utils.assertGrammarEquals;
 import static premun.mps.ingrid.tranformer.Utils.loadFileContent;
 
 /**

@@ -1,8 +1,8 @@
-package premun.mps.ingrid.importer;
+package premun.mps.ingrid.importer.cimple;
 
 import org.junit.Test;
-import premun.mps.ingrid.formatter.utils.FormatInfoMapToDSLConvertor;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
+import premun.mps.ingrid.importer.IngridConfiguration;
 import premun.mps.ingrid.model.GrammarInfo;
 
 import java.util.Collections;
@@ -12,7 +12,10 @@ import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.AppliedRule.rule;
 import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.*;
 import static premun.mps.ingrid.importer.GrammarImporter.fullIngridPipeline;
 
-public class CimpleGrammarRemoveBlockRuleTest {
+/**
+ * @author dkozak
+ */
+public class RemoveBlockRuleTest {
 
     @Test
     public void cimpleFibonacci__kindaTypicalFormatting() {
@@ -35,8 +38,6 @@ public class CimpleGrammarRemoveBlockRuleTest {
         IngridConfiguration ingridConfiguration = new IngridConfiguration(Collections.singletonList(cimple), Collections.singletonList(input), Collections.singletonList("block"), false, null);
 
         GrammarInfo grammarInfo = fullIngridPipeline(ingridConfiguration);
-
-        FormatInfoMapToDSLConvertor.print(grammarInfo);
 
         verifyFormatInfo(
                 grammarInfo,

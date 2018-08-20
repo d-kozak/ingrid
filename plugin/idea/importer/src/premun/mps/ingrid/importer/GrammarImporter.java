@@ -11,6 +11,7 @@ import premun.mps.ingrid.serialization.IngridModelToAntlrSerializer;
 import premun.mps.ingrid.transformer.DetectListWithSeparatorsAlgorithm;
 import premun.mps.ingrid.transformer.FlatReferencesWithQuantifiesAlgorithm;
 import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
+import premun.mps.ingrid.transformer.RemoveUnusedRulesAlgorithm;
 
 public class GrammarImporter {
     private SModel editorModel;
@@ -54,7 +55,7 @@ public class GrammarImporter {
      * @param ingridConfiguration configuration from the ImportForm
      * @return grammar info of the processed grammar AND format info map
      */
-    static GrammarInfo fullIngridPipeline(IngridConfiguration ingridConfiguration) {
+    public static GrammarInfo fullIngridPipeline(IngridConfiguration ingridConfiguration) {
         GrammarParser parser = new GrammarParser(ingridConfiguration.getRootRule());
         for (String grammarFile : ingridConfiguration.getGrammarFiles()) {
             parser.parseString(grammarFile);
@@ -76,6 +77,9 @@ public class GrammarImporter {
         FlatReferencesWithQuantifiesAlgorithm flatReferencesWithQuantifiesAlgorithm = new FlatReferencesWithQuantifiesAlgorithm();
         grammarInfo = flatReferencesWithQuantifiesAlgorithm.transform(grammarInfo);
 
+
+        RemoveUnusedRulesAlgorithm removeUnusedRulesAlgorithm = new RemoveUnusedRulesAlgorithm();
+        grammarInfo = removeUnusedRulesAlgorithm.transform(grammarInfo);
 
         return grammarInfo;
     }
