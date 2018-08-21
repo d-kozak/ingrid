@@ -628,7 +628,7 @@ public class DetectListWithSeparatorsAlgorithmTest {
                         ),
                         rule("typeDeclaration", 0,
                                 handle(
-                                        collection("classOrInterfaceModifier", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false), childrenSeparator(null)),
+                                        collection("classOrInterfaceModifier", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
                                         element("typeDeclaration_block_1_1", newLine(false), space(true))
                                 )
                         ),
@@ -773,7 +773,7 @@ public class DetectListWithSeparatorsAlgorithmTest {
                         ),
                         rule("classBodyDeclaration", 2,
                                 handle(
-                                        collection("modifier", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(true), childrenSeparator(null)),
+                                        collection("modifier", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
                                         element("memberDeclaration", newLine(false), space(true))
                                 )
                         ),

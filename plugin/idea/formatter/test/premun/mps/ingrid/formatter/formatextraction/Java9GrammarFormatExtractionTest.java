@@ -387,7 +387,7 @@ public class Java9GrammarFormatExtractionTest {
                         ),
                         rule("normalClassDeclaration", 0,
                                 handle(
-                                        collection("classModifier", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false), childrenSeparator(null)),
+                                        collection("classModifier", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
                                         element("class", newLine(false), space(true)),
                                         element("identifier", newLine(false), space(false)),
                                         element("typeParameters", newLine(false), space(false)),
@@ -665,7 +665,7 @@ public class Java9GrammarFormatExtractionTest {
                         ),
                         rule("methodDeclaration", 0,
                                 handle(
-                                        collection("methodModifier", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(true), childrenSeparator(null)),
+                                        collection("methodModifier", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
                                         element("methodHeader", newLine(false), space(false)),
                                         element("methodBody", newLine(false), space(true))
                                 )
@@ -805,7 +805,7 @@ public class Java9GrammarFormatExtractionTest {
                         ),
                         rule("constructorDeclaration", 0,
                                 handle(
-                                        collection("constructorModifier", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(true), childrenSeparator(null)),
+                                        collection("constructorModifier", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
                                         element("constructorDeclarator", newLine(false), space(false)),
                                         element("throws_", newLine(false), space(false)),
                                         element("constructorBody", newLine(false), space(true))

@@ -41,7 +41,7 @@ class FormatInfoExtractor {
             MatchInfo currentMatchInfo = matchInfos.get(i);
             MatchInfo nextMatchInfo = matchInfos.get(i + 1);
             if (currentMatchInfo.isNotEmpty() && nextMatchInfo.isNotEmpty()) {
-                result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo, allTokens));
+                result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo, allTokens, i == 0));
             } else {
                 result.add(SimpleFormatInfo.UNKNOWN);
             }
@@ -53,9 +53,10 @@ class FormatInfoExtractor {
     /**
      * @param currentMatchInfo currently analysed matched info
      * @param nextMatchInfo    next match info
+     * @param isFirst specifies whether this is the first matchInfo from the matched region, used children newline detection
      * @return formatInfo extracted from the input
      */
-    private static SimpleFormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo, CommonTokenStream tokens) {
+    private static SimpleFormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo, CommonTokenStream tokens, boolean isFirst) {
         ParseTree rightmostNode = currentMatchInfo.getRightMostParseTree();
         ParseTree leftmostNode = nextMatchInfo.getLeftmostParseTree();
         Token currentToken = extractRightmostToken(rightmostNode);
@@ -70,7 +71,7 @@ class FormatInfoExtractor {
 
         boolean isMultipleCardinality = (currentMatchInfo.quantity == Quantity.AT_LEAST_ONE || currentMatchInfo.quantity == Quantity.ANY) && currentMatchInfo.times() > 0;
         if (isMultipleCardinality) {
-            childrenOnNewLine = checkIfChildrenAreOnNewLine(currentMatchInfo, tokens);
+            childrenOnNewLine = checkIfChildrenAreOnNewLine(currentMatchInfo, tokens, isFirst);
 
 
             childrenIndented = checkIfChildrenAreIndented(currentMatchInfo, childrenOnNewLine, tokens);
@@ -79,9 +80,13 @@ class FormatInfoExtractor {
 
     }
 
-    private static boolean checkIfChildrenAreOnNewLine(MatchInfo matchInfo, CommonTokenStream tokenStream) {
+    private static boolean checkIfChildrenAreOnNewLine(MatchInfo matchInfo, CommonTokenStream tokenStream, boolean isFirst) {
         //  one match only is an edge case
         if (matchInfo.matched.size() == 1) {
+            if (isFirst) {
+                // in this case we cannot check for newlines, because they could simply be newlines added by rules before this one
+                return false;
+            }
             List<Token> tokens = extractTokens(matchInfo.getMatchedRegion());
             // all we can check is whether there in newline before the first element of this region
             boolean newlineBeforeElement = false;
