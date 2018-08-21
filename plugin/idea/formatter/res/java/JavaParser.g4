@@ -29,7 +29,7 @@
 
 parser grammar JavaParser;
 
- options { tokenVocab=JavaLexer; } // this option has to be commented out, otherwise the parser is looking for JavaLexer.tokens file
+// options { tokenVocab=JavaLexer; } // this option has to be commented out, otherwise the parser is looking for JavaLexer.tokens file
 
 compilationUnit
     : packageDeclaration? importDeclaration* typeDeclaration* EOF
