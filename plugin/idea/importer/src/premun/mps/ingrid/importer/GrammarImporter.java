@@ -4,6 +4,7 @@ import jetbrains.mps.lang.smodel.generator.smodelAdapter.SModelOperations;
 import jetbrains.mps.lang.smodel.generator.smodelAdapter.SNodeOperations;
 import org.jetbrains.mps.openapi.model.SModel;
 import premun.mps.ingrid.formatter.boundary.FormatExtractor;
+import premun.mps.ingrid.importer.exceptions.IngridException;
 import premun.mps.ingrid.importer.steps.*;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.parser.GrammarParser;
@@ -90,21 +91,27 @@ public class GrammarImporter {
      * @param ingridConfiguration configuration from the ImportForm
      */
     public void importGrammars(IngridConfiguration ingridConfiguration) {
-        initializeLanguage();
+        try {
+            initializeLanguage();
 
-        this.grammar = fullIngridPipeline(ingridConfiguration);
-        this.importInfo = new ImportInfo(this.grammar.rootRule.name);
+            this.grammar = fullIngridPipeline(ingridConfiguration);
+            this.importInfo = new ImportInfo(this.grammar.rootRule.name);
 
 
-        ImportStep[] steps = new ImportStep[]{
-                new RegexTransformer(),
-                new ConceptImporter(),
-                new ConceptLinker(),
-                new AliasFinder(),
-                new EditorBuilder(),
-                new TextGenBuilder()
-        };
-        this.executeSteps(steps);
+            ImportStep[] steps = new ImportStep[]{
+                    new RegexTransformer(),
+                    new ConceptImporter(),
+                    new ConceptLinker(),
+                    new AliasFinder(),
+                    new EditorBuilder(),
+                    new TextGenBuilder()
+            };
+            this.executeSteps(steps);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new IngridException("Failed with exception " + ex.getClass()
+                                                                   .getName() + ", reason: " + ex.getMessage());
+        }
     }
 
     public ImportInfo getImportInfo() {
