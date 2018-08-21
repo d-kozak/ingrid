@@ -125,6 +125,7 @@ public class GrammarWalker extends ANTLRv4ParserBaseListener {
         context
                 .children
                 .stream()
+                .filter(c -> c instanceof ElementContext)
                 .map(c -> parseParserAlternativeElement((ElementContext) c))
                 .filter(ref -> ref != null)
                 .forEach(alternative.elements::add);
