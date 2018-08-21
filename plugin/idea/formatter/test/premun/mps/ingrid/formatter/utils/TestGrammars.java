@@ -187,6 +187,10 @@ public final class TestGrammars {
         return loadResource("/CPP14.g4");
     }
 
+    public static String loadPython3() {
+        return loadResource("/Python3.g4");
+    }
+
     public static String loadResource(String resourcePath) {
         try {
             String path = TestGrammars.class.getResource(resourcePath)
