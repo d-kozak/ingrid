@@ -98,13 +98,7 @@ class FormatInfoExtractor {
         List<Boolean> collect = matchInfo.matched.subList(0, matchInfo.matched.size() - 1)
                                                  .stream()
                                                  .map(
-                                                         list -> {
-                                                             Token currentToken = extractRightmostToken(list.get(list.size() - 1));
-                                                             if (currentToken.getTokenIndex() >= tokenStream.size() - 1)
-                                                                 return false;
-                                                             Token nextToken = tokenStream.get(currentToken.getTokenIndex() + 1);
-                                                             return currentToken.getLine() < nextToken.getLine();
-                                                         }
+                                                         list -> isNewlineAtTheEnd(tokenStream, list)
                                                  )
                                                  .collect(Collectors.toList());
 
@@ -121,6 +115,24 @@ class FormatInfoExtractor {
                 throw new IllegalArgumentException("Inconsistent formatting");
             }
         }
+    }
+
+    /**
+     * Checks whether there is a newline at the end of the tokens from given part of parse tree
+     *
+     * @param tokenStream stream of all tokens
+     * @param list        parse tree which is being examined
+     * @return true if there is a newline after the last token in the parse tree
+     */
+    private static Boolean isNewlineAtTheEnd(CommonTokenStream tokenStream, List<ParseTree> list) {
+        Token currentToken = extractRightmostToken(list.get(list.size() - 1));
+        for (int i = currentToken.getTokenIndex() + 1; i < tokenStream.size(); i++) {
+            Token token = tokenStream.get(i);
+            boolean isNormalToken = token.getChannel() == 0;
+            if (isNormalToken)
+                return currentToken.getLine() < token.getLine();
+        }
+        return false;
     }
 
     /**

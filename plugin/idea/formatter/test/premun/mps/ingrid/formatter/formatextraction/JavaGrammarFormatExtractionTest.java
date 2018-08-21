@@ -100,13 +100,21 @@ public class JavaGrammarFormatExtractionTest {
         FormatInfoMapToDSLConvertor.print(withFormatting);
 
         verifyFormatInfo(
-                grammarInfo,
+                withFormatting,
                 rules(
                         rule("compilationUnit", 0,
                                 handle(
                                         element("packageDeclaration", newLine(true), space(false)),
-                                        collection("importDeclaration", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        collection("importDeclaration", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(false), childrenSeparator(null)),
                                         collection("typeDeclaration", newLine(false), space(true), childrenOnNewLine(true), childrenIndented(false), childrenSeparator(null))
+                                )
+                        ),
+                        rule("packageDeclaration", 0,
+                                handle(
+                                        collection("annotation", newLine(false), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        element("package", newLine(false), space(true)),
+                                        element("qualifiedName", newLine(false), space(false)),
+                                        element(";", newLine(false), space(true))
                                 )
                         ),
                         rule("importDeclaration", 0,
@@ -243,7 +251,7 @@ public class JavaGrammarFormatExtractionTest {
                         rule("classBody", 0,
                                 handle(
                                         element("{", newLine(true), space(false)),
-                                        collection("classBodyDeclaration", newLine(true), space(false), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null)),
+                                        collection("classBodyDeclaration", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true), childrenSeparator(null)),
                                         element("}", newLine(false), space(true))
                                 )
                         ),
