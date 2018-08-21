@@ -313,21 +313,4 @@ public class ParseTreeToIngridRuleMapperMatchingTest {
         assertEquals(0, compilationUnit.alternatives.indexOf(pair.first));
     }
 
-
-    @Test
-    public void kartez() {
-        List<String> strings = Arrays.asList("1", "2", "3");
-        List<String> nums = Arrays.asList("a", "b", "c");
-
-        for (String str : strings) {
-            for (String num : nums) {
-                System.out.println(str + num);
-            }
-        }
-    }
-
-
-
-
-
 }
