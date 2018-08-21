@@ -4,12 +4,16 @@ import premun.mps.ingrid.model.*;
 import premun.mps.ingrid.model.format.FormatInfo;
 import premun.mps.ingrid.model.format.SimpleFormatInfo;
 
+import java.util.logging.Logger;
+
 /**
  * Detects statements like arg (',' arg)* and turns them into arg* with separator ','
  *
  * @author dkozak
  */
 public class DetectListWithSeparatorsAlgorithm implements MpsSpecificGrammarTransformation {
+
+    private static final Logger log = Logger.getLogger(DetectListWithSeparatorsAlgorithm.class.getName());
 
     @Override
     public GrammarInfo transform(GrammarInfo grammarInfo) {
@@ -21,15 +25,14 @@ public class DetectListWithSeparatorsAlgorithm implements MpsSpecificGrammarTran
                     boolean mightBeNextElements = next.quantity == Quantity.ANY && next.rule instanceof ParserRule && ((ParserRule) next.rule).alternatives.size() == 1;
                     if (mightBeNextElements) {
                         Alternative nextAlternative = ((ParserRule) next.rule).alternatives.get(0);
-                        RuleReference afterSeparatorRuleReference = nextAlternative.elements.get(1);
                         RuleReference separatorRuleReference = nextAlternative.elements.get(0);
-                        if (nextAlternative.elements.size() == 2 && separatorRuleReference.rule instanceof LiteralRule && current.rule.equals(afterSeparatorRuleReference.rule)) {
+                        if (nextAlternative.elements.size() == 2 && separatorRuleReference.rule instanceof LiteralRule && current.rule.equals(nextAlternative.elements.get(1).rule)) {
                             String separator = ((LiteralRule) separatorRuleReference.rule).value;
-                            System.out.println("found list of " + current.rule.name + " with separator " + separator);
+                            log.info("In rule " + parserRule.name + " I found list of " + (current.rule instanceof LiteralRule ? ((LiteralRule) current.rule).value : current.rule.name) + " with separator " + separator);
 
                             FormatInfo beforeSeparatorFormatInfo = current.formatInfo;
                             FormatInfo separatorFormatInfo = separatorRuleReference.formatInfo;
-                            FormatInfo afterSeparatorFormatInfo = afterSeparatorRuleReference.formatInfo;
+                            FormatInfo afterSeparatorFormatInfo = nextAlternative.elements.get(1).formatInfo;
 
 
                             alternative.elements.clear();
