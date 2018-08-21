@@ -8,7 +8,6 @@ import premun.mps.ingrid.importer.exceptions.IngridException;
 import premun.mps.ingrid.importer.steps.*;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.parser.GrammarParser;
-import premun.mps.ingrid.serialization.IngridModelToAntlrSerializer;
 import premun.mps.ingrid.transformer.DetectListWithSeparatorsAlgorithm;
 import premun.mps.ingrid.transformer.FlatReferencesWithQuantifiesAlgorithm;
 import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
@@ -63,12 +62,30 @@ public class GrammarImporter {
         }
         GrammarInfo grammarInfo = parser.resolveGrammar();
 
+        if (!ingridConfiguration.getSourceFiles()
+                                .isEmpty()) {
+            if (ingridConfiguration.getGrammarFiles()
+                                   .size() == 1) {
+                String grammarFile = ingridConfiguration.getGrammarFiles()
+                                                        .get(0);
+                grammarInfo = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, grammarFile, ingridConfiguration.getSourceFiles());
+            } else if (ingridConfiguration.getGrammarFiles()
+                                          .size() == 2) {
+                String lexerGrammar = ingridConfiguration.getGrammarFiles()
+                                                         .get(0);
+                String parserGrammar = ingridConfiguration.getGrammarFiles()
+                                                          .get(1);
+                grammarInfo = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, lexerGrammar, parserGrammar, ingridConfiguration.getSourceFiles());
+
+            } else {
+                throw new IllegalArgumentException("Only single combined grammar file or separate lexer and parser grammar file expected(in this order)");
+            }
+        }
+
+
         InlineRulesAlgorithm inlineRulesAlgorithm = new InlineRulesAlgorithm(ingridConfiguration.getRulesToInline());
         grammarInfo = inlineRulesAlgorithm.transform(grammarInfo);
 
-        String serialized = IngridModelToAntlrSerializer.serializeGrammar(grammarInfo);
-
-        grammarInfo = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, serialized, ingridConfiguration.getSourceFiles());
 
         if (ingridConfiguration.isSimplifyListsWithSeparators()) {
             DetectListWithSeparatorsAlgorithm detectListWithSeparatorsAlgorithm = new DetectListWithSeparatorsAlgorithm();
@@ -93,6 +110,10 @@ public class GrammarImporter {
     public void importGrammars(IngridConfiguration ingridConfiguration) {
         try {
             initializeLanguage();
+            if (ingridConfiguration.getGrammarFiles()
+                                   .size() > 2) {
+                throw new IllegalArgumentException("At most two grammar files supported. First one should be the lexer file, second should be the parser file");
+            }
 
             this.grammar = fullIngridPipeline(ingridConfiguration);
             this.importInfo = new ImportInfo(this.grammar.rootRule.name);
