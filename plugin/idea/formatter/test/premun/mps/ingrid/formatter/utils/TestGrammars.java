@@ -9,6 +9,7 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -191,8 +192,13 @@ public final class TestGrammars {
         return loadResource("/Python3.g4");
     }
 
+    public static List<String> loadJava() {
+        return Arrays.asList(loadResource("/java/JavaLexer.g4"), loadResource("/java/JavaParser.g4"));
+    }
+
     public static String loadResource(String resourcePath) {
         try {
+
             String path = TestGrammars.class.getResource(resourcePath)
                                             .getPath();
             return Files.lines(Paths.get(path))

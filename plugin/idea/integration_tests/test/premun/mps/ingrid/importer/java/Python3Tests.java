@@ -1,5 +1,6 @@
 package premun.mps.ingrid.importer.java;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import premun.mps.ingrid.formatter.utils.FormatInfoMapToDSLConvertor;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
@@ -13,6 +14,7 @@ import static premun.mps.ingrid.importer.GrammarImporter.fullIngridPipeline;
 public class Python3Tests {
 
     @Test
+    @Ignore
     public void formatExtractionTest() {
 
         String python3 = TestGrammars.loadPython3();
