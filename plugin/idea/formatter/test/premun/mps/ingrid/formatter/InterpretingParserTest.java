@@ -8,7 +8,6 @@ import org.antlr.v4.tool.Grammar;
 import org.antlr.v4.tool.LexerGrammar;
 import org.junit.Test;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
-import premun.mps.ingrid.model.utils.Pair;
 
 import java.util.List;
 
@@ -149,7 +148,7 @@ public class InterpretingParserTest {
                 "        animal.count();\n" +
                 "    }\n" +
                 "}\n";
-        Pair<CommonTokenStream, ParserRuleContext> pair = InterpretingParser.tokenizeAndParse(grammars.get(0), grammars.get(1), animalClass, "compilationUnit");
+        InterpretingParser.InterpretingParserResult pair = InterpretingParser.tokenizeAndParse(grammars.get(0), grammars.get(1), animalClass, "compilationUnit");
 
     }
 }

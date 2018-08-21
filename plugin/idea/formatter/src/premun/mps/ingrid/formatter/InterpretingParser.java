@@ -65,16 +65,29 @@ public class InterpretingParser {
      * @param parserGrammar parser part of the grammar
      * @param inputText     text to parse
      * @param startRule     the first rule to use when parsing
-     * @return stream of tokens from the lexer and parse tree returned by the Antlr4 parserInterpreter
+     * @return tokens, grammar and the parse tree
      */
-    public static Pair<CommonTokenStream, ParserRuleContext> tokenizeAndParse(String lexerGrammar, String parserGrammar, String inputText, String startRule) throws RecognitionException {
+    public static InterpretingParserResult tokenizeAndParse(String lexerGrammar, String parserGrammar, String inputText, String startRule) throws RecognitionException {
         LexerGrammar lg = new LexerGrammar(lexerGrammar);
         Grammar g = new Grammar(parserGrammar, lg);
         LexerInterpreter lexerInterpreter = lg.createLexerInterpreter(new ANTLRInputStream(inputText));
         CommonTokenStream tokens = new CommonTokenStream(lexerInterpreter);
         ParserInterpreter parserInterpreter = g.createParserInterpreter(tokens);
         ParserRuleContext ast = parserInterpreter.parse(g.getRule(startRule).index);
-        return pair(tokens, ast);
+        return new InterpretingParserResult(tokens, g, ast);
+    }
+
+
+    public static class InterpretingParserResult {
+        public final CommonTokenStream tokens;
+        public final Grammar grammar;
+        public final ParseTree parseTree;
+
+        public InterpretingParserResult(CommonTokenStream tokens, Grammar grammar, ParseTree parseTree) {
+            this.tokens = tokens;
+            this.grammar = grammar;
+            this.parseTree = parseTree;
+        }
     }
 
 }

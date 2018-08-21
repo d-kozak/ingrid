@@ -32,7 +32,7 @@ public class FormatExtractor {
      * @param grammarInfo  grammar to be processed
      * @param inputGrammar antlr4 representation of the grammar, used to create the InterpretedParser
      * @param sourceFiles  list of source files to extract formatting from
-     * @return
+     * @return updated version of grammar info containg all extracting formatting
      */
     public static GrammarInfo fullyProcessMultipleFiles(GrammarInfo grammarInfo, String inputGrammar, List<String> sourceFiles) {
         try {
@@ -51,6 +51,30 @@ public class FormatExtractor {
             throw new IllegalArgumentException(ex);
         }
 
+    }
+
+    /**
+     * Processes sourceFiles and extracts formatting from them. The formatting is saved directly into the rule references in the grammarInfo object.
+     *
+     * @param grammarInfo   grammar to be processed
+     * @param lexerGrammar  lexer part of the antlr4 grammar
+     * @param parserGrammar parser part of the antlr4 grammar
+     * @param sourceFiles   list of source files to extract formating from
+     * @return updated version of grammar info containg all extracting formatting
+     */
+    public static GrammarInfo fullyProcessMultipleFiles(GrammarInfo grammarInfo, String lexerGrammar, String parserGrammar, List<String> sourceFiles) {
+        try {
+            addCollectionFormatInfoToAllRuleReferences(grammarInfo);
+            for (String sourceFile : sourceFiles) {
+                InterpretingParser.InterpretingParserResult result = InterpretingParser.tokenizeAndParse(lexerGrammar, parserGrammar, sourceFile, grammarInfo.rootRule.name);
+                ParseTreeWalker walker = new ParseTreeWalker();
+                RuleEnterParseTreeListener listener = new RuleEnterParseTreeListener(result.grammar, grammarInfo, result.tokens);
+                walker.walk(listener, result.parseTree);
+            }
+            return addSpaceAfterLastRuleReferences(mergeFormatInformation(grammarInfo, MergeFormatInfoOperation::merge));
+        } catch (RecognitionException ex) {
+            throw new IllegalArgumentException(ex);
+        }
     }
 
     /**
