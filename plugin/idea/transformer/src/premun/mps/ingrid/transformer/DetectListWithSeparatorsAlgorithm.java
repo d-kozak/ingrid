@@ -4,6 +4,7 @@ import premun.mps.ingrid.model.*;
 import premun.mps.ingrid.model.format.FormatInfo;
 import premun.mps.ingrid.model.format.SimpleFormatInfo;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
@@ -35,7 +36,8 @@ public class DetectListWithSeparatorsAlgorithm implements MpsSpecificGrammarTran
                             FormatInfo afterSeparatorFormatInfo = nextAlternative.elements.get(1).formatInfo;
 
 
-                            alternative.elements.clear();
+                            ArrayList<RuleReference> newElements = new ArrayList<>(alternative.elements.subList(0, ruleReferenceIndex));
+
                             RuleReference ruleReference = new RuleReference(current.rule, Quantity.ANY);
 
                             ruleReference.formatInfo = new SimpleFormatInfo(
@@ -45,8 +47,11 @@ public class DetectListWithSeparatorsAlgorithm implements MpsSpecificGrammarTran
                                     afterSeparatorFormatInfo.areChildrenIndented(), // children identation is just passed from afterSeparatorFormatInfo
                                     separator
                             );
-
-                            alternative.elements.add(ruleReference);
+                            newElements.add(ruleReference);
+                            if (ruleReferenceIndex + 2 < alternative.elements.size()) {
+                                newElements.addAll(alternative.elements.subList(ruleReferenceIndex + 2, alternative.elements.size()));
+                            }
+                            alternative.elements = newElements;
                         }
                     }
                 }

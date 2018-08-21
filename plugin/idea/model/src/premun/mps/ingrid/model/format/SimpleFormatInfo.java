@@ -1,5 +1,7 @@
 package premun.mps.ingrid.model.format;
 
+import java.util.Objects;
+
 /**
  * Represents a single piece of information about formatting that was extracted from
  * one place in the source code.
@@ -104,6 +106,24 @@ public class SimpleFormatInfo implements FormatInfo {
 
     public boolean isUnknown() {
         return isUnknown;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SimpleFormatInfo)) return false;
+        SimpleFormatInfo that = (SimpleFormatInfo) o;
+        return appendNewLine == that.appendNewLine &&
+                appendSpace == that.appendSpace &&
+                childrenOnNewLine == that.childrenOnNewLine &&
+                childrenIndented == that.childrenIndented &&
+                isUnknown == that.isUnknown &&
+                Objects.equals(childrenSeparator, that.childrenSeparator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(childrenSeparator, appendNewLine, appendSpace, childrenOnNewLine, childrenIndented, isUnknown);
     }
 
     @Override

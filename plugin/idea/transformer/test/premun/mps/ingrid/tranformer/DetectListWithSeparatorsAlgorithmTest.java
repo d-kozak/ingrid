@@ -5,6 +5,7 @@ import premun.mps.ingrid.formatter.boundary.FormatExtractor;
 import premun.mps.ingrid.formatter.utils.FormatInfoMapToDSLConvertor;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.*;
+import premun.mps.ingrid.model.format.FormatInfo;
 import premun.mps.ingrid.model.format.SimpleFormatInfo;
 import premun.mps.ingrid.parser.GrammarParser;
 import premun.mps.ingrid.transformer.DetectListWithSeparatorsAlgorithm;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static premun.mps.ingrid.formatter.utils.FormatInfoAsserts.verifyFormatInfo;
 import static premun.mps.ingrid.formatter.utils.FormatInfoDSL.AppliedRule.rule;
@@ -537,7 +539,7 @@ public class DetectListWithSeparatorsAlgorithmTest {
 
 
     @Test
-    public void javaGrammar() {
+    public void javaGrammar__basicTest() {
         List<String> grammarFiles = TestGrammars.loadJava();
 
         String input = "package foo;\nimport java.util.*;\n" +
@@ -550,7 +552,7 @@ public class DetectListWithSeparatorsAlgorithmTest {
                 " *\n" +
                 " * @author dkozak\n" +
                 " */\n" +
-                "public class Animal {\n" +
+                "public class Animal<T> {\n" +
                 "\n" +
                 "    private final String name;\n" +
                 "    \n" +
@@ -742,7 +744,9 @@ public class DetectListWithSeparatorsAlgorithmTest {
                         ),
                         rule("typeParameters", 0,
                                 handle(
-                                        collection("typeParameter", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
+                                        element("<", newLine(false), space(false)),
+                                        collection("typeParameter", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(",")),
+                                        element(">", newLine(false), space(true))
                                 )
                         ),
                         rule("typeBound", 0,
@@ -905,7 +909,9 @@ public class DetectListWithSeparatorsAlgorithmTest {
                         ),
                         rule("constDeclaration", 0,
                                 handle(
-                                        collection("constantDeclarator", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
+                                        element("typeType", newLine(false), space(false)),
+                                        collection("constantDeclarator", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(",")),
+                                        element(";", newLine(false), space(true))
                                 )
                         ),
                         rule("interfaceMethodDeclaration_block_1_1", 0,
@@ -978,7 +984,8 @@ public class DetectListWithSeparatorsAlgorithmTest {
                         ),
                         rule("arrayInitializer_block_1_1", 0,
                                 handle(
-                                        collection("variableInitializer", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
+                                        collection("variableInitializer", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(",")),
+                                        element("arrayInitializer_block_1_3", newLine(false), space(true))
                                 )
                         ),
                         rule("arrayInitializer_block_1_3", 0,
@@ -1022,7 +1029,8 @@ public class DetectListWithSeparatorsAlgorithmTest {
                         ),
                         rule("formalParameterList", 0,
                                 handle(
-                                        collection("formalParameter", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
+                                        collection("formalParameter", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(",")),
+                                        element("formalParameterList_block_1_2", newLine(false), space(true))
                                 )
                         ),
                         rule("formalParameterList", 1,
@@ -1582,7 +1590,9 @@ public class DetectListWithSeparatorsAlgorithmTest {
                         ),
                         rule("lambdaParameters", 2,
                                 handle(
-                                        collection("IDENTIFIER", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
+                                        element("(", newLine(false), space(false)),
+                                        collection("IDENTIFIER", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(",")),
+                                        element(")", newLine(false), space(true))
                                 )
                         ),
                         rule("lambdaBody", 0,
@@ -1650,7 +1660,8 @@ public class DetectListWithSeparatorsAlgorithmTest {
                         ),
                         rule("arrayCreatorRest_block_1_1", 0,
                                 handle(
-                                        collection("]", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator("["))
+                                        collection("]", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator("[")),
+                                        element("arrayInitializer", newLine(false), space(true))
                                 )
                         ),
                         rule("classCreatorRest", 0,
@@ -1739,7 +1750,9 @@ public class DetectListWithSeparatorsAlgorithmTest {
                         ),
                         rule("typeArguments", 0,
                                 handle(
-                                        collection("typeArgument", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(","))
+                                        element("<", newLine(false), space(false)),
+                                        collection("typeArgument", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(",")),
+                                        element(">", newLine(false), space(true))
                                 )
                         ),
                         rule("superSuffix", 0,
@@ -1756,7 +1769,82 @@ public class DetectListWithSeparatorsAlgorithmTest {
                         )
                 )
         );
+    }
 
+    /**
+     * Checks whether '<' and '>' stays around type parameters after
+     * the transformation
+     */
+    @Test
+    public void javaGrammar__checkTypeParameters__LT__and__GR__remains() {
+        List<String> grammarFiles = TestGrammars.loadJava();
+
+        String input = "package foo;\nimport java.util.*;\n" +
+                "\n" +
+                "\n" +
+                "import static java.util.stream.Collectors.toList;\n" +
+                "\n" +
+                "\n" +
+                "/**\n" +
+                " *\n" +
+                " * @author dkozak\n" +
+                " */\n" +
+                "public class Animal {\n" +
+                "\n" +
+                "    private final String name;\n" +
+                "    \n" +
+                "    public static int age;\n" +
+                "    \n" +
+                "\n" +
+                "    public Animal(String name){\n" +
+                "        this.name = name;\n" +
+                "    }\n" +
+                "    \n" +
+                "    public int count(){\n" +
+                "        if(age == 0){\n" +
+                "            return -1;\n" +
+                "        }\n" +
+                "        for(int i = 1 ; i <= age; i++){\n" +
+                "            System.out.println(i);\n" +
+                "        }\n" +
+                "        return age + 1;\n" +
+                "    }\n" +
+                "    \n" +
+                "    public static void main(String[] args){\n" +
+                "        Animal animal = new Animal(\"Bobik\");\n" +
+                "        Animal.age = 42;\n" +
+                "        animal.count();\n" +
+                "    }\n" +
+                "}\n";
+
+
+        GrammarParser grammarParser = new GrammarParser("compilationUnit");
+        for (String grammarFile : grammarFiles) {
+            grammarParser.parseString(grammarFile);
+        }
+        GrammarInfo grammarInfo = grammarParser.resolveGrammar();
+        GrammarInfo withFormatInfo = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, grammarFiles.get(0), grammarFiles.get(1), Collections.singletonList(input));
+
+        DetectListWithSeparatorsAlgorithm detectListWithSeparatorsAlgorithm = new DetectListWithSeparatorsAlgorithm();
+        GrammarInfo withSeparators = detectListWithSeparatorsAlgorithm.transform(withFormatInfo);
+
+
+        // typeParameters : '<' typeParameter (',' typeParameter)* '>' ;
+        // should be transformed into typeParameters : '<' typeParameter '>' ;
+
+        ParserRule typeParameters = (ParserRule) withSeparators.rules.get("typeParameters");
+        assertEquals(1, typeParameters.alternatives.size());
+        Alternative alternative = typeParameters.alternatives.get(0);
+        assertEquals(3, alternative.elements.size());
+        assertEquals("<", ((LiteralRule) alternative.elements.get(0).rule).value);
+        assertNotNull(withSeparators.rules.get("typeParameter"));
+        assertEquals(withFormatInfo.rules.get("typeParameter"), alternative.elements.get(1).rule);
+        assertEquals(">", ((LiteralRule) alternative.elements.get(2).rule).value);
+
+        // verify formatting
+        FormatInfo formatInfo = alternative.elements.get(1).formatInfo;
+        assertEquals(new SimpleFormatInfo(false, true, false, false, ","), formatInfo);
 
     }
+
 }
