@@ -2,7 +2,9 @@ package premun.mps.ingrid.tranformer;
 
 import org.junit.Test;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
+import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
+import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.parser.GrammarParser;
 import premun.mps.ingrid.serialization.IngridModelToAntlrSerializer;
 import premun.mps.ingrid.transformer.InlineRulesAlgorithm;
@@ -12,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static junit.framework.TestCase.*;
 import static premun.mps.ingrid.tranformer.Utils.assertGrammarEquals;
 import static premun.mps.ingrid.tranformer.Utils.loadFileContent;
 
@@ -536,5 +539,27 @@ public class InlineRulesAlgorithmTest {
         System.out.println(result);
 
         assertGrammarEquals(expected, result);
+    }
+
+
+    @Test
+    public void inlineBlockRuleInJava() {
+        List<String> grammarFiles = TestGrammars.loadJava();
+        List<String> rulesToInline = Collections.singletonList("block");
+        GrammarParser grammarParser = new GrammarParser("compilationUnit");
+        for (String grammarFile : grammarFiles) {
+            grammarParser.parseString(grammarFile);
+        }
+        GrammarInfo grammarInfo = grammarParser.resolveGrammar();
+        InlineRulesAlgorithm inlineRulesAlgorithm = new InlineRulesAlgorithm(rulesToInline);
+        GrammarInfo withInlinedRules = inlineRulesAlgorithm.transform(grammarInfo);
+
+        assertNull(withInlinedRules.rules.get("block"));
+        ParserRule parserRule = (ParserRule) withInlinedRules.rules.get("statement");
+        assertNotNull(parserRule);
+        Alternative blockLabelAlternative = parserRule.alternatives.get(0);
+        assertEquals(3, blockLabelAlternative.elements.size());
+        Alternative tryAlternative = parserRule.alternatives.get(6);
+        assertEquals(5, tryAlternative.elements.size());
     }
 }
