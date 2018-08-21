@@ -3,10 +3,7 @@ package premun.mps.ingrid.transformer;
 import premun.mps.ingrid.model.*;
 import premun.mps.ingrid.model.format.SimpleFormatInfo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -22,6 +19,30 @@ import static java.util.stream.Collectors.toList;
  */
 public class FlatReferencesWithQuantifiesAlgorithm implements MpsSpecificGrammarTransformation {
 
+    /**
+     * Sometimes we can guess the for name of the rule by looking at its value.
+     * In order to prevent ugly concept names, we first try to check whether it is not a
+     * literal, whose name can be easily extrapolated.
+     */
+    private static Map<String, String> usefulNames = new HashMap<>();
+
+    static {
+        usefulNames.put("{", "LeftBracket");
+        usefulNames.put("}", "RightBracket");
+        usefulNames.put("(", "LeftParenthesis");
+        usefulNames.put(")", "RightParenthesis");
+        usefulNames.put(",", "Comma");
+        usefulNames.put(";", "Semicolon");
+        usefulNames.put(":", "Colon");
+        usefulNames.put("::", "DoubleColon");
+        usefulNames.put("+", "Plus");
+        usefulNames.put("-", "Minus");
+        usefulNames.put("*", "Multiply");
+        usefulNames.put("/", "Divide");
+        usefulNames.put("?", "QuestionMark");
+    }
+
+
     private static final Logger log = Logger.getLogger(FlatReferencesWithQuantifiesAlgorithm.class.getName());
 
     @Override
@@ -33,7 +54,7 @@ public class FlatReferencesWithQuantifiesAlgorithm implements MpsSpecificGrammar
             List<RuleReference> newElements = new ArrayList<>();
             for (RuleReference ruleReference : alternative.elements) {
                 if (ruleReference.rule instanceof FlatLexerRule && ruleReference.quantity != Quantity.EXACTLY_ONE) {
-                    String newRuleName = generateUniqueName(ruleReference.rule.name, grammarInfo.rules.keySet());
+                    String newRuleName = generateUniqueName(ruleReference.rule, grammarInfo.rules.keySet());
                     ParserRule newRule = new ParserRule(newRuleName);
                     newRule.alternatives.add(
                             new Alternative(
@@ -56,7 +77,24 @@ public class FlatReferencesWithQuantifiesAlgorithm implements MpsSpecificGrammar
         return grammarInfo;
     }
 
-    private String generateUniqueName(String innerRuleName, Set<String> names) {
+    private String generateUniqueName(Rule rule, Set<String> names) {
+        String innerRuleName = rule.name;
+
+        if (rule instanceof LiteralRule && !innerRuleName.matches("[a-zA-Z[_]][a-zA-Z0-9$[_]]*")) {
+            String ruleValue = ((LiteralRule) rule).value;
+            boolean isValidMpsConceptName = ruleValue.matches("[a-zA-Z[_]][a-zA-Z0-9$[_]]*");
+            if (isValidMpsConceptName) {
+                innerRuleName = ruleValue;
+            } else {
+                // the rule has no name specified in the grammar, but we have to create a new concept for it to express the cardinality
+                // therefore we will give it a generated name
+                innerRuleName = usefulNames.get(ruleValue);
+                if (innerRuleName == null) {
+                    innerRuleName = "LITERAL_WRAPPER";
+                }
+            }
+        }
+
         names = names.stream()
                      .map(String::toLowerCase)
                      .collect(Collectors.toSet());
