@@ -1587,7 +1587,7 @@ public class JavaGrammarFormatExtractionTest {
                         rule("classBody", 0,
                                 handle(
                                         element("{", newLine(true), space(false)),
-                                        collection("classBodyDeclaration", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(false), childrenSeparator(null)),
+                                        collection("classBodyDeclaration", newLine(true), space(false), childrenOnNewLine(true), childrenIndented(true), childrenSeparator(null)),
                                         element("}", newLine(false), space(true))
                                 )
                         ),

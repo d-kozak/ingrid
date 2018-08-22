@@ -37,14 +37,16 @@ class FormatInfoExtractor {
 
         List<SimpleFormatInfo> result = new ArrayList<>();
 
+        MatchInfo previousMatchInfo = null;
         for (int i = 0; i < originalMatchInfoSize; i++) {
             MatchInfo currentMatchInfo = matchInfos.get(i);
             MatchInfo nextMatchInfo = matchInfos.get(i + 1);
             if (currentMatchInfo.isNotEmpty() && nextMatchInfo.isNotEmpty()) {
-                result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo, allTokens, i == 0));
+                result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo, allTokens, previousMatchInfo));
             } else {
                 result.add(SimpleFormatInfo.UNKNOWN);
             }
+            previousMatchInfo = currentMatchInfo;
         }
 
         return result;
@@ -53,10 +55,10 @@ class FormatInfoExtractor {
     /**
      * @param currentMatchInfo currently analysed matched info
      * @param nextMatchInfo    next match info
-     * @param isFirst specifies whether this is the first matchInfo from the matched region, used children newline detection
+     * @param previousMatchInfo   previous match info, can be null if current is the first one
      * @return formatInfo extracted from the input
      */
-    private static SimpleFormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo, CommonTokenStream tokens, boolean isFirst) {
+    private static SimpleFormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo, CommonTokenStream tokens, MatchInfo previousMatchInfo) {
         ParseTree rightmostNode = currentMatchInfo.getRightMostParseTree();
         ParseTree leftmostNode = nextMatchInfo.getLeftmostParseTree();
         Token currentToken = extractRightmostToken(rightmostNode);
@@ -71,10 +73,10 @@ class FormatInfoExtractor {
 
         boolean isMultipleCardinality = (currentMatchInfo.quantity == Quantity.AT_LEAST_ONE || currentMatchInfo.quantity == Quantity.ANY) && currentMatchInfo.times() > 0;
         if (isMultipleCardinality) {
-            childrenOnNewLine = checkIfChildrenAreOnNewLine(currentMatchInfo, tokens, isFirst);
+            childrenOnNewLine = checkIfChildrenAreOnNewLine(currentMatchInfo, tokens, previousMatchInfo == null);
 
 
-            childrenIndented = checkIfChildrenAreIndented(currentMatchInfo, childrenOnNewLine, tokens);
+            childrenIndented = checkIfChildrenAreIndented(currentMatchInfo, childrenOnNewLine, tokens, previousMatchInfo);
         }
         return new SimpleFormatInfo(appendedNewLine, appendSpace, childrenOnNewLine, childrenIndented);
 
@@ -144,11 +146,14 @@ class FormatInfoExtractor {
      * We can check for indentation by comparing all tokens from the matched region with
      * the leftmost token from previous line. If their position on line is bigger, then they have to be indented
      */
-    private static boolean checkIfChildrenAreIndented(MatchInfo currentMatchInfo, boolean childrenOnNewLine, CommonTokenStream tokens) {
+    private static boolean checkIfChildrenAreIndented(MatchInfo currentMatchInfo, boolean childrenOnNewLine, CommonTokenStream tokens, MatchInfo previousMatch) {
         if (!childrenOnNewLine)
             return false;
-        Token leftmostTokenInThisRegion = extractLeftmostToken(currentMatchInfo.getLeftmostParseTree());
-        Token leftmostTokenOnPreviousLine = getLeftmostTokenOnLine(leftmostTokenInThisRegion.getTokenIndex(), leftmostTokenInThisRegion.getLine() - 1, tokens);
+        Token leftmostToken = extractLeftmostToken(currentMatchInfo.getLeftmostParseTree());
+        if (previousMatch != null && previousMatch.isNotEmpty()) {
+            leftmostToken = extractLeftmostToken(previousMatch.getLeftmostParseTree());
+        }
+        Token leftmostTokenOnPreviousLine = getLeftmostTokenOnLine(leftmostToken.getTokenIndex(), leftmostToken.getLine() - 1, tokens);
         return extractTokens(currentMatchInfo.getMatchedRegion()).stream()
                                                                  .allMatch(it -> it.getCharPositionInLine() > leftmostTokenOnPreviousLine.getCharPositionInLine());
     }
