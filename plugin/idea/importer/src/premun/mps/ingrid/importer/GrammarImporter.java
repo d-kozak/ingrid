@@ -7,6 +7,8 @@ import premun.mps.ingrid.formatter.boundary.FormatExtractor;
 import premun.mps.ingrid.importer.exceptions.IngridException;
 import premun.mps.ingrid.importer.steps.*;
 import premun.mps.ingrid.model.GrammarInfo;
+import premun.mps.ingrid.model.RuleReference;
+import premun.mps.ingrid.model.format.SimpleFormatInfo;
 import premun.mps.ingrid.parser.GrammarParser;
 import premun.mps.ingrid.transformer.DetectListWithSeparatorsAlgorithm;
 import premun.mps.ingrid.transformer.FlatReferencesWithQuantifiesAlgorithm;
@@ -62,25 +64,7 @@ public class GrammarImporter {
         }
         GrammarInfo grammarInfo = parser.resolveGrammar();
 
-        if (!ingridConfiguration.getSourceFiles()
-                                .isEmpty()) {
-            if (ingridConfiguration.getGrammarFiles()
-                                   .size() == 1) {
-                String grammarFile = ingridConfiguration.getGrammarFiles()
-                                                        .get(0);
-                grammarInfo = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, grammarFile, ingridConfiguration.getSourceFiles());
-            } else if (ingridConfiguration.getGrammarFiles()
-                                          .size() == 2) {
-                String lexerGrammar = ingridConfiguration.getGrammarFiles()
-                                                         .get(0);
-                String parserGrammar = ingridConfiguration.getGrammarFiles()
-                                                          .get(1);
-                grammarInfo = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, lexerGrammar, parserGrammar, ingridConfiguration.getSourceFiles());
-
-            } else {
-                throw new IllegalArgumentException("Only single combined grammar file or separate lexer and parser grammar file expected(in this order)");
-            }
-        }
+        grammarInfo = extractFormatting(ingridConfiguration, grammarInfo);
 
 
         InlineRulesAlgorithm inlineRulesAlgorithm = new InlineRulesAlgorithm(ingridConfiguration.getRulesToInline());
@@ -99,6 +83,41 @@ public class GrammarImporter {
         RemoveUnusedRulesAlgorithm removeUnusedRulesAlgorithm = new RemoveUnusedRulesAlgorithm();
         grammarInfo = removeUnusedRulesAlgorithm.transform(grammarInfo);
 
+        return grammarInfo;
+    }
+
+    /**
+     * Methods that interacts with formatter module
+     *
+     * @param ingridConfiguration configuration from InputForm
+     * @param grammarInfo         grammar to be processed
+     * @return updated version of the grammar containing formatting info
+     */
+    private static GrammarInfo extractFormatting(IngridConfiguration ingridConfiguration, GrammarInfo grammarInfo) {
+        if (!ingridConfiguration.getSourceFiles()
+                                .isEmpty()) {
+            if (ingridConfiguration.getGrammarFiles()
+                                   .size() == 1) {
+                String grammarFile = ingridConfiguration.getGrammarFiles()
+                                                        .get(0);
+                grammarInfo = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, grammarFile, ingridConfiguration.getSourceFiles());
+            } else if (ingridConfiguration.getGrammarFiles()
+                                          .size() == 2) {
+                String lexerGrammar = ingridConfiguration.getGrammarFiles()
+                                                         .get(0);
+                String parserGrammar = ingridConfiguration.getGrammarFiles()
+                                                          .get(1);
+                grammarInfo = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, lexerGrammar, parserGrammar, ingridConfiguration.getSourceFiles());
+
+            } else {
+                throw new IllegalArgumentException("Only single combined grammar file or separate lexer and parser grammar file expected(in this order)");
+            }
+        } else {
+            // no source files, just insert unknown
+            for (RuleReference ruleReference : grammarInfo.getRuleReferences()) {
+                ruleReference.formatInfo = SimpleFormatInfo.UNKNOWN;
+            }
+        }
         return grammarInfo;
     }
 
