@@ -404,4 +404,11 @@ public class InterpretingParserTest {
         List<String> grammars = TestGrammars.loadJava();
         InterpretingParser.InterpretingParserResult pair = InterpretingParser.tokenizeAndParse(grammars.get(0), grammars.get(1), input, "compilationUnit");
     }
+
+    @Test
+    public void justC() throws RecognitionException {
+        String cLanguage = TestGrammars.loadResource("/C.g4");
+        String minilisp = TestGrammars.loadResource("/c/bt.c");
+        ParseTree parseTree = InterpretingParser.parse(cLanguage, minilisp, "compilationUnit");
+    }
 }

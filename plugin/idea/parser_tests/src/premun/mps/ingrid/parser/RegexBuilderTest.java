@@ -1,10 +1,12 @@
 package premun.mps.ingrid.parser;
 
-import org.junit.*;
-import premun.mps.ingrid.model.*;
-import premun.mps.ingrid.parser.exception.*;
+import org.junit.Test;
+import premun.mps.ingrid.model.GrammarInfo;
+import premun.mps.ingrid.model.RegexRule;
+import premun.mps.ingrid.parser.exception.IngridParserException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class RegexBuilderTest {
     @Test
@@ -44,7 +46,7 @@ public class RegexBuilderTest {
 
         RegexRule rule = (RegexRule) grammarInfo.rules.get("Tag");
         assertNotNull(rule);
-        assertEquals("\\.jpg([0-9])+\\\\\\\\", rule.regexp);
+        assertEquals("\\.jpg([0-9])+\\\\", rule.regexp);
     }
 
     @Test(expected = IngridParserException.class)

@@ -269,8 +269,8 @@ class GrammarResolver {
      *
      * @param rule Literal rule
      */
-    private static String escapeLiteral(LiteralRule rule) {
-        String specialChars = "\\.[]{}()*+-?^$|";
+    static String escapeLiteral(LiteralRule rule) {
+        String specialChars = ".[]{}()*+-?^$|";
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < rule.value.length(); ++i) {

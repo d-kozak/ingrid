@@ -2649,7 +2649,6 @@ public class JavaGrammarFormatExtractionTest {
         }
         GrammarInfo grammarInfo = grammarParser.resolveGrammar();
 
-
         GrammarInfo withFormatting = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, grammars.get(0), grammars.get(1), Collections.singletonList(input));
 
         FormatInfoMapToDSLConvertor.print(withFormatting);
