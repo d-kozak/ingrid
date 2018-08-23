@@ -32,4 +32,10 @@ public interface FormatInfo {
      * Are children separated by some char?
      */
     String getChildrenSeparator();
+
+
+    /**
+     * Do we know anything about the format of this?
+     */
+    boolean isUnknown();
 }

@@ -28,6 +28,10 @@ public class MergeFormatInfoOperation {
         if (!Objects.equals(left.childrenSeparator, right.childrenSeparator)) {
             throw new IllegalStateException("Cannot merge two SimpleFormatInfo Objects with different separators: " + left + " vs" + right);
         }
+        // unknown rule
+        if (left.isUnknown() && right.isUnknown())
+            return left;
+
         return new SimpleFormatInfo(left.appendNewLine() || right.appendNewLine(),
                 left.appendSpace() || right.appendSpace(),
                 left.areChildrenOnNewLine() || right.areChildrenOnNewLine(),

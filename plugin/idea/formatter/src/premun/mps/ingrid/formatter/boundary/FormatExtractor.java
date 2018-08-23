@@ -89,7 +89,7 @@ public class FormatExtractor {
                 RuleReference lastRuleReference = alternative.elements.get(alternative.elements.size() - 1);
                 FormatInfo formatInfo = lastRuleReference.formatInfo;
                 lastRuleReference.formatInfo =
-                        new SimpleFormatInfo(formatInfo.appendNewLine(), true, formatInfo.areChildrenOnNewLine(), formatInfo.areChildrenIndented(), formatInfo.getChildrenSeparator());
+                        new SimpleFormatInfo(formatInfo.appendNewLine(), true, formatInfo.areChildrenOnNewLine(), formatInfo.areChildrenIndented(), formatInfo.getChildrenSeparator(), formatInfo.isUnknown());
             } else {
                 String message = "Alternative has an empty list of rule references, rule " + parserRulesWithAlternative.first.name + (":" + parserRulesWithAlternative.first.alternatives.indexOf(parserRulesWithAlternative.second));
                 System.err.println(message);

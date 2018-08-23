@@ -75,4 +75,9 @@ public class CollectionFormatInfo implements FormatInfo {
     public String getChildrenSeparator() {
         throw new UnsupportedOperationException("This class is only used during the format extraction phase. See docs.");
     }
+
+    @Override
+    public boolean isUnknown() {
+        throw new UnsupportedOperationException("This class is only used during the format extraction phase. See docs.");
+    }
 }

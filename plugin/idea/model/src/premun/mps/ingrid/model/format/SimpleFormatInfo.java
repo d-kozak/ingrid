@@ -67,6 +67,15 @@ public class SimpleFormatInfo implements FormatInfo {
         this.isUnknown = false;
     }
 
+    public SimpleFormatInfo(boolean appendNewLine, boolean appendSpace, boolean childrenOnNewLine, boolean childrenIndented, String childrenSeparator, boolean isUnknown) {
+        this.appendNewLine = appendNewLine;
+        this.appendSpace = appendSpace;
+        this.childrenOnNewLine = childrenOnNewLine;
+        this.childrenIndented = childrenIndented;
+        this.childrenSeparator = childrenSeparator;
+        this.isUnknown = isUnknown;
+    }
+
     /**
      * Used just for creating the UNKNOWN null-like object
      */
