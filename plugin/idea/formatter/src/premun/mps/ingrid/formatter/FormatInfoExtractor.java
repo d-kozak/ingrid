@@ -70,8 +70,9 @@ class FormatInfoExtractor {
         boolean childrenOnNewLine = false;
         boolean childrenIndented = false;
 
-        boolean isMultipleCardinality = (currentMatchInfo.quantity == Quantity.AT_LEAST_ONE || currentMatchInfo.quantity == Quantity.ANY) && currentMatchInfo.times() > 0;
-        if (isMultipleCardinality) {
+        boolean matchedMultipleTimes = currentMatchInfo.times() > 0;
+        boolean hasMultipleCardinality = (currentMatchInfo.quantity == Quantity.AT_LEAST_ONE || currentMatchInfo.quantity == Quantity.ANY);
+        if (hasMultipleCardinality && matchedMultipleTimes) {
             childrenOnNewLine = checkIfChildrenAreOnNewLine(currentMatchInfo, tokens, previousMatchInfo == null);
 
 
