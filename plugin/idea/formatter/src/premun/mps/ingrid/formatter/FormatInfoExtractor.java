@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Extracts format information from list of MatchInfo objects
@@ -53,9 +52,9 @@ class FormatInfoExtractor {
     }
 
     /**
-     * @param currentMatchInfo currently analysed matched info
-     * @param nextMatchInfo    next match info
-     * @param previousMatchInfo   previous match info, can be null if current is the first one
+     * @param currentMatchInfo  currently analysed matched info
+     * @param nextMatchInfo     next match info
+     * @param previousMatchInfo previous match info, can be null if current is the first one
      * @return formatInfo extracted from the input
      */
     private static SimpleFormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo, CommonTokenStream tokens, MatchInfo previousMatchInfo) {
@@ -101,27 +100,13 @@ class FormatInfoExtractor {
         }
 
         // skip the last element, the formatting of the last token after the matched region is not a reliable source of information
-        // so we handle one match separately
-        List<Boolean> collect = matchInfo.matched.subList(0, matchInfo.matched.size() - 1)
-                                                 .stream()
-                                                 .map(
-                                                         list -> isNewlineAtTheEnd(tokenStream, list)
-                                                 )
-                                                 .collect(Collectors.toList());
+        return matchInfo.matched.subList(0, matchInfo.matched.size() - 1)
+                                .stream()
+                                .map(
+                                        list -> isNewlineAtTheEnd(tokenStream, list)
+                                )
+                                .reduce(true, Boolean::logicalAnd);
 
-        boolean allAreTrue = collect.stream()
-                                    .allMatch(it -> it);
-        if (allAreTrue)
-            return true;
-        else {
-            boolean allAreFalse = collect.stream()
-                                         .noneMatch(it -> it);
-            if (allAreFalse)
-                return false;
-            else {
-                throw new IllegalArgumentException("Inconsistent formatting");
-            }
-        }
     }
 
     /**
