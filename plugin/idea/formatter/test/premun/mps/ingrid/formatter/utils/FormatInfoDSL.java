@@ -1,5 +1,6 @@
 package premun.mps.ingrid.formatter.utils;
 
+import premun.mps.ingrid.model.format.FormatInfo;
 import premun.mps.ingrid.model.format.SimpleFormatInfo;
 
 import java.util.Arrays;
@@ -70,9 +71,9 @@ public final class FormatInfoDSL {
 
     public static class AppliedRuleReference {
         public final String ruleName;
-        public final SimpleFormatInfo formatInfo;
+        public final FormatInfo formatInfo;
 
-        public AppliedRuleReference(String ruleName, SimpleFormatInfo formatInfo) {
+        public AppliedRuleReference(String ruleName, FormatInfo formatInfo) {
             this.ruleName = ruleName;
             this.formatInfo = formatInfo;
         }

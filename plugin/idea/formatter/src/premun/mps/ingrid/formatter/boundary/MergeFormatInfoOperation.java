@@ -21,11 +21,11 @@ public class MergeFormatInfoOperation {
     public static FormatInfo merge(CollectionFormatInfo collectionFormatInfo) {
         return collectionFormatInfo.getAllFormatInfo()
                                    .stream()
-                                   .reduce(SimpleFormatInfo.UNKNOWN, MergeFormatInfoOperation::mergeTwoFormatInfos);
+                                   .reduce(FormatInfo.UNKNOWN, MergeFormatInfoOperation::mergeTwoFormatInfos);
     }
 
-    private static SimpleFormatInfo mergeTwoFormatInfos(SimpleFormatInfo left, SimpleFormatInfo right) {
-        if (!Objects.equals(left.childrenSeparator, right.childrenSeparator)) {
+    private static FormatInfo mergeTwoFormatInfos(FormatInfo left, FormatInfo right) {
+        if (!Objects.equals(left.getChildrenSeparator(), right.getChildrenSeparator())) {
             throw new IllegalStateException("Cannot merge two SimpleFormatInfo Objects with different separators: " + left + " vs" + right);
         }
         // unknown rule
@@ -36,7 +36,7 @@ public class MergeFormatInfoOperation {
                 left.appendSpace() || right.appendSpace(),
                 left.areChildrenOnNewLine() || right.areChildrenOnNewLine(),
                 left.areChildrenIndented() || right.areChildrenIndented(),
-                left.childrenSeparator);
+                left.getChildrenSeparator());
     }
 
     ;

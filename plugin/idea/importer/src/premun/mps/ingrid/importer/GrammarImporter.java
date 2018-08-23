@@ -8,7 +8,7 @@ import premun.mps.ingrid.importer.exceptions.IngridException;
 import premun.mps.ingrid.importer.steps.*;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.RuleReference;
-import premun.mps.ingrid.model.format.SimpleFormatInfo;
+import premun.mps.ingrid.model.format.FormatInfo;
 import premun.mps.ingrid.parser.GrammarParser;
 import premun.mps.ingrid.transformer.DetectListWithSeparatorsAlgorithm;
 import premun.mps.ingrid.transformer.FlatReferencesWithQuantifiesAlgorithm;
@@ -115,7 +115,7 @@ public class GrammarImporter {
         } else {
             // no source files, just insert unknown
             for (RuleReference ruleReference : grammarInfo.getRuleReferences()) {
-                ruleReference.formatInfo = SimpleFormatInfo.UNKNOWN;
+                ruleReference.formatInfo = FormatInfo.UNKNOWN;
             }
         }
         return grammarInfo;

@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 import premun.mps.ingrid.formatter.model.MatchInfo;
 import premun.mps.ingrid.model.Quantity;
+import premun.mps.ingrid.model.format.FormatInfo;
 import premun.mps.ingrid.model.format.SimpleFormatInfo;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ class FormatInfoExtractor {
     /**
      * Extracts format information from the list of MatchInfo objects
      */
-    static List<SimpleFormatInfo> extractFormatInfo(List<MatchInfo> matchInfos, CommonTokenStream allTokens) {
+    static List<FormatInfo> extractFormatInfo(List<MatchInfo> matchInfos, CommonTokenStream allTokens) {
         if (matchInfos.isEmpty())
             return new ArrayList<>();
 
@@ -34,7 +35,7 @@ class FormatInfoExtractor {
         matchInfos = new ArrayList<>(matchInfos);
         matchInfos.add(createDummyNextTokenMatchInfo(matchInfos, allTokens));
 
-        List<SimpleFormatInfo> result = new ArrayList<>();
+        List<FormatInfo> result = new ArrayList<>();
 
         MatchInfo previousMatchInfo = null;
         for (int i = 0; i < originalMatchInfoSize; i++) {
@@ -43,7 +44,7 @@ class FormatInfoExtractor {
             if (currentMatchInfo.isNotEmpty() && nextMatchInfo.isNotEmpty()) {
                 result.add(extractFormatInfoFor(currentMatchInfo, nextMatchInfo, allTokens, previousMatchInfo));
             } else {
-                result.add(SimpleFormatInfo.UNKNOWN);
+                result.add(FormatInfo.UNKNOWN);
             }
             previousMatchInfo = currentMatchInfo;
         }
@@ -57,7 +58,7 @@ class FormatInfoExtractor {
      * @param previousMatchInfo previous match info, can be null if current is the first one
      * @return formatInfo extracted from the input
      */
-    private static SimpleFormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo, CommonTokenStream tokens, MatchInfo previousMatchInfo) {
+    private static FormatInfo extractFormatInfoFor(MatchInfo currentMatchInfo, MatchInfo nextMatchInfo, CommonTokenStream tokens, MatchInfo previousMatchInfo) {
         ParseTree rightmostNode = currentMatchInfo.getRightMostParseTree();
         ParseTree leftmostNode = nextMatchInfo.getLeftmostParseTree();
         Token currentToken = extractRightmostToken(rightmostNode);

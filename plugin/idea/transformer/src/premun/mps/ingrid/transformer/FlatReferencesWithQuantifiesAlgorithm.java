@@ -1,7 +1,7 @@
 package premun.mps.ingrid.transformer;
 
 import premun.mps.ingrid.model.*;
-import premun.mps.ingrid.model.format.SimpleFormatInfo;
+import premun.mps.ingrid.model.format.FormatInfo;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -59,7 +59,7 @@ public class FlatReferencesWithQuantifiesAlgorithm implements MpsSpecificGrammar
                     newRule.alternatives.add(
                             new Alternative(
                                     Collections.singletonList(
-                                            new RuleReference(ruleReference.rule, Quantity.EXACTLY_ONE, SimpleFormatInfo.DEFAULT)
+                                            new RuleReference(ruleReference.rule, Quantity.EXACTLY_ONE, FormatInfo.DEFAULT)
                                     )
                             )
                     );

@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import premun.mps.ingrid.formatter.model.MatchInfo;
 import premun.mps.ingrid.model.*;
-import premun.mps.ingrid.model.format.SimpleFormatInfo;
+import premun.mps.ingrid.model.format.FormatInfo;
 import premun.mps.ingrid.model.utils.Pair;
 import premun.mps.ingrid.parser.GrammarWalker;
 
@@ -56,7 +56,7 @@ public class ParseTreeToIngridRuleMapper {
     /**
      * Block rules processed as a side effect of the mapping algorithm
      */
-    private Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>> blockRules;
+    private Map<Pair<ParserRule, Alternative>, List<List<FormatInfo>>> blockRules;
 
     /**
      * @param tokens    Antlr4 stream of all tokens, it is necessary when processing the block rules, because FormatInfoExtractorRequires them
@@ -214,7 +214,7 @@ public class ParseTreeToIngridRuleMapper {
             SerializedParserRule parserRule = (SerializedParserRule) rule;
             List<MatchInfo> result = match((parserRule).alternative.elements, parseTree, false);
             if (result != null) {
-                List<List<SimpleFormatInfo>> blockRuleInfo = blockRules.computeIfAbsent(pair(parserRule.rule, ((AlternativeDTO) parserRule.alternative).original), __ -> new ArrayList<>());
+                List<List<FormatInfo>> blockRuleInfo = blockRules.computeIfAbsent(pair(parserRule.rule, ((AlternativeDTO) parserRule.alternative).original), __ -> new ArrayList<>());
                 blockRuleInfo.add(FormatInfoExtractor.extractFormatInfo(result, tokens));
                 return result.stream()
                              .flatMap(matchInfo -> matchInfo.matched.stream()
@@ -231,7 +231,7 @@ public class ParseTreeToIngridRuleMapper {
      * @param ast          input which should be parsed by one of the alternative
      * @return Which Alternative matched the ast and how
      */
-    public Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>>> resolve(List<Alternative> alternatives, List<ParseTree> ast) {
+    public Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<List<FormatInfo>>>> resolve(List<Alternative> alternatives, List<ParseTree> ast) {
         blockRules = new HashMap<>();
         alternatives = expandRules(alternatives);
         for (Alternative alternative : alternatives) {

@@ -9,6 +9,17 @@ package premun.mps.ingrid.model.format;
 public interface FormatInfo {
 
     /**
+     * To be used when no formatting can be extracted
+     */
+    FormatInfo UNKNOWN = new SimpleFormatInfo();
+
+    /**
+     * Default formatting, to be used when no customization is necessary
+     */
+    FormatInfo DEFAULT = new SimpleFormatInfo(false, true, false, false);
+
+
+    /**
      * Is there a newline after this element?
      */
     boolean appendNewLine();

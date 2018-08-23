@@ -16,7 +16,6 @@ import java.util.List;
  * In fact it's instances should never escape the formatter module.
  * escape the formatter module.
  * <p>
- * TODO refactor to work with FormatInfo interface
  *
  * @author dkozak
  * @see FormatInfo
@@ -27,7 +26,7 @@ public class CollectionFormatInfo implements FormatInfo {
     /**
      * List into which format information is collected during format extraction.
      */
-    private final List<SimpleFormatInfo> collectedInformation;
+    private final List<FormatInfo> collectedInformation;
 
 
     public CollectionFormatInfo() {
@@ -40,14 +39,14 @@ public class CollectionFormatInfo implements FormatInfo {
      *
      * @param formatInfo new format info to be added
      */
-    public void addFormatInfo(SimpleFormatInfo formatInfo) {
+    public void addFormatInfo(FormatInfo formatInfo) {
         collectedInformation.add(formatInfo);
     }
 
     /**
      * @return all collected information about formatting in an immutable list
      */
-    public List<SimpleFormatInfo> getAllFormatInfo() {
+    public List<FormatInfo> getAllFormatInfo() {
         return Collections.unmodifiableList(collectedInformation);
     }
 

@@ -10,7 +10,7 @@ import premun.mps.ingrid.model.Alternative;
 import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.ParserRule;
 import premun.mps.ingrid.model.RuleReference;
-import premun.mps.ingrid.model.format.SimpleFormatInfo;
+import premun.mps.ingrid.model.format.FormatInfo;
 import premun.mps.ingrid.model.utils.Pair;
 
 import java.util.Arrays;
@@ -63,14 +63,14 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
         Rule antlrRule = grammar.getRule(parserRuleContext.getRuleIndex());
         ParserRule parserRule = (ParserRule) grammarInfo.rules.get(antlrRule.name);
 
-        Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>>> resolved = parseTreeToIngridRuleMapper.resolve(parserRule.alternatives, parserRuleContext.children);
+        Pair<Pair<Alternative, List<MatchInfo>>, Map<Pair<ParserRule, Alternative>, List<List<FormatInfo>>>> resolved = parseTreeToIngridRuleMapper.resolve(parserRule.alternatives, parserRuleContext.children);
         Pair<Alternative, List<MatchInfo>> pair = resolved.first;
-        Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>> blockRules = resolved.second;
+        Map<Pair<ParserRule, Alternative>, List<List<FormatInfo>>> blockRules = resolved.second;
 
         addBlockRules(blockRules);
 
         Alternative appropriateAlternative = pair.first;
-        List<SimpleFormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(pair.second, tokens);
+        List<FormatInfo> formatInfos = FormatInfoExtractor.extractFormatInfo(pair.second, tokens);
 
         addFormatInfoToAlternative(appropriateAlternative, formatInfos);
     }
@@ -80,11 +80,11 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
      *
      * @param blockRules to be saved in the formatInfoMap
      */
-    private void addBlockRules(Map<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>> blockRules) {
-        for (Map.Entry<Pair<ParserRule, Alternative>, List<List<SimpleFormatInfo>>> entry : blockRules.entrySet()) {
+    private void addBlockRules(Map<Pair<ParserRule, Alternative>, List<List<FormatInfo>>> blockRules) {
+        for (Map.Entry<Pair<ParserRule, Alternative>, List<List<FormatInfo>>> entry : blockRules.entrySet()) {
             // We could theoretically insert the information directly, but we perform the lookup just to be sure nothing is broken
             String ruleName = entry.getKey().first.name;
-            List<List<SimpleFormatInfo>> collectedFormatInfo = entry.getValue();
+            List<List<FormatInfo>> collectedFormatInfo = entry.getValue();
 
             ParserRule parserRule = (ParserRule) Objects.requireNonNull(grammarInfo.rules.get(ruleName), () -> "Rule with name " + ruleName + "not found in " + grammarInfo);
             int i = parserRule.alternatives.indexOf(entry.getKey().second);
@@ -93,20 +93,20 @@ public class RuleEnterParseTreeListener extends BaseParseTreeListener {
             }
             Alternative alternative = parserRule.alternatives.get(i);
 
-            for (List<SimpleFormatInfo> simpleFormatInfos : collectedFormatInfo) {
+            for (List<FormatInfo> simpleFormatInfos : collectedFormatInfo) {
                 addFormatInfoToAlternative(alternative, simpleFormatInfos);
             }
         }
     }
 
-    private void addFormatInfoToAlternative(Alternative appropriateAlternative, List<SimpleFormatInfo> formatInfos) {
+    private void addFormatInfoToAlternative(Alternative appropriateAlternative, List<FormatInfo> formatInfos) {
         if (formatInfos.size() != appropriateAlternative.elements.size()) {
             throw new IllegalStateException("The size of formatInfos should be the same as rule references, otherwise we cannot merge them, alternative:  " + appropriateAlternative + ", formatInfos: " + formatInfos);
         }
 
         for (int i = 0; i < formatInfos.size(); i++) {
             RuleReference ruleReference = appropriateAlternative.elements.get(i);
-            SimpleFormatInfo formatInfo = formatInfos.get(i);
+            FormatInfo formatInfo = formatInfos.get(i);
             ((CollectionFormatInfo) ruleReference.formatInfo).addFormatInfo(formatInfo);
         }
     }

@@ -14,16 +14,6 @@ import java.util.Objects;
 public class SimpleFormatInfo implements FormatInfo {
 
     /**
-     * To be used when no formatting can be extracted
-     */
-    public static final SimpleFormatInfo UNKNOWN = new SimpleFormatInfo();
-
-    /**
-     * Default formatting, to be used when no customization is necessary
-     */
-    public static final SimpleFormatInfo DEFAULT = new SimpleFormatInfo(false, true, false, false);
-
-    /**
      * Are children separated by some char?
      */
     public final String childrenSeparator;
@@ -79,7 +69,7 @@ public class SimpleFormatInfo implements FormatInfo {
     /**
      * Used just for creating the UNKNOWN null-like object
      */
-    private SimpleFormatInfo() {
+    SimpleFormatInfo() {
         this.appendNewLine = false;
         this.appendSpace = false;
         this.childrenOnNewLine = false;

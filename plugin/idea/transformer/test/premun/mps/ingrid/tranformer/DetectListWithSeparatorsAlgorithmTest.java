@@ -64,7 +64,7 @@ public class DetectListWithSeparatorsAlgorithmTest {
         GrammarInfo grammarInfo = grammarParser.resolveGrammar();
 
         for (RuleReference ruleReference : grammarInfo.getRuleReferences()) {
-            ruleReference.formatInfo = SimpleFormatInfo.UNKNOWN;
+            ruleReference.formatInfo = FormatInfo.UNKNOWN;
         }
 
         DetectListWithSeparatorsAlgorithm detectListWithSeparatorsAlgorithm = new DetectListWithSeparatorsAlgorithm();
