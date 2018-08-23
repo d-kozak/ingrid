@@ -1003,4 +1003,596 @@ public class CGrammarFormatExtractionTest {
         );
     }
 
+    @Test
+    public void simpleExpressions() {
+        String input = "int main(){\n" +
+                "    int a = 10 + 20;\n" +
+                "    int b = a * 15;\n" +
+                "    int c = 42 - (17 - 13) + 12;\n" +
+                "    int d = -25;\n" +
+                "    printf(\"%d\",d);\n" +
+                "}";
+
+
+        String Cgrammar = TestGrammars.loadResource("/C.g4");
+
+        GrammarParser grammarParser = new GrammarParser("compilationUnit");
+        grammarParser.parseString(Cgrammar);
+        GrammarInfo grammarInfo = grammarParser.resolveGrammar();
+
+        GrammarInfo withFormatInfo = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, Cgrammar, Collections.singletonList(input));
+
+        FormatInfoMapToDSLConvertor.print(withFormatInfo);
+
+
+        verifyFormatInfo(
+                grammarInfo,
+                rules(
+                        rule("primaryExpression", 0,
+                                handle(
+                                        element("Identifier", newLine(false), space(true))
+                                )
+                        ),
+                        rule("primaryExpression", 1,
+                                handle(
+                                        element("Constant", newLine(false), space(true))
+                                )
+                        ),
+                        rule("primaryExpression", 2,
+                                handle(
+                                        collection("StringLiteral", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null))
+                                )
+                        ),
+                        rule("primaryExpression", 3,
+                                handle(
+                                        element("(", newLine(false), space(false)),
+                                        element("expression", newLine(false), space(false)),
+                                        element(")", newLine(false), space(true))
+                                )
+                        ),
+                        rule("postfixExpression", 0,
+                                handle(
+                                        element("primaryExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("postfixExpression", 2,
+                                handle(
+                                        element("postfixExpression", newLine(false), space(false)),
+                                        element("(", newLine(false), space(false)),
+                                        element("argumentExpressionList", newLine(false), space(false)),
+                                        element(")", newLine(false), space(true))
+                                )
+                        ),
+                        rule("argumentExpressionList", 0,
+                                handle(
+                                        element("assignmentExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("argumentExpressionList", 1,
+                                handle(
+                                        element("argumentExpressionList", newLine(false), space(false)),
+                                        element(",", newLine(false), space(false)),
+                                        element("assignmentExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("unaryExpression", 0,
+                                handle(
+                                        element("postfixExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("unaryExpression", 3,
+                                handle(
+                                        element("unaryOperator", newLine(false), space(false)),
+                                        element("castExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("unaryOperator", 3,
+                                handle(
+                                        element("-", newLine(false), space(true))
+                                )
+                        ),
+                        rule("castExpression", 2,
+                                handle(
+                                        element("unaryExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("multiplicativeExpression", 0,
+                                handle(
+                                        element("castExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("multiplicativeExpression", 1,
+                                handle(
+                                        element("multiplicativeExpression", newLine(false), space(true)),
+                                        element("*", newLine(false), space(true)),
+                                        element("castExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("additiveExpression", 0,
+                                handle(
+                                        element("multiplicativeExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("additiveExpression", 1,
+                                handle(
+                                        element("additiveExpression", newLine(false), space(true)),
+                                        element("+", newLine(false), space(true)),
+                                        element("multiplicativeExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("additiveExpression", 2,
+                                handle(
+                                        element("additiveExpression", newLine(false), space(true)),
+                                        element("-", newLine(false), space(true)),
+                                        element("multiplicativeExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("shiftExpression", 0,
+                                handle(
+                                        element("additiveExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("relationalExpression", 0,
+                                handle(
+                                        element("shiftExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("equalityExpression", 0,
+                                handle(
+                                        element("relationalExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("andExpression", 0,
+                                handle(
+                                        element("equalityExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("exclusiveOrExpression", 0,
+                                handle(
+                                        element("andExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("inclusiveOrExpression", 0,
+                                handle(
+                                        element("exclusiveOrExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("logicalAndExpression", 0,
+                                handle(
+                                        element("inclusiveOrExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("logicalOrExpression", 0,
+                                handle(
+                                        element("logicalAndExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("assignmentExpression", 0,
+                                handle(
+                                        element("conditionalExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("expression", 0,
+                                handle(
+                                        element("assignmentExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("declaration", 0,
+                                handle(
+                                        element("declarationSpecifiers", newLine(false), space(true)),
+                                        element("initDeclaratorList", newLine(false), space(false)),
+                                        element(";", newLine(false), space(true))
+                                )
+                        ),
+                        rule("declarationSpecifiers", 0,
+                                handle(
+                                        collection("declarationSpecifier", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null))
+                                )
+                        ),
+                        rule("declarationSpecifier", 1,
+                                handle(
+                                        element("typeSpecifier", newLine(false), space(true))
+                                )
+                        ),
+                        rule("initDeclaratorList", 0,
+                                handle(
+                                        element("initDeclarator", newLine(false), space(true))
+                                )
+                        ),
+                        rule("initDeclarator", 1,
+                                handle(
+                                        element("declarator", newLine(false), space(true)),
+                                        element("=", newLine(false), space(true)),
+                                        element("initializer", newLine(false), space(true))
+                                )
+                        ),
+                        rule("typeSpecifier", 0,
+                                handle(
+                                        element("typeSpecifier_block_1_1", newLine(false), space(true))
+                                )
+                        ),
+                        rule("typeSpecifier_block_1_1", 3,
+                                handle(
+                                        element("int", newLine(false), space(true))
+                                )
+                        ),
+                        rule("directDeclarator", 0,
+                                handle(
+                                        element("Identifier", newLine(false), space(true))
+                                )
+                        ),
+                        rule("gccAttributeList", 1,
+                                handle(
+
+                                )
+                        ),
+                        rule("gccAttribute", 1,
+                                handle(
+
+                                )
+                        ),
+                        rule("nestedParenthesesBlock_block_1_1", 0,
+                                handle(
+
+                                )
+                        ),
+                        rule("initializer", 0,
+                                handle(
+                                        element("assignmentExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("statement", 2,
+                                handle(
+                                        element("expressionStatement", newLine(false), space(true))
+                                )
+                        ),
+                        rule("compoundStatement", 0,
+                                handle(
+                                        element("{", newLine(true), space(false)),
+                                        element("blockItemList", newLine(true), space(false)),
+                                        element("}", newLine(false), space(true))
+                                )
+                        ),
+                        rule("blockItemList", 0,
+                                handle(
+                                        element("blockItem", newLine(false), space(true))
+                                )
+                        ),
+                        rule("blockItemList", 1,
+                                handle(
+                                        element("blockItemList", newLine(true), space(false)),
+                                        element("blockItem", newLine(false), space(true))
+                                )
+                        ),
+                        rule("blockItem", 0,
+                                handle(
+                                        element("statement", newLine(false), space(true))
+                                )
+                        ),
+                        rule("blockItem", 1,
+                                handle(
+                                        element("declaration", newLine(false), space(true))
+                                )
+                        ),
+                        rule("expressionStatement", 0,
+                                handle(
+                                        element("expression", newLine(false), space(false)),
+                                        element(";", newLine(false), space(true))
+                                )
+                        ),
+                        rule("compilationUnit", 0,
+                                handle(
+                                        element("translationUnit", newLine(false), space(true))
+                                )
+                        ),
+                        rule("translationUnit", 0,
+                                handle(
+                                        element("externalDeclaration", newLine(false), space(true))
+                                )
+                        ),
+                        rule("externalDeclaration", 0,
+                                handle(
+                                        element("functionDefinition", newLine(false), space(true))
+                                )
+                        )
+                )
+        );
+    }
+
+    @Test
+    public void simpleExpressions__noSpaces() {
+        String input = "int main(){\n" +
+                "    int a = 10+20;\n" +
+                "    int b = a*15;\n" +
+                "    int c = 42-(17-13)+12;\n" +
+                "    int d = -25;\n" +
+                "    printf(\"%d\",d);\n" +
+                "}";
+
+
+        String Cgrammar = TestGrammars.loadResource("/C.g4");
+
+        GrammarParser grammarParser = new GrammarParser("compilationUnit");
+        grammarParser.parseString(Cgrammar);
+        GrammarInfo grammarInfo = grammarParser.resolveGrammar();
+
+        GrammarInfo withFormatInfo = FormatExtractor.fullyProcessMultipleFiles(grammarInfo, Cgrammar, Collections.singletonList(input));
+
+        FormatInfoMapToDSLConvertor.print(withFormatInfo);
+
+
+        verifyFormatInfo(
+                grammarInfo,
+                rules(
+                        rule("primaryExpression", 0,
+                                handle(
+                                        element("Identifier", newLine(false), space(true))
+                                )
+                        ),
+                        rule("primaryExpression", 1,
+                                handle(
+                                        element("Constant", newLine(false), space(true))
+                                )
+                        ),
+                        rule("primaryExpression", 2,
+                                handle(
+                                        collection("StringLiteral", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null))
+                                )
+                        ),
+                        rule("primaryExpression", 3,
+                                handle(
+                                        element("(", newLine(false), space(false)),
+                                        element("expression", newLine(false), space(false)),
+                                        element(")", newLine(false), space(true))
+                                )
+                        ),
+                        rule("postfixExpression", 0,
+                                handle(
+                                        element("primaryExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("postfixExpression", 2,
+                                handle(
+                                        element("postfixExpression", newLine(false), space(false)),
+                                        element("(", newLine(false), space(false)),
+                                        element("argumentExpressionList", newLine(false), space(false)),
+                                        element(")", newLine(false), space(true))
+                                )
+                        ),
+                        rule("argumentExpressionList", 0,
+                                handle(
+                                        element("assignmentExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("argumentExpressionList", 1,
+                                handle(
+                                        element("argumentExpressionList", newLine(false), space(false)),
+                                        element(",", newLine(false), space(false)),
+                                        element("assignmentExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("unaryExpression", 0,
+                                handle(
+                                        element("postfixExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("unaryExpression", 3,
+                                handle(
+                                        element("unaryOperator", newLine(false), space(false)),
+                                        element("castExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("unaryOperator", 3,
+                                handle(
+                                        element("-", newLine(false), space(true))
+                                )
+                        ),
+                        rule("castExpression", 2,
+                                handle(
+                                        element("unaryExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("multiplicativeExpression", 0,
+                                handle(
+                                        element("castExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("multiplicativeExpression", 1,
+                                handle(
+                                        element("multiplicativeExpression", newLine(false), space(false)),
+                                        element("*", newLine(false), space(false)),
+                                        element("castExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("additiveExpression", 0,
+                                handle(
+                                        element("multiplicativeExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("additiveExpression", 1,
+                                handle(
+                                        element("additiveExpression", newLine(false), space(false)),
+                                        element("+", newLine(false), space(false)),
+                                        element("multiplicativeExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("additiveExpression", 2,
+                                handle(
+                                        element("additiveExpression", newLine(false), space(false)),
+                                        element("-", newLine(false), space(false)),
+                                        element("multiplicativeExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("shiftExpression", 0,
+                                handle(
+                                        element("additiveExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("relationalExpression", 0,
+                                handle(
+                                        element("shiftExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("equalityExpression", 0,
+                                handle(
+                                        element("relationalExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("andExpression", 0,
+                                handle(
+                                        element("equalityExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("exclusiveOrExpression", 0,
+                                handle(
+                                        element("andExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("inclusiveOrExpression", 0,
+                                handle(
+                                        element("exclusiveOrExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("logicalAndExpression", 0,
+                                handle(
+                                        element("inclusiveOrExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("logicalOrExpression", 0,
+                                handle(
+                                        element("logicalAndExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("assignmentExpression", 0,
+                                handle(
+                                        element("conditionalExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("expression", 0,
+                                handle(
+                                        element("assignmentExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("declaration", 0,
+                                handle(
+                                        element("declarationSpecifiers", newLine(false), space(true)),
+                                        element("initDeclaratorList", newLine(false), space(false)),
+                                        element(";", newLine(false), space(true))
+                                )
+                        ),
+                        rule("declarationSpecifiers", 0,
+                                handle(
+                                        collection("declarationSpecifier", newLine(false), space(true), childrenOnNewLine(false), childrenIndented(false), childrenSeparator(null))
+                                )
+                        ),
+                        rule("declarationSpecifier", 1,
+                                handle(
+                                        element("typeSpecifier", newLine(false), space(true))
+                                )
+                        ),
+                        rule("initDeclaratorList", 0,
+                                handle(
+                                        element("initDeclarator", newLine(false), space(true))
+                                )
+                        ),
+                        rule("initDeclarator", 1,
+                                handle(
+                                        element("declarator", newLine(false), space(true)),
+                                        element("=", newLine(false), space(true)),
+                                        element("initializer", newLine(false), space(true))
+                                )
+                        ),
+                        rule("typeSpecifier", 0,
+                                handle(
+                                        element("typeSpecifier_block_1_1", newLine(false), space(true))
+                                )
+                        ),
+                        rule("typeSpecifier_block_1_1", 3,
+                                handle(
+                                        element("int", newLine(false), space(true))
+                                )
+                        ),
+                        rule("directDeclarator", 0,
+                                handle(
+                                        element("Identifier", newLine(false), space(true))
+                                )
+                        ),
+                        rule("gccAttributeList", 1,
+                                handle(
+
+                                )
+                        ),
+                        rule("gccAttribute", 1,
+                                handle(
+
+                                )
+                        ),
+                        rule("nestedParenthesesBlock_block_1_1", 0,
+                                handle(
+
+                                )
+                        ),
+                        rule("initializer", 0,
+                                handle(
+                                        element("assignmentExpression", newLine(false), space(true))
+                                )
+                        ),
+                        rule("statement", 2,
+                                handle(
+                                        element("expressionStatement", newLine(false), space(true))
+                                )
+                        ),
+                        rule("compoundStatement", 0,
+                                handle(
+                                        element("{", newLine(true), space(false)),
+                                        element("blockItemList", newLine(true), space(false)),
+                                        element("}", newLine(false), space(true))
+                                )
+                        ),
+                        rule("blockItemList", 0,
+                                handle(
+                                        element("blockItem", newLine(false), space(true))
+                                )
+                        ),
+                        rule("blockItemList", 1,
+                                handle(
+                                        element("blockItemList", newLine(true), space(false)),
+                                        element("blockItem", newLine(false), space(true))
+                                )
+                        ),
+                        rule("blockItem", 0,
+                                handle(
+                                        element("statement", newLine(false), space(true))
+                                )
+                        ),
+                        rule("blockItem", 1,
+                                handle(
+                                        element("declaration", newLine(false), space(true))
+                                )
+                        ),
+                        rule("expressionStatement", 0,
+                                handle(
+                                        element("expression", newLine(false), space(false)),
+                                        element(";", newLine(false), space(true))
+                                )
+                        ),
+                        rule("compilationUnit", 0,
+                                handle(
+                                        element("translationUnit", newLine(false), space(true))
+                                )
+                        ),
+                        rule("translationUnit", 0,
+                                handle(
+                                        element("externalDeclaration", newLine(false), space(true))
+                                )
+                        ),
+                        rule("externalDeclaration", 0,
+                                handle(
+                                        element("functionDefinition", newLine(false), space(true))
+                                )
+                        )
+                )
+        );
+    }
+
 }
