@@ -15,5 +15,7 @@
     <orderEntry type="module" module-name="formatter" />
     <orderEntry type="module" module-name="serialization" />
     <orderEntry type="module" module-name="transformer" />
+    <orderEntry type="library" scope="TEST" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="junit-4.12" level="project" />
   </component>
 </module>
