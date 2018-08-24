@@ -83,37 +83,10 @@ public class ParseTreeToIngridRuleMapper {
             for (RuleReference element : alternative.elements) {
                 if (element.rule instanceof ParserRule && element.rule.name.contains("_block_")) {
                     List<Alternative> inner = expandRules(((ParserRule) element.rule).alternatives);
-                    if (expandedAlternative.isEmpty()) {
-                        for (int i = 0; i < inner.size(); i++) {
-                            String name = element.rule.name + "_alt_" + i;
-                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, ((ParserRule) element.rule), inner.get(i));
-                            List<RuleReference> tmp = new ArrayList<>();
-                            tmp.add(new RuleReference(serializedParserRule, element.quantity));
-                            expandedAlternative.add(tmp);
-                        }
-                    } else {
-                        ArrayList<List<RuleReference>> copy = new ArrayList<>();
-                        for (int i = 0; i < inner.size(); i++) {
-                            String name = element.rule.name + "_alt_" + i;
-                            SerializedParserRule serializedParserRule = new SerializedParserRule(name, ((ParserRule) element.rule), inner.get(i));
-                            for (List<RuleReference> ruleReferences : expandedAlternative) {
-                                List<RuleReference> tmp = new ArrayList<>(ruleReferences);
-                                tmp.add(new RuleReference(serializedParserRule, element.quantity));
-                                copy.add(tmp);
-                            }
-                        }
-                        expandedAlternative = copy;
-                    }
+                    List<RuleReference> wrapped = wrapIntoReferences(element, inner);
+                    expandedAlternative = cartesianProduct(expandedAlternative, wrapped);
                 } else {
-                    if (expandedAlternative.isEmpty()) {
-                        ArrayList<RuleReference> tmp = new ArrayList<>();
-                        tmp.add(element);
-                        expandedAlternative.add(tmp);
-                    } else {
-                        for (List<RuleReference> ruleReferences : expandedAlternative) {
-                            ruleReferences.add(element);
-                        }
-                    }
+                    expandedAlternative = addToAll(expandedAlternative, element);
                 }
             }
             result.addAll(expandedAlternative.stream()
@@ -122,6 +95,65 @@ public class ParseTreeToIngridRuleMapper {
         }
 
         return flatten(result);
+    }
+
+    /**
+     * @param ruleReference refers to rule whose alternatives are being processed
+     * @param alternatives  expanded list of rules alternatives which should be wrapped
+     * @return list of rule references pointing to the alternatives, but wrapped into SerializedParserRules
+     */
+    private static List<RuleReference> wrapIntoReferences(RuleReference ruleReference, List<Alternative> alternatives) {
+        return alternatives.stream()
+                           .map(alt -> pair(alt, alternatives.indexOf(alt)))
+                           .map(pair -> {
+                               String name = ruleReference.rule.name + "_alt_" + pair.second;
+                               return new RuleReference(
+                                       new SerializedParserRule(name, ((ParserRule) ruleReference.rule), pair.first), ruleReference.quantity
+                               );
+                           })
+                           .collect(toList());
+    }
+
+    /**
+     * @param lists   lists into which newItem should be added
+     * @param newItem new item to add
+     * @return new list of lists, the newItem is at the end of each of them
+     */
+    private static List<List<RuleReference>> addToAll(List<List<RuleReference>> lists, RuleReference newItem) {
+        if (lists.isEmpty()) {
+            List<List<RuleReference>> newList = new ArrayList<>();
+            newList.add(new ArrayList<>(Collections.singletonList(newItem)));
+            return newList;
+        } else {
+            return lists.stream()
+                        .map(ArrayList::new)
+                        .peek(list -> list.add(newItem))
+                        .collect(toList());
+        }
+    }
+
+    /**
+     * @param lists      list of lists of rule refences to which the references(second param) should be added
+     * @param references references to add
+     * @return a new list of lists that is basically a cartesian product of the original and ruleReferences list
+     */
+    private static List<List<RuleReference>> cartesianProduct(List<List<RuleReference>> lists, List<RuleReference> references) {
+        if (lists.isEmpty()) {
+            return references
+                    .stream()
+                    .map(reference -> new ArrayList<>(Collections.singletonList(reference)))
+                    .collect(toList());
+        } else {
+            List<List<RuleReference>> result = new ArrayList<>();
+            for (List<RuleReference> left : lists) {
+                for (RuleReference right : references) {
+                    List<RuleReference> tmp = new ArrayList<>(left);
+                    tmp.add(right);
+                    result.add(tmp);
+                }
+            }
+            return result;
+        }
     }
 
     /**

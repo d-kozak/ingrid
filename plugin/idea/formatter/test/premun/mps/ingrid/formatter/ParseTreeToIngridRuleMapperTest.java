@@ -6,7 +6,9 @@ import org.junit.Test;
 import premun.mps.ingrid.formatter.model.GrammarDTO;
 import premun.mps.ingrid.formatter.utils.TestGrammars;
 import premun.mps.ingrid.model.Alternative;
+import premun.mps.ingrid.model.GrammarInfo;
 import premun.mps.ingrid.model.ParserRule;
+import premun.mps.ingrid.parser.GrammarParser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -167,6 +169,18 @@ public class ParseTreeToIngridRuleMapperTest {
         ParserRule examinedRule = (ParserRule) grammarDTO.grammarInfo.rules.get("r");
         List<Alternative> result = ParseTreeToIngridRuleMapper.expandRules(examinedRule.alternatives);
         assertEquals(4, result.size());
+    }
+
+
+    @Test
+    public void expandListTest__exampleForDebug() throws RecognitionException {
+        String grammar = "grammar A; a : 'b' ('c' | ('d' | 'e'));";
+        GrammarParser grammarParser = new GrammarParser();
+        grammarParser.parseString(grammar);
+        GrammarInfo grammarInfo = grammarParser.resolveGrammar();
+        ParserRule parserRule = (ParserRule) grammarInfo.rules.get("a");
+        List<Alternative> alternatives = ParseTreeToIngridRuleMapper.expandRules(parserRule.alternatives);
+        assertEquals(3, alternatives.size());
     }
 
     @Test
