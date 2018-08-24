@@ -5,6 +5,18 @@ The name **Ingrid** comes from a mix of an abbreviation of *Interactive Grammar 
 
 **[Here](https://github.com/premun/diploma-thesis/blob/master/Grammar%20to%20JetBrains%20MPS%20Convertor.pdf) is a full diploma thesis describing the plugin.**
 
+## Extensions made by dkozak
+This repository contains my extensions to Ingrid which aim to make the resulting language more usable. 
+First extension called __Formatter__ enables the user to provide a list of source files written in the language being imported, whose source code is then parsed and formatting information is extracted from it. This information is then used to create better editor.
+
+The second extension is called __Grammar rewrites__ and it performs tranformations over the grammar of the imported language.
+
+These extensions are in modules __formatter__, __transformer__ and __serialization__, but other modules had to be slightly changed to accomodate the new functionality.
+
+This work was done during my internship at JetBrains in summer 2018. 
+If you want to get a high level overview, please check this [document](https://docs.google.com/document/d/1rG1eCiLbyjUEkSi3i_lcwdfsbv1k04206Ts7VlhCsJ0/edit?usp=sharing).
+I also made a [presentation](https://docs.google.com/presentation/d/1ExxdYXfR6bwVoHIoG_A3J2p8Aw4u27ZuMZkTJpCqkdo/edit?usp=sharing) about these extensions.
+
 ## Requirements
 - MPS 2017.1 and higher
 - Running the MPS using Java 8 (JDK 1.8)
@@ -34,6 +46,9 @@ The name **Ingrid** comes from a mix of an abbreviation of *Interactive Grammar 
   - `premun.mps.ingrid.model`
   - `premun.mps.ingrid.parser`
   - `premun.mps.ingrid.library`
+  - `premun.mps.ingrid.formatter` - extension
+  - `premun.mps.ingrid.transformer` - extension
+  - `premun.mps.ingrid.serialization` - extension
   - `premun.mps.ingrid.importer`
   - `premun.mps.ingrid.plugin`
   - `Ingrid.build`
